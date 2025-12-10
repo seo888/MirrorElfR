@@ -43,7 +43,7 @@
 						"label": "批量删除",
 						"level": "danger",
 						"actionType": "ajax",
-						"api": "delete:/_api_/rest/v1/website/delete?files=${ids|raw}",
+						"api": "delete:/_api_/rest/v1/website/delete?ids=${ids|raw}",
 						"confirmText": "确认批量删除网站【${ids|raw}】（注意：操作不可逆，请谨慎操作）"
 					},
 					{
@@ -950,7 +950,7 @@
 					},
 					{
 						"type": "tpl",
-						"tpl": "主站: ${www_count} | 泛站: ${web_count} | 共: ${www_count+web_count}",
+						"tpl": "主站: ${www_count} | 泛站: ${web_count} | 共: ${total}",
 						"className": "v-middle"
 					},
 					"reload",
@@ -1431,7 +1431,7 @@
 								"tooltipPlacement": "top",
 								"tooltip": "清空缓存",
 								"confirmText": "确认清空【${domain}】所有缓存数据？",
-								"api": "delete:/_api_/rest/v1/cache/delete?domains=${domain}",
+								"api": "delete:/_api_/rest/v1/website_cache/delete?domain=${domain}",
 								"reload": "none"
 							},
 							{
@@ -1440,7 +1440,7 @@
 								"actionType": "ajax",
 								"tooltipPlacement": "top",
 								"confirmText": "确认删除【${id}】${domain}",
-								"api": "delete:/_api_/rest/v1/website/delete?files=${id}"
+								"api": "delete:/_api_/rest/v1/website/delete?ids=${id}"
 							}
 						],
 						"toggled": true

@@ -208,7 +208,7 @@
 								},
 								"id": "crud-table",
 								"syncLocation": false,
-								"api": "/_api_/rest/v1/website_cache/query?domain=${domain}",
+								"api": "/_api_/rest/v1/website_cache/query",
 								"deferApi": "/_api_/rest/v1/website_cache/query?domain=${domain}",
 								"perPageAvailable": [
 									10,
