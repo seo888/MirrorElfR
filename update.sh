@@ -83,8 +83,8 @@ fi
 
 echo "'镜像精灵 MirrorElfR $(echo "$RELEASE_JSON" | jq -r .tag_name) 下载成功'"
 
-new="/www/MirrorElfR_New/app/Mirror-Elf-Rust"
-old="/www/MirrorElfR/app/Mirror-Elf-Rust"
+new="/www/MirrorElfR_New/app/MirrorElfR"
+old="/www/MirrorElfR/app/MirrorElfR"
 mv -f "$new" "$old"
 
 new="/www/MirrorElfR_New/app/config/IP2LOCATION-LITE-DB3.BIN"
@@ -149,42 +149,6 @@ if [ ! -d "$POSTGRES_DATA_DIR" ]; then
   # 设置权限为 PostgreSQL 用户（UID 999）
   chown 999:999 "$POSTGRES_DATA_DIR"
   chmod 700 "$POSTGRES_DATA_DIR"
-fi
-
-# 检查并config.yml
-app="/www/MirrorElfR/app"
-
-# 定义配置文件路径
-config_file="/www/MirrorElfR/app/config/config.yml"
-
-# 定义替换文本
-replacement_text=$'  external_filter:\n    - .gov.cn\n  external_links:\n    - \'{随机网址}\'\n  meta_information: false\n  random_div_attributes: true\n  random_class_name: false\n  head_header: \'\'\n  head_footer: \'\'\n  body_header: <h1><a target="_blank" title="{标题}" href="{首页}">{核心词}</a></h1>\n  body_footer: <a target="_blank" href="{@push_link}">{@keyword}</a>\n  html_entities: false\n  friend_link_count: 5\n  friend_links:\n    - <a target="_blank" title="{*主站.标题#1001}" href="{*主站.首页#1001}">{*主站.核心词#1001}</a>\n  seo_404_page: false'
-
-# 写入临时文件
-printf "%s\n" "$replacement_text" > /tmp/temp_replacement.txt
-
-# # 检查临时文件内容（调试用）
-# echo "临时文件内容："
-# cat /tmp/temp_replacement.txt
-
-# 检查配置文件是否包含必要标记
-if grep -q "^SEOFunctions:" "$config_file" && grep -q "^AccessPolicy:" "$config_file" && ! grep -q "push_link" "$config_file"; then
-  # 替换内容
-  sed -i.bak '
-    /^SEOFunctions:/,/^AccessPolicy:/ {
-      /^SEOFunctions:/ {
-        p
-        r /tmp/temp_replacement.txt
-        d
-      }
-      /^AccessPolicy:/ {
-        p
-        d
-      }
-      d
-    }
-  ' "$config_file"
-  echo "替换完成"
 fi
 
 # 清理临时文件
