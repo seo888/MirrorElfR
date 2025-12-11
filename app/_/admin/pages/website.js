@@ -56,297 +56,16 @@
 				"headerToolbar": [
 					"bulkActions",
 					"export-excel",
-					// {
-					// 	"type": "button",
-					// 	"actionType": "dialog",
-					// 	"label": "建站",
-					// 	"icon": "fa fa-plus pull-left",
-					// 	"primary": true,
-					// 	"dialog": {
-					// 		"resizable": true,
-					// 		"size": "lg",
-					// 		"title": "新建网站",
-					// 		"body": {
-					// 			"type": "form",
-					// 			"size": "lg",
-					// 			"name": "sample-edit-form",
-					// 			"api": "post:/_api_/rest/v1/website/create",
-					// 			"reload": "crud-table",
-					// 			"body": [
-					// 				{
-					// 					"type": "divider",
-					// 					"title": "【网站设置】",
-					// 					"titlePosition": "center"
-					// 				},
-					// 				{
-					// 					"type": "group",
-					// 					"body": [
-					// 						{
-					// 							"type": "input-text",
-					// 							"name": "domain",
-					// 							"label": "域名",
-					// 							"required": true,
-					// 							"validations": {
-					// 								"matchRegexp": "^(?!https?://)([\\w-]+\\.)+[\\w-]{2,}$"
-					// 							},
-					// 							"validationErrors": {
-					// 								"matchRegexp": "请输入有效的纯域名，不带http头"
-					// 							},
-					// 							"placeholder": "请输入纯域名，不带http头 例如: www.abc.com"
-					// 						},
-					// 						{
-					// 							"type": "group",
-					// 							"body": [
-					// 								{
-					// 									"type": "select",
-					// 									"name": "to_lang",
-					// 									"label": "语言",
-					// 									"options": [
-					// 										{
-					// 											"label": "中文",
-					// 											"value": "zh"
-					// 										},
-					// 										{
-					// 											"label": "英文",
-					// 											"value": "en"
-					// 										}
-					// 									],
-					// 									"value": "zh",
-					// 									"placeholder": "请选择语言"
-					// 								},
-					// 								{
-					// 									"name": "conf.website_info.homepage_update_time",
-					// 									"type": "input-number",
-					// 									"label": "首页更新时间",
-					// 									"width": "80px",
-					// 									"value": 0,
-					// 									"required": true,
-					// 									"desc": "单位：天 填0关闭"
-					// 								}
-					// 							]
-					// 						}
-					// 					]
-					// 				},
-					// 				{
-					// 					"type": "group",
-					// 					"body": [
-					// 						{
-					// 							"type": "input-text",
-					// 							"name": "root_domain",
-					// 							"label": "根域名",
-					// 							"required": true,
-					// 							"placeholder": "例如: abc.com"
-					// 						},
-					// 						{
-					// 							"type": "input-text",
-					// 							"name": "subdomain",
-					// 							"label": "子域名",
-					// 							"value": "www",
-					// 							"placeholder": "默认为 www"
-					// 						}
-					// 					]
-					// 				},
-					// 				{
-					// 					"type": "input-text",
-					// 					"name": "conf.website_info.title",
-					// 					"label": "网站标题",
-					// 					"placeholder": "请输入网站标题",
-					// 					"required": true
-					// 				},
-					// 				{
-					// 					"type": "input-text",
-					// 					"name": "conf.website_info.keywords",
-					// 					"label": "关键词",
-					// 					"placeholder": "请输入网站关键词（以,号隔开）",
-					// 					"required": true
-					// 				},
-					// 				{
-					// 					"type": "textarea",
-					// 					"name": "conf.website_info.description",
-					// 					"label": "描述",
-					// 					"placeholder": "请输入描述内容",
-					// 					"minRows": 3,
-					// 					"maxRows": 6,
-					// 					"required": true
-					// 				},
-					// 				{
-					// 					"type": "group",
-					// 					"body": [
-					// 						{
-					// 							"type": "select",
-					// 							"name": "conf.replace_rules.replace_mode",
-					// 							"label": "替换模式",
-					// 							"options": [
-					// 								{
-					// 									"label": "0. 仅目标站替换",
-					// 									"value": 0
-					// 								},
-					// 								{
-					// 									"label": "1. 先 目标站替换 后 本站替换",
-					// 									"value": 1
-					// 								},
-					// 								{
-					// 									"label": "2. 仅本站替换",
-					// 									"value": 2
-					// 								},
-					// 								{
-					// 									"label": "3. 先 本站替换 后 目标站替换",
-					// 									"value": 3
-					// 								}
-					// 							],
-					// 							"value": 0
-					// 						},
-					// 						{
-					// 							"type": "select",
-					// 							"name": "conf.website_info.link_mapping",
-					// 							"label": "链接映射",
-					// 							"options": [
-					// 								{
-					// 									"label": "开启",
-					// 									"value": true
-					// 								},
-					// 								{
-					// 									"label": "关闭",
-					// 									"value": false
-					// 								}
-					// 							],
-					// 							"value": false,
-					// 							"placeholder": "是否开启链接映射"
-					// 						}
-					// 					]
-					// 				},
-					// 				{
-					// 					"type": "divider",
-					// 					"title": "【目标站设置】",
-					// 					"titlePosition": "center"
-					// 				},
-					// 				{
-					// 					"type": "input-text",
-					// 					"name": "target_domain",
-					// 					"label": "目标域名",
-					// 					"placeholder": "例如: www.example.com",
-					// 					"desc": "填写要抓取的目标网站域名"
-					// 				},
-					// 				{
-					// 					"type": "alert",
-					// 					"body": "注意：如果目标域名未在目标站库中，系统会自动创建"
-					// 				},
-					// 				{
-					// 					"type": "divider",
-					// 					"title": "【替换规则】",
-					// 					"titlePosition": "center"
-					// 				},
-					// 				{
-					// 					"type": "input-array",
-					// 					"name": "conf.replace_rules.all",
-					// 					"label": "全局替换",
-					// 					"items": {
-					// 						"type": "input-text",
-					// 						"name": "-",
-					// 						"label": "-",
-					// 						"unique": true
-					// 					},
-					// 					"addButtonText": "规则",
-					// 					"scaffold": "待替换字符串 -> {keyword}",
-					// 					"minItems": 0
-					// 				},
-					// 				{
-					// 					"type": "input-array",
-					// 					"name": "conf.replace_rules.index",
-					// 					"label": "首页替换",
-					// 					"items": {
-					// 						"type": "input-text",
-					// 						"name": "-",
-					// 						"label": "-",
-					// 						"unique": true
-					// 					},
-					// 					"addButtonText": "规则",
-					// 					"minItems": 0
-					// 				},
-					// 				{
-					// 					"type": "input-array",
-					// 					"name": "conf.replace_rules.page",
-					// 					"label": "内页替换",
-					// 					"items": {
-					// 						"type": "input-text",
-					// 						"name": "-",
-					// 						"label": "-",
-					// 						"unique": true
-					// 					},
-					// 					"addButtonText": "规则",
-					// 					"minItems": 0
-					// 				},
-					// 				{
-					// 					"type": "divider",
-					// 					"title": "【泛目录配置】",
-					// 					"titlePosition": "center"
-					// 				},
-					// 				{
-					// 					"name": "conf.mulu_config.mulu_tem_max",
-					// 					"type": "input-number",
-					// 					"label": "生成模板数量",
-					// 					"required": true,
-					// 					"value": 0,
-					// 					"desc": "填写0则不会自动生成模板"
-					// 				},
-					// 				{
-					// 					"type": "select",
-					// 					"name": "conf.mulu_config.mulu_static",
-					// 					"label": "泛目录模式",
-					// 					"options": [
-					// 						{
-					// 							"label": "静态",
-					// 							"value": true
-					// 						},
-					// 						{
-					// 							"label": "动态（蜘蛛池）",
-					// 							"value": false
-					// 						}
-					// 					],
-					// 					"value": true
-					// 				},
-					// 				{
-					// 					"type": "checkboxes",
-					// 					"name": "conf.mulu_config.mulu_mode",
-					// 					"label": "泛目录路由",
-					// 					"checkAll": true,
-					// 					"optionType": "button",
-					// 					"options": [
-					// 						{ "label": "404页面", "value": "404" },
-					// 						{ "label": "非首页（所有页面）", "value": "all_page" },
-					// 						{ "label": "自定义路径", "value": "custom_header" }
-					// 					]
-					// 				},
-					// 				{
-					// 					"type": "input-array",
-					// 					"name": "conf.mulu_config.mulu_custom_header",
-					// 					"label": "自定义路径",
-					// 					"items": {
-					// 						"type": "input-text",
-					// 						"name": "/",
-					// 						"label": "/",
-					// 						"unique": true
-					// 					},
-					// 					"addButtonText": "泛目录路径",
-					// 					"minItems": 0
-					// 				},
-					// 				{
-					// 					"type": "input-array",
-					// 					"name": "conf.mulu_config.mulu_keywords_file",
-					// 					"label": "关键词库",
-					// 					"items": {
-					// 						"type": "input-text",
-					// 						"name": "词库路径",
-					// 						"label": "词库路径",
-					// 						"unique": true
-					// 					},
-					// 					"addButtonText": "关键词库",
-					// 					"minItems": 0
-					// 				}
-					// 			]
-					// 		}
-					// 	}
-					// },
+					{
+						"type": "button",
+						"label": "数据备份",
+						"level": "primary",
+						"actionType": "ajax", // 使用 ajax 类型动作发送请求
+						"api": {
+							"method": "get", // 定义请求方法为 POST
+							"url": "/_api_/rest/v1/data/download", // 替换成您实际的 API 地址
+						},
+					},
 					{
 						"type": "button",
 						"actionType": "dialog",
@@ -367,7 +86,6 @@
 									"data": {
 										"data": {
 											"to_lang": "${to_lang}",
-											"subdomain": "${subdomain}",
 											"conf": {
 												"replace_rules": {
 													"replace_mode": "${conf.replace_rules.replace_mode}",
@@ -392,7 +110,7 @@
 											},
 											"domain": "${domain}",
 											"target_domain": "${target_domain}",
-											"root_domain": "${root_domain}"
+											"target_replace": "${target_replace}"
 										}
 									}
 								},
@@ -449,25 +167,6 @@
 														"desc": "单位：天 填0关闭"
 													}
 												]
-											}
-										]
-									},
-									{
-										"type": "group",
-										"body": [
-											{
-												"type": "input-text",
-												"name": "root_domain",
-												"label": "根域名",
-												"required": true,
-												"placeholder": "例如: abc.com"
-											},
-											{
-												"type": "input-text",
-												"name": "subdomain",
-												"label": "子域名",
-												"value": "www",
-												"placeholder": "默认为 www"
 											}
 										]
 									},
@@ -560,6 +259,20 @@
 										"type": "divider",
 										"title": "【替换规则】",
 										"titlePosition": "center"
+									},
+									// 插入新的 service，用于加载 target_replace 数据
+									{
+										"type": "service",
+										"api": "/_api_/rest/v1/target/query?domain=$target_domain",  // 动态加载 target_replace 数据的 API
+										"body": [
+											{
+												"type": "editor",
+												"language": "yaml",
+												"name": "target_replace",
+												"label": "目标站替换",
+												"value": "全局替换:\n  - '待替换字符串 -> {关键词}'\n首页替换:\n  - '待替换字符串 -> {关键词2}'\n内页替换:\n  - '待替换字符串 -> 替换词'"
+											}
+										]
 									},
 									{
 										"type": "input-array",
@@ -791,7 +504,7 @@
 											},
 											{
 												"type": "select",
-												"name": "lang",
+												"name": "to_lang",
 												"label": "语言",
 												// "required": true,
 												"options": [

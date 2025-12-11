@@ -229,7 +229,6 @@
 									"wrapWithPanel": false,
 									"title": "搜索",
 									"body": [
-
 										{
 											"type": "group",  // 使用 group 组件
 											"body": [
@@ -252,7 +251,7 @@
 														},
 														{
 															"label": "目录",
-															"value": "mulu"
+															"value": "manual"
 														},
 														{
 															"label": "静态",
@@ -587,7 +586,7 @@
 										"map": {
 											"cache": "<span class='label label-success'>缓存</span>",
 											"mapping": "<span class='label label-warning'>映射</span>",
-											"mulu": "<span class='label label-info'>目录</span>",
+											"manual": "<span class='label label-info'>目录</span>",
 											"static_cache": "<span class='label label-danger'>静态</span>",
 										},
 										// "sortable": true,
@@ -628,7 +627,6 @@
 									// 	"name": "target",
 									// 	"label": "目标路径",
 									// },
-
 									{
 										// "type": "datetime",  // 显示为日期时间类型
 										"name": "ttl",
@@ -644,7 +642,6 @@
 									// 	"fromNow": true,            // 显示"从现在开始"的时间
 									// 	"momentLocale": "zh-cn",
 									// 	"sortable": true
-
 									// },
 									{
 										"type": "operation",
