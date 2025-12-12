@@ -23,9 +23,9 @@
             "icon": "fa fa-globe"
           },
           {
-            "label": "缓存管理",
-            "url": "/cache",
-            "schemaApi": "jsonp:/_/admin/pages/cache.js?callback=jsonpCallback",
+            "label": "网站缓存",
+            "url": "/website_cache",
+            "schemaApi": "jsonp:/_/admin/pages/website_cache.js?callback=jsonpCallback",
             "icon": "fa fa-cubes"
           },
           {
@@ -33,6 +33,12 @@
             "url": "/target",
             "schemaApi": "jsonp:/_/admin/pages/target.js?callback=jsonpCallback",
             "icon": "fa fa-database"
+          },
+          {
+            "label": "目标缓存",
+            "url": "/target_cache",
+            "schemaApi": "jsonp:/_/admin/pages/target_cache.js?callback=jsonpCallback",
+            "icon": "fa fa-cubes"
           },
           {
             "label": "内容管理",
@@ -45,12 +51,6 @@
             "url": "/firewall",
             "schemaApi": "jsonp:/_/admin/pages/firewall.js?callback=jsonpCallback",
             "icon": "fa fa-shield"
-          },
-          {
-            "label": "Minio管理",
-            "url": "/minio",
-            "schemaApi": "jsonp:/_/admin/pages/minio.js?callback=jsonpCallback",
-            "icon": "fa fa-bug"
           },
           {
             "label": "蜘蛛日志",

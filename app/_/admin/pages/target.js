@@ -1,734 +1,601 @@
 (function () {
 	const response = {
 		data: {
-			"type": "grid",
+			"type": "page",
 			"title": "目标管理",
-			"columns": [{
-				"type": "page",
-				"body": {
-					"type": "grid",
-					"columns": [
-						{
-							"md": 3,  // 左侧占 3 份宽度（25%）
+			"body": {
+				"type": "crud",
+				"itemBadge": {
+					"text": "${subdomain == 'www' ? '主站' : '泛站'}",
+					"mode": "ribbon",
+					"position": "top-left",
+					"level": "${subdomain == 'www' ? 'info' : 'danger'}"
+				},
+				"onEvent": {
+					"selectedChange": {
+						"actions": [
+							{
+								"actionType": "toast",
+								"args": {
+									"msg": "已选择${event.data.selectedItems.length}条记录"
+								}
+							}
+						]
+					}
+				},
+				"id": "crud-table",
+				"syncLocation": false,
+				"api": {
+					"url": "/_api_/rest/v1/target/query",
+					"method": "get",
+					"adaptor": "return {\n  \"status\": 0,\n  \"msg\": \"\",\n  \"data\": {\n    \"items\": payload.data,\n    \"count\": payload.total\n  }\n}"
+				},
+				"perPageAvailable": [10, 20, 100, 500],
+				"perPage": 10,
+				"keepItemSelectionOnPageChange": true,
+				"autoFillHeight": true,
+				"labelTpl": "【${id}】${domain}",
+				"autoGenerateFilter": {
+					"columnsNum": 6,
+					"showBtnToolbar": true
+				},
+				"bulkActions": [
+					{
+						"label": "批量删除",
+						"level": "danger",
+						"actionType": "ajax",
+						"api": "delete:/_api_/rest/v1/target/delete?ids=${ids|raw}",
+						"confirmText": "确认批量删除网站【${ids|raw}】（注意：操作不可逆，请谨慎操作）"
+					},
+					{
+						"label": "批量复制",
+						"type": "button",
+						"onClick": "const rows = props.data.selectedItems; if (rows && rows.length) { const textToCopy = rows.map(row => row.domain ? row.domain : '').join('\\n'); const textArea = document.createElement('textarea'); textArea.value = textToCopy; document.body.appendChild(textArea); textArea.select(); document.execCommand('copy'); document.body.removeChild(textArea); props.env.notify('success', '已复制以下域名到剪贴板：\\n' + textToCopy);}"
+					}
+				],
+				"filterTogglable": true,
+				"headerToolbar": [
+					"bulkActions",
+					"export-excel",
+					{
+						"type": "button",
+						"label": "数据备份",
+						"level": "primary",
+						"actionType": "ajax", // 使用 ajax 类型动作发送请求
+						"api": {
+							"method": "get", // 定义请求方法为 POST
+							"url": "/_api_/rest/v1/data/download", // 替换成您实际的 API 地址
+						},
+					},
+					{
+						"type": "button",
+						"label": "批量建站",
+						"icon": "fa fa-plus pull-left",
+						"primary": true,
+						"actionType": "drawer",
+						"drawer": {
+							"resizable": true,
+							"size": "lg",
+							"width": "90%",
+							"title": "批量建站",
 							"body": {
-								"type": "crud",
-								"id": "crud-table0",
-								"primaryField": "domain",
-								"perPageAvailable": [
-									10,
-									20,
-									100,
-									500,
-								],
-								"perPage": 10,
-								"keepItemSelectionOnPageChange": true,
-								"autoFillHeight": true,
-								"itemBadge": {
-									"text": "${is_www? '主站' : '泛站'}",
-									// "variations": {
-									// 	"true": "primary",
-									// 	"false": "danger"
-									// },
-									"mode": "ribbon",
-									// "offset": [
-									// 			-20,
-									// 			0
-									// 		],
-									"position": "top-left",
-									"level": "${is_www? 'info' : 'danger'}",
-									// "visibleOn": "this.is_www"
-								},
-								// "filterTogglable": true,
-								"autoGenerateFilter": true,
-								"filter": {
-									"name": "filter_form1",
-									"wrapWithPanel": false,
-									"title": "搜索",
-									"body": [
-										{
-											"type": "select",
-											"name": "is_www",
-											"label": "",
-											"options": [
-												{
-													"label": "主站",
-													"value": "true"
-												},
-												{
-													"label": "主站+泛站",
-													"value": ""
-												},
-											],
-											"value": "true",  // 默认值设置为 "主站+泛站"
-											"placeholder": "选择站点类型"
-										},
-										{
-											"type": "input-text",
-											"name": "domain",
-											"prefix": "🔍",
-											"addOn": {
-												"type": "submit",  // 显式添加搜索按钮
-												"label": "搜索",
-												"level": "primary",
-											},
-											"clearable": true,
-											"onEvent": {
-												"clear": {
-													"actions": [
-														{
-															"actionType": "reset",  // 可选：同时重置表单
-															"componentName": "domain"
-														},
-														{
-															"actionType": "submit",
-															"componentName": "filter_form1",
-														},
-													]
-												}
-											}
-										},
-									],
-								},
-								"bulkActions": [
+								"type": "form",
+								"name": "sample-edit-form",
+								"api": "/_api_/rest/v1/website/create",
+								"reload": "crud-table",
+								"body": [
 									{
-										"label": "批量删除",
-										"level": "danger",
-										"actionType": "ajax",
+										"type": "divider",
+										"title": "【建站策略】",
+										"titlePosition": "center"
+									},
+									{
+										"type": "group",
+										"body": [
+											{
+												"type": "select",
+												"name": "over_write",
+												"label": "建站模式",
+												"options": [
+													{
+														"label": "覆盖已有网站",
+														"value": true
+													},
+													{
+														"label": "跳过已有网站",
+														"value": false
+													}
+												],
+												"value": false,
+												"placeholder": "是否覆盖"
+											},
+											{
+												"type": "select",
+												"name": "target_replace_cover",
+												"label": "目标站替换词",
+												"options": [
+													{
+														"label": "存在则强制覆盖",
+														"value": true
+													},
+													{
+														"label": "存在则跳过",
+														"value": false
+													}
+												],
+												"value": false,
+												"placeholder": "是否覆盖"
+											},]
+									},
+									{
+										"type": "divider",
+										"title": "【网站设置】",
+										"titlePosition": "center"
+									},
+									{
+										"type": "group",
+										"body": [
+											{
+												"type": "select",
+												"name": "replace_mode",
+												"label": "替换模式",
+												"options": [
+													{
+														"label": "0. 仅目标站替换",
+														"value": 0
+													},
+													{
+														"label": "1. 先 目标站替换 后 本站替换",
+														"value": 1
+													},
+													{
+														"label": "2. 仅本站替换",
+														"value": 2
+													},
+													{
+														"label": "3. 先 本站替换 后 目标站替换",
+														"value": 3
+													},
+												],
+												"value": 0,
+											},
+											{
+												"type": "select",
+												"name": "link_mapping",
+												"label": "链接映射",
+												"options": [
+													{
+														"label": "开启",
+														"value": true
+													},
+													{
+														"label": "关闭",
+														"value": false
+													}
+												],
+												"value": false,
+												"placeholder": "是否开启链接映射"
+											},
+											{
+												type: "input-number",
+												name: "homepage_update_time",
+												label: "首页更新时间",
+												required: true,
+												desc: "单位：天 填0关闭",
+												"value": 0,  // 设置默认值
+											},
+											{
+												"type": "select",
+												"name": "to_lang",
+												"label": "语言",
+												// "required": true,
+												"options": [
+													{
+														"label": "中文",
+														"value": "zh"
+													},
+													{
+														"label": "英文",
+														"value": "en"
+													}
+												],
+												"value": "zh",  // 设置默认值为 zh
+												"placeholder": "请选择语言"
+											},
+										]
+									},
 
-										// "api": "delete:/_api_/target/delete?bucket=$target_lib&files=${ids|raw}",
-										"api": "delete:/_api_/rest/v1/target_cache/delete?domain==${ids|raw}",
 
-										"confirmText": "确认批量删除缓存${ids|raw}（注意：操作不可逆，请谨慎操作）",
+									// {
+									// 	"type": "alert",
+									// 	"body": "格式：<域名>__<目标站>__<链接映射(true/false)>__<标题>__<关键词>__<描述>__<替换模式(0/1/2/3)>__<目标站替换词(可留空)>__<本站替换词(可留空)>"
+									// },
+									{
+										"type": "alert",
+										"body": "例子：www.domain.com___en|www.target.com___网站标题___网站关键词___网站描述___关于我们----------{keyword}##########公司名称----------【关键词】___关于我们 -> {keyword} ; 公司名称 -> 【关键词】"
+									},
+
+									{
+										"type": "button",
+										"className": "pull-right",
+										"label": "清空",
 										"onEvent": {
 											"click": {
 												"actions": [
 													{
-														"actionType": "setValue",
-														"componentId": "crud-table0", // 替换为你的 CRUD 组件 ID
-														"args": {
-															"value": {
-																"rows": "${rows.map(row => row.id === event.data.current.id ? { ...row, children: [] } : row)}"
-															}
-														}
+														"actionType": "clear",
+														"componentId": "content"
 													}
 												]
 											}
 										}
-									}
-								],
-								"headerToolbar": [
-									"bulkActions",
-									{
-										"type": "tpl",
-										// "tpl": "主站缓存: 17 | 泛站缓存: 3 | 共: 20",
-										"tpl": "共: ${total}个站点",
-										"className": "v-middle"
-									},],
-								"itemActions": [
+									},
 									{
 										"type": "button",
-										"icon": "fa fa-eraser text-danger",
-										"tooltip": "清空",
+										"icon": "fa fa-plus",
+										"level": "link",
+										"label": "加载预建站文档",
 										"actionType": "ajax",
-										"confirmText": "确认清空【${domain}】所有缓存数据？",
-										"api": "delete:/_api_/rest/v1/target_cache/delete?domain=$domain",
+										"api": "get:/_api_/file/query?path=doc/website.txt",
+										"messages": {
+											"success": "加载成功",
+											"failed": "加载失败"
+										},
 									},
-								],
-								"api": {
-									"url": "/_api_/rest/v1/target_cache/domains",
-								},
-								"itemAction": {
-									"actionType": "reload",
-									"target": "detailCRUD?domain=${domain}&page=1"
-								},
-								"footerToolbar": [
-									"statistics",
 									{
-										"type": "pagination",
-										"layout": "perPage,pager"
+										"type": "editor",
+										"language": "yaml",
+										"name": "content",
+										"id": "content",
+										"label": "建站信息",
+										"placeholder": "<域名>___<目标站>___<标题>___<关键词>___<描述>___<目标站替换词(可留空)>___<本站替换词(可留空)>",
+										"value": "",
+									},
+									{
+										"type": "alert",
+										"level": "info",
+										"showIcon": true,
+										"body": "标准格式： 间隔符为\" -> \"，多组分隔符为\" ; \"，如：关于我们 -> {keyword} ; 公司名称 -> 【关键词】"
+									},
+									{
+										"type": "alert",
+										"level": "info",
+										"showIcon": true,
+										"body": "兼容格式： 间隔符为\"----------\"，多组分隔符为\"##########\"，如：关于我们----------{keyword}##########公司名称----------【关键词】"
 									}
-								],
-								"columns": [
+									,
 									{
-										"name": "index",
-										"width": 50,
-										"label": "序号"
+										"type": "divider",
+										"title": "【泛目录配置】",
+										"titlePosition": "center"
 									},
 									{
-										"name": "domain",
-										"label": "域名",
-										"type": "text",
+										type: "checkboxes",
+										name: "mulu_mode",
+										label: "泛目录路由",
+										checkAll: true,
+										optionType: "button",
+										options: [
+											{ label: "404页面", value: "404" },
+											{ label: "非首页（所有页面）", value: "all_page" },
+											{ label: "自定义路径", value: "custom_header" },
+										]
 									},
-									// {
-									// 	"type": "static-mapping",
-									// 	"name": "is_www",
-									// 	"label": "站点类型",
-									// 	"visible": false,
-									// 	"map": {
-									// 		"true": "<span class='label label-success'>主站</span>",
-									// 		"false": "<span class='label label-danger'>泛站</span>",
-									// 	},
-									// 	"searchable": {
-									// 		"type": "select",
-									// 		"name": "is_www",
-									// 		"label": "站点类型",
-									// 		"options": [
-									// 			{
-									// 				"label": "主站+泛站",
-									// 				"value": ""
-									// 			},
-									// 			{
-									// 				"label": "主站",
-									// 				"value": "true"
-									// 			}
-									// 		],
-									// 		"value": "true",  // 默认值设置为 "主站+泛站"
-									// 		"placeholder": "选择站点类型"
-									// 	}
-									// },
+									{
+										"type": "group",
+										"body": [
+											{
+												name: "mulu_tem_max",
+												type: "input-number",
+												label: "生成模板数量",
+												required: true,
+												value: 0,
+												desc: "填写0则不会自动生成模板"
+											},
+											{
+												"type": "select",
+												"name": "mulu_static",
+												"label": "泛目录模式",
+												"options": [
+													{
+														"label": "静态",
+														"value": true
+													},
+													{
+														"label": "动态（蜘蛛池）",
+														"value": false
+													}
+												],
+												"value": true,
+											}]
+									},
+									{
+										"type": "group",
+										"body": [
+											{
+												"type": "input-array",
+												"name": "mulu_custom_header",
+												"label": "自定义路径",
+												"items": {
+													"type": "input-text",
+													"name": "/",
+													"label": "/",
+													"unique": true,
+												},
+												"addButtonText": "泛目录路径",
+												"minItems": 0,
+											},
+											{
+												"type": "input-array",
+												"name": "mulu_keywords_file",
+												"label": "关键词库",
+												"items": {
+													"type": "input-text",
+													"name": "词库路径",
+													"label": "词库路径",
+													"unique": true,
+												},
+												"addButtonText": "关键词库",
+												"minItems": 0,
+											},]
+									},
 								]
 							}
+						}
+					},
+					{
+						"type": "tpl",
+						"tpl": "主站: ${www_count} | 泛站: ${web_count} | 共: ${total}",
+						"className": "v-middle"
+					},
+					"reload",
+					{
+						"type": "columns-toggler",
+						"align": "right"
+					},
+					{
+						"type": "pagination",
+						"align": "right"
+					},
+					{
+						"type": "tpl",
+						"tpl": "当前：${items_count} 项 | 共：${count} 项",
+						"align": "right"
+					}
+				],
+				"footerToolbar": [
+					"statistics",
+					{
+						"type": "pagination",
+						"layout": "perPage,pager,go"
+					}
+				],
+				"columns": [
+					{
+						"type": "tpl",
+						"name": "id",
+						"label": "ID",
+						"searchable": {
+							"type": "textarea",
+							"name": "search_term",
+							"label": "🔍搜索",
+							"clearable": true,
+							"maxLength": 10000,
+							"showCounter": true
 						},
-						{
-							"md": 9,  // 右侧占 9 份宽度（75%）
-							"body": {
-								"type": "crud",
-								"name": "detailCRUD",
-								"onEvent": {
-									"selectedChange": {
-										"actions": [
-											{
-												"actionType": "toast",
-												"args": {
-													"msg": "已选择${event.data.selectedItems.length}条记录"
-												}
-											}
-										]
-									}
-								},
-								"id": "crud-table",
-								"syncLocation": false,
-								"api": "/_api_/rest/v1/target_cache/query",
-								"deferApi": "/_api_/rest/v1/target_cache/query?domain=${domain}",
-								"perPageAvailable": [
-									10,
-									20,
-									100,
-									500,
-								],
-								"perPage": 10,
-								"keepItemSelectionOnPageChange": true,
-								"autoFillHeight": true,
-								"labelTpl": "${id}",
-								// "autoGenerateFilter": true,
-								"filter": {
-									// "mode": "inline",
-									// "debug": true,
-									"name": "filter_form",
-									"width": "600px",
-									"wrapWithPanel": false,
-									"title": "搜索",
-									"body": [
-										{
-											"type": "group",  // 使用 group 组件
-											"body": [
-												// {
-												// 	"type": "select",
-												// 	"name": "page_type",
-												// 	"label": "页面类型",
-												// 	"options": [
-												// 		{
-												// 			"label": "全部",
-												// 			"value": ""
-												// 		},
-												// 		{
-												// 			"label": "缓存",
-												// 			"value": "cache"
-												// 		},
-												// 		{
-												// 			"label": "映射",
-												// 			"value": "mapping"
-												// 		},
-												// 		{
-												// 			"label": "目录",
-												// 			"value": "manual"
-												// 		},
-												// 		{
-												// 			"label": "静态",
-												// 			"value": "static_cache"
-												// 		},
-												// 	],
-												// 	"value": "",  // 默认值设置为 "所有页面"
-												// 	"placeholder": "选择页面类型"
-												// },
-												{
-													"type": "input-text",
-													"name": "search_term",
-													"prefix": "${domain}🔍",
-													addOn: {
-														"id": "search_button",
-														"type": "submit",  // 显式添加搜索按钮
-														"label": "搜索",
-														"level": "primary",
-													},
-													"clearable": true,
-													"onEvent": {
-														"clear": {
-															"actions": [
-																{
-																	"actionType": "reset",  // 可选：同时重置表单
-																	"componentName": "search_term"
-																},
-																{
-																	"actionType": "submit",
-																	"componentName": "filter_form",
-																},
-															]
-														}
-													}
-												},
-												{
-													"type": "input-text",
-													"name": "uri",
-													"prefix": "真实路径 ： ",
-													addOn: {
-														"type": "submit",  // 显式添加搜索按钮
-														"label": "🔍",
-														// "level": "primary",
-													},
-													"clearable": true,
-													"onEvent": {
-														"clear": {
-															"actions": [
-																{
-																	"actionType": "reset",  // 可选：同时重置表单
-																	"componentName": "uri"
-																},
-																{
-																	"actionType": "submit",
-																	"componentName": "filter_form",
-																},
-															]
-														}
-													}
-												}
-
-											]
-										}
-									],
-								},
-								// "autoGenerateFilter": {
-								// 	"columnsNum": 2,
-								// 	"showBtnToolbar": false,
-								// 	defaultCollapsed: false
-								// },
-								"bulkActions": [
+						"fixed": "left",
+						"sortable": true
+					},
+					// {
+					// 	"type": "static-mapping",
+					// 	"name": "subdomain",
+					// 	"label": "站点类型",
+					// 	"visible": false,
+					// 	"searchable": {
+					// 		"type": "select",
+					// 		"name": "is_www",
+					// 		"label": "站点类型",
+					// 		"options": [
+					// 			{
+					// 				"label": "主站+泛站",
+					// 				"value": 0
+					// 			},
+					// 			{
+					// 				"label": "主站",
+					// 				"value": 1
+					// 			},
+					// 			{
+					// 				"label": "泛站",
+					// 				"value": 2
+					// 			}
+					// 		],
+					// 		"value": 0,
+					// 		"placeholder": "选择站点类型"
+					// 	}
+					// },
+					{
+						"name": "lang",
+						"label": "语言"
+					},
+					{
+						"type": "tpl",
+						"tpl": "${target_domain ? '<a href=\"javascript:void(0);\" class=\"link-icon\">' + target_domain + '</a>' : '无'}",
+						"name": "target_domain",
+						"label": "目标站",
+						"copyable": true,
+						"searchable": {
+							"name": "target",
+							"clearable": true,
+							"maxLength": 1000
+						},
+						"onEvent": {
+							"click": {
+								"actions": [
 									{
-										"label": "批量删除",
-										"level": "danger",
-										"actionType": "ajax",
-										// "api": "delete:/_api_/target/delete?bucket=$target_lib&files=${ids|raw}",
-										"api": "delete:/_api_/rest/v1/target_cache/delete?domain=$domain&paths=${ids|raw}",
-										// "api": {
-										// 	"method": "delete",
-										// 	"url": "/_api_/rest/v1/target_cache/delete",
-										// 	"data": {
-										// 		"domain": "${domain}",
-										// 		"paths": "${ARRAYMAP(items, item => item.path).join(',')}",
-										// 	}
-										// },
-										// "api": {
-										// 	"method": "delete",
-										// 	"url": "/_api_/rest/v1/target_cache/delete",
-										// 	"data": {
-										// 		"domain": "${domain}",
-										// 		"paths": "${items|pick:path|join:,}",
-										// 	}
-										// },
-										"confirmText": "确认批量删除缓存${ids|raw}（注意：操作不可逆，请谨慎操作）",
-										"onEvent": {
-											"click": {
-												"actions": [
-													{
-														"actionType": "setValue",
-														"componentId": "crud-table", // 替换为你的 CRUD 组件 ID
-														"args": {
-															"value": {
-																"rows": "${rows.map(row => row.id === event.data.current.id ? { ...row, children: [] } : row)}"
-															}
-														}
-													}
-												]
-											}
-										}
-									}
-								],
-								"filterTogglable": true,
-								"headerToolbar": [
-									{
-										"type": "button",
-										"label": "上传缓存",
-										"icon": "fa fa-plus pull-left",
-										"primary": true,
-										"actionType": "drawer",
-										"drawer": {
-											"resizable": true,
-											"size": "lg",
-											"width": "90%",
-											"title": "上传缓存",
-											"body": {
-												"type": "form",
-												"name": "sample-edit-form",
-												"api": "/_api_/rest/v1/target_cache/create",
-												"reload": "crud-table",
-												"body": [
-													{
-														"type": "divider",
-														"title": "【网站信息】",
-														"titlePosition": "center"
-													},
-													{
-														"type": "static",
-														"name": "domain",
-														"label": "域名"
-													},
-													{
-														"type": "alert",
-														"body": "例子：网站标题___网站关键词___网站描述___/about.html"
-													},
-
-													{
-														"type": "button",
-														"className": "pull-right",
-														"label": "清空",
-														"onEvent": {
-															"click": {
-																"actions": [
-																	{
-																		"actionType": "clear",
-																		"componentId": "content"
-																	}
-																]
-															}
-														}
-													},
-													{
-														"type": "button",
-														"icon": "fa fa-plus",
-														"level": "link",
-														"label": "加载预建站文档",
-														"actionType": "ajax",
-														"api": "get:/_api_/file/query?path=doc/website.txt",
-														"messages": {
-															"success": "加载成功",
-															"failed": "加载失败"
-														},
-													},
-													{
-														"type": "editor",
-														"language": "yaml",
-														"name": "content",
-														"id": "content",
-														"label": "建站信息",
-														"placeholder": "<标题>___<关键词>___<描述>___<路径>",
-														"value": "",
-													}
-												]
-											}
-										}
-									},
-									"bulkActions",
-									{
-										"type": "tpl",
-										"tpl": "<a href='http://${domain}' target='_blank' class='link-style'>${domain}</a> 🎯 <a href='http://${target}' class='link-icon' target='_blank'>${target}</a> | URL: ${total}条",
-										"className": "v-middle"
-									},
-									{
-										"type": "button",
-										"label": "",
-										"icon": "fa fa-sync",
-										"onEvent": {
-											"click": {
-												"actions": [
-													{
-														"actionType": "setValue",
-														"componentId": "crud-table",  // 替换为你的表格组件 ID
-														"args": {
-															"value": {
-																"rows": []  // 将数据设置为空数组
-															}
-														}
-													},
-													{
-														"actionType": "reload",
-														"componentId": "crud-table",  // 替换为你的表格组件 ID
-													}
-												]
-											}
-										}
-									},
-									{
-										"type": "columns-toggler",
-										"align": "right"
-									},
-									{
-										"type": "pagination",
-										"align": "right"
-									},
-									{
-										"type": "tpl",
-										"tpl": "当前：${items_count} 项 | 共：${total} 项",
-										"align": "right"
-									}
-								],
-								"footerToolbar": [
-									"statistics",
-									{
-										"type": "pagination",
-										"layout": "perPage,pager,go"
-									}
-								],
-								"columns": [
-									{
-										"name": "id",
-										"label": "PATH",
-										// "searchable": {
-										// 	"type": "input-text",
-										// 	"name": "search_term",
-										// 	"label": "🔍搜索",
-										// },
-										"visible": false
-									},
-									{
-										"name": "index",
-										"label": "序号",
-										"fixed": "left",
-										// "searchable": {
-										// 	"type": "input-text",
-										// 	"name": "search_term",
-										// 	"label": "🔍搜索",
-										// },
-									},
-
-
-									// {
-									// "type": "serial",  // 这是Amis专门用于显示序号的类型
-									// "label": "序号",
-									// "fixed": "left",
-									// "width": 70
-									// },
-									// {
-									// 	"name": "id",
-									// 	"label": "文件路径",
-									// 	// "searchable": {
-									// 	// 	"type": "input-text",
-									// 	// 	"name": "search_term",
-									// 	// 	"label": "🔍搜索",
-									// 	// },
-									// 	"visible": false
-									// },
-									{
-										"type": "tpl",
-										"tpl": "<a href='${path}' target='_blank' class='link-style'>${path}</a>",
-										// "name": "path",
-										"label": "网址路径",
-									},
-									// {
-									// 	"type": "tpl",
-									// 	"tpl": "<a href='http://${domain}${uri}' target='_blank' class='link-style'>${uri}</a>",
-									// 	"name": "uri",
-									// 	"label": "真实路径",
-									// 	// "searchable": true,
-									// },
-									// {
-									// 	name: "meta.title",
-									// 	label: "标题",
-									// 	width: "25%"
-									// },
-									// {
-									// 	name: "meta.keywords",
-									// 	label: "关键词",
-									// 	width: "15%"
-									// },
-									// {
-									// 	name: "meta.description",
-									// 	label: "描述",
-									// 	width: "30%"
-									// },
-									{
-										name: "domain",
-										label: "域名",
-										"visible": false
-									},
-									// {
-									// 	"type": "tpl",
-									// 	"tpl": "<a href='javascript:void(0);' class='link-icon' target='_blank'>${target}</a>",
-									// 	"name": "target",
-									// 	"label": "目标站",
-									// 	// "sortable": true,
-									// 	// "searchable": true,
-									// 	"onEvent": {
-									// 		"click": {
-									// 			"actions": [
-									// 				{
-									// 					"actionType": "custom",
-									// 					"script": "const parts = event.data.target.split('://'); if(parts.length > 1) { let linkTarget = parts[1];if (!event.data.uri.endsWith('.html')) {linkTarget = linkTarget.replace(/index\\.html$/, '').replace(/\\.html$/, '');}; document.querySelector('.link-icon').setAttribute('href', 'http://' + linkTarget); window.open('http://' + linkTarget, '_blank'); }"
-									// 				}
-									// 			]
-									// 		}
-									// 	}
-									// },
-
-									// {
-									// 	"type": "static-mapping",
-									// 	"name": "page_type",
-									// 	"fixed": "right",
-									// 	"label": "页面类型",
-									// 	"map": {
-									// 		"cache": "<span class='label label-success'>缓存</span>",
-									// 		"mapping": "<span class='label label-warning'>映射</span>",
-									// 		"manual": "<span class='label label-info'>目录</span>",
-									// 		"static_cache": "<span class='label label-danger'>静态</span>",
-									// 	},
-										// "sortable": true,
-										// "searchable": {
-										// 	"type": "select",
-										// 	"name": "page_type",
-										// 	"label": "页面类型",
-										// 	"options": [
-										// 		{
-										// 			"label": "所有",
-										// 			"value": ""
-										// 		},
-										// 		{
-										// 			"label": "缓存",
-										// 			"value": "缓存"
-										// 		},
-										// 		{
-										// 			"label": "映射",
-										// 			"value": "映射"
-										// 		},
-										// 		{
-										// 			"label": "目录",
-										// 			"value": "目录"
-										// 		},
-										// 		{
-										// 			"label": "静态",
-										// 			"value": "静态"
-										// 		},
-										// 	],
-										// 	"value": "",  // 默认值设置为 "所有页面"
-										// 	"placeholder": "选择页面类型"
-										// }
-									// },
-									{
-											"type": "static-mapping",
-											"name": "status_code",
-											"fixed": "right",
-											"label": "状态码",
-											"map": {
-												"200": "<span class='label label-success'>200</span>",
-												"*": "<span class='label label-danger'>${status_code}</span>"
-											}
-										},
-									{
-										// "type": "datetime",  // 显示为日期时间类型
-										"name": "ttl_human",
-										"label": "过期时间",
-										"fixed": "right",
-										"sortable": true,  // 启用排序功能
-									},
-									// {
-									// 	"type": "datetime",
-									// 	"name": "ttl",
-									// 	"label": "剩余时间",
-									// 	"displayMode": "relative",  // 关键：显示相对时间
-									// 	"fromNow": true,            // 显示"从现在开始"的时间
-									// 	"momentLocale": "zh-cn",
-									// 	"sortable": true
-									// },
-									{
-										"type": "operation",
-										"fixed": "right",
-										"label": "操作",
-										"width": 70,
-										"buttons": [
-											{
-												"type": "button",
-												"icon": "fa fa-pencil",
-												"tooltipPlacement": "top",
-												"tooltip": "编辑",
-												"actionType": "drawer",
-												"drawer": {
-													"resizable": true,
-													"size": "lg",
-													"width": "90%",
-													"title": "编辑",
-													"body": {
-														"type": "form",
-														"name": "sample-edit-form",
-														"api": "put:/_api_/rest/v1/target_cache/update?domain=$domain&id=$id",
-														"reload": "crud-table", // 在提交后重新加载特定的组件
-														"body": [
-															{
-																"type": "alert",
-																"level": "info",
-																"showIcon": true,
-																"body": "注意：缓存数据清空后，此次编辑会失效。(编辑站点配置会自动清空缓存数据)",
-															},
-															{
-																"type": "static",
-																"name": "id",
-																"label": "ID",
-																"visible": false
-															},
-															{
-																"type": "service",
-																"api": "/_api_/rest/v1/target_cache/source?domain=$domain&id=$id",  // 动态加载 target_replace 数据的 API
-																"body": [
-																	{
-																		"type": "editor",
-																		"language": "html",
-																		"name": "source",
-																		"id": "editor1",
-																		"label": "缓存源码",
-																		"size": "xxl",
-																		"options": {
-																			"minimap": {
-																				"enabled": true
-																			},
-																			"wordWrap": "on",  // 绑定开关值
-																			"automaticLayout": true
-																		},
-																		"placeholder": "空",
-																	}
-																]
-															}
-														]
-													}
-												}
-											},
-											{
-												"icon": "fa fa-trash text-danger",
-												"actionType": "ajax",
-												// "tooltipPlacement": "right",
-												// "tooltip": "删除",
-												"confirmText": "确认删除 【第${index}条】 缓存数据？",
-												"api": "delete:/_api_/rest/v1/target_cache/delete?domain=$domain&path=$path",
-											}
-										]
+										"actionType": "custom",
+										"script": "if (event.data.target_domain) { window.open('http://' + event.data.target_domain, '_blank'); }"
 									}
 								]
 							}
 						}
-					]
-				}
+					},
+					{
+						"name": "conf.target_info.title",
+						"label": "标题",
+						"copyable": true,
+						"popOver": {
+							"trigger": "hover",
+							"body": {
+								"type": "tpl",
+								"tpl": "${domain} 查标题排名：<a href='https://www.google.com/search?q=${conf.target_info.title}' target='_blank' class='link-style' title='${conf.target_info.title}'>谷歌</a> | <a href='https://www.bing.com/search?q=${conf.target_info.title}' target='_blank' class='link-style' title='${conf.target_info.title}'>必应</a> | <a href='https://www.baidu.com/s?wd=${conf.target_info.title}' target='_blank' class='link-style' title='${conf.target_info.title}'>百度</a> | <a href='https://www.sogou.com/web?query=${conf.target_info.title}' target='_blank' class='link-style' title='${conf.target_info.title}'>搜狗</a>"
+							}
+						}
+					},
+					{
+						"type": "datetime",
+						"name": "updated_at",
+						"label": "更新于",
+						"width": 150,
+						"sortable": true
+					},
+					{
+						"type": "datetime",
+						"name": "created_at",
+						"label": "创建于",
+						"width": 150,
+						"sortable": true
+					},
+					{
+						"type": "operation",
+						"fixed": "right",
+						"label": "操作",
+						"width": 110,
+						"buttons": [
+							{
+								"type": "button",
+								"icon": "fa fa-pencil",
+								"tooltipPlacement": "top",
+								"tooltip": "编辑",
+								"actionType": "drawer",
+								"drawer": {
+									"actions": [
+										{
+											"type": "button",
+											"label": "关闭",
+											"actionType": "close"  // 手动关闭
+										},
+										{
+											"type": "button",
+											"label": "保存",
+											"level": "primary",
+											"actionType": "submit"  // 触发表单提交
+										}
+									],
+									"resizable": true,
+									"size": "lg",
+									"width": "50%",
+									"title": "编辑【${target_domain}】",
+									"body": {
+										"type": "form",
+										"name": "sample-edit-form",
+										"api": "post:/_api_/rest/v1/target/create?id=${id}",
+										"body": [
+											{
+												"type": "static",
+												"name": "id",
+												"label": "ID",
+												"visible": false
+											},
+											{
+												"type": "divider",
+												"title": "【目标站信息】",
+												"titlePosition": "center"
+											},
+											{
+												"type": "group",
+												"body": [
+													{
+														"type": "static",
+														"name": "target_domain",
+														"label": "目标域名"
+													},
+													{
+														"type": "static",
+														"name": "lang",
+														"label": "语言",
+													}
+												]
+											},
+											{
+												"type": "static",
+												"name": "conf.website_info.title",
+												"label": "目标站标题",
+											},
+											{
+												"type": "divider",
+												"title": "【替换规则】",
+												"titlePosition": "center"
+											},
+											// 插入新的 service，用于加载 target_replace 数据
+											{
+												"type": "service",
+												"api": "/_api_/rest/v1/target/query_details?domain=$target_domain",  // 动态加载 target_replace 数据的 API
+												"body": [
+													{
+														"type": "editor",
+														"language": "yaml",
+														"name": "target_replace",
+														"label": "目标站替换",
+														"value": "全局替换:\n  - '待替换字符串 -> {关键词}'\n首页替换:\n  - '待替换字符串 -> {关键词2}'\n内页替换:\n  - '待替换字符串 -> 替换词'"
+													}
+												]
+											},
+											{
+												"type": "alert",
+												"level": "info",
+												"showIcon": true,
+												"body": "注意：替换词格式按照“先长后短”方式，如“hello world -> {关键词}”在上，“hello -> 你好”在下",
+											},
+											{
+												"type": "static-datetime",
+												"name": "updated_at",
+												"label": "更新于"
+											},
+											{
+												"type": "static-datetime",
+												"name": "created_at",
+												"label": "创建于"
+											}
+										]
+									}
+								}
+							},
+							{
+								"type": "button",
+								"icon": "fa fa-eraser text-danger",
+								"actionType": "ajax",
+								"tooltipPlacement": "top",
+								"tooltip": "清空缓存",
+								"confirmText": "确认清空【${domain}】所有缓存数据？",
+								"api": "delete:/_api_/rest/v1/website_cache/delete?domain=${domain}",
+								"reload": "none"
+							},
+							{
+								"type": "button",
+								"icon": "fa fa-trash text-danger",
+								"actionType": "ajax",
+								"tooltipPlacement": "top",
+								"confirmText": "确认删除【${id}】${domain}",
+								"api": "delete:/_api_/rest/v1/target/delete?ids=${id}"
+							}
+						],
+						"toggled": true
+					}
+				]
 			}
-			]
 		},
 		status: 0
 	}
 
 	window.jsonpCallback && window.jsonpCallback(response);
 })();
-

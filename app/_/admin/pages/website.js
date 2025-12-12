@@ -263,7 +263,7 @@
 									// 插入新的 service，用于加载 target_replace 数据
 									{
 										"type": "service",
-										"api": "/_api_/rest/v1/target/query?domain=$target_domain",  // 动态加载 target_replace 数据的 API
+										"api": "/_api_/rest/v1/target/query_details?domain=$target_domain",  // 动态加载 target_replace 数据的 API
 										"body": [
 											{
 												"type": "editor",
@@ -429,7 +429,7 @@
 											},
 											{
 												"type": "select",
-												"name": "target_replace_over_write",
+												"name": "target_replace_cover",
 												"label": "目标站替换词",
 												"options": [
 													{
@@ -839,6 +839,19 @@
 								"tooltip": "编辑",
 								"actionType": "drawer",
 								"drawer": {
+									"actions": [
+										{
+											"type": "button",
+											"label": "关闭",
+											"actionType": "close"  // 手动关闭
+										},
+										{
+											"type": "button",
+											"label": "保存",
+											"level": "primary",
+											"actionType": "submit"  // 触发表单提交
+										}
+									],
 									"resizable": true,
 									"size": "lg",
 									"width": "50%",
@@ -1015,7 +1028,7 @@
 											// 插入新的 service，用于加载 target_replace 数据
 											{
 												"type": "service",
-												"api": "/_api_/rest/v1/target/query?domain=$target_domain",  // 动态加载 target_replace 数据的 API
+												"api": "/_api_/rest/v1/target/query_details?domain=$target_domain",  // 动态加载 target_replace 数据的 API
 												"body": [
 													{
 														"type": "editor",
