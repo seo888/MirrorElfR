@@ -5,7 +5,7 @@ ProgramInfo:
   login_password: admin
   pg_database_url: postgresql://admin:mirrorelf@localhost:5432/mirror
 WebsiteSettings:
-  auto_site_building: true
+  auto_site_building: false
   auto_https_certificate: false
   pan_site_auto_site_building: false
   pan_site_crawler_target: true

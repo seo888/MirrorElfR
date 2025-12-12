@@ -716,7 +716,7 @@
 							"options": [
 								{
 									"label": "主站+泛站",
-									"value": 0
+									"value": 2
 								},
 								{
 									"label": "主站",
@@ -724,10 +724,10 @@
 								},
 								{
 									"label": "泛站",
-									"value": 2
+									"value": 0
 								}
 							],
-							"value": 0,
+							"value": 2,
 							"placeholder": "选择站点类型"
 						}
 					},
