@@ -258,7 +258,7 @@
 															"value": "static_cache"
 														},
 													],
-													"value": "",  // 默认值设置为 "所有页面"
+													"value": "cache",  // 默认值设置为 "所有页面"
 													"placeholder": "选择页面类型"
 												},
 												{
@@ -680,14 +680,14 @@
 															},
 															{
 																"type": "service",
-																"api": "/_api_/rest/v1/website_cache/source?domain=$domain&id=$id",  // 动态加载 target_replace 数据的 API
+																"api": "/_api_/rest/v1/website_cache/meta?domain=$domain&id=$id",  // 动态加载 target_replace 数据的 API
 																"body": [
 																	{
 																		"type": "editor",
 																		"language": "html",
-																		"name": "source",
+																		"name": "meta",
 																		"id": "editor1",
-																		"label": "缓存源码",
+																		"label": "页面信息",
 																		"size": "xxl",
 																		"options": {
 																			"minimap": {

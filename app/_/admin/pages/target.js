@@ -69,7 +69,7 @@
 					},
 					{
 						"type": "button",
-						"label": "批量建站",
+						"label": "数据还原",
 						"icon": "fa fa-plus pull-left",
 						"primary": true,
 						"actionType": "drawer",
@@ -77,7 +77,7 @@
 							"resizable": true,
 							"size": "lg",
 							"width": "90%",
-							"title": "批量建站",
+							"title": "数据还原",
 							"body": {
 								"type": "form",
 								"name": "sample-edit-form",

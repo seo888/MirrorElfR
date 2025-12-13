@@ -419,7 +419,8 @@
                                                         {
                                                             name: "SEOFunctions.head_header",
                                                             type: "textarea",
-                                                            label: "全局动态 &lt;head&gt;后"
+                                                            label: "全局动态 &lt;head&gt;后",
+                                                            desc: '全局动态插入功能，搜索引擎蜘蛛可见，一般用于SEO优化：插入自定义A标签网址。（<span style=\"color: red; font-weight: bold;\">注意：蜘蛛可见</span>）',
                                                         },
                                                         {
                                                             name: "SEOFunctions.head_footer",
@@ -434,8 +435,8 @@
                                                             name: "SEOFunctions.body_header",
                                                             type: "textarea",
                                                             label: "全局动态 &lt;body&gt;后",
+                                                            desc: 'body起始处插入html代码，一般用于插入H1标签。&lt;h1&gt;&lt;a target="_blank" title="{标题}" href="{首页}">{核心词}&lt;/a&gt;&lt;/h1&gt;，更多标签详情请查看《标签文档》',
                                                             placeholder: '<h1><a target="_blank" title="{标题}" href="{首页}">{核心词}</a></h1>',
-                                                            desc: 'body起始处插入html代码，一般用于插入H1标签。&lt;h1&gt;&lt;a target="_blank" title="{标题}" href="{首页}">{核心词}&lt;/a&gt;&lt;/h1&gt;，更多标签详情请查看《标签文档》（搜索引擎蜘蛛正常加载）',
                                                         },
                                                         {
                                                             name: "SEOFunctions.body_footer",
@@ -642,7 +643,7 @@
                                                     "type": "input-array",
                                                     "name": "GlobalCodeInsertion.filter_ip",
                                                     "label": "过滤地址",
-                                                    "desc": "可添加多个IP地址，访问时这些IP地址的请求将不会加载全局JS代码。（注意：搜索引擎蜘蛛不加载全局JS代码）",
+                                                    "desc": "可添加多个IP地址，访问时这些IP地址的请求将不会加载全局JS代码。",
                                                     "items": {
                                                         "type": "input-text",
                                                         "name": "ip",
@@ -663,7 +664,8 @@
                                                         {
                                                             name: "GlobalCodeInsertion.head_header",
                                                             type: "textarea",
-                                                            label: "head头部"
+                                                            label: "head头部",
+                                                            "desc": "全局JS代码，一般用于加载自定义JS广告。（<span style=\"color: green; font-weight: bold;\">注意：蜘蛛不可见</span>）",
                                                         },
                                                         {
                                                             name: "GlobalCodeInsertion.head_footer",
