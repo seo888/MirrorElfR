@@ -131,11 +131,11 @@
                                                     ]
                                                 },
                                                 {
-                                                    name: "ProgramInfo.amazon_s3_api",
+                                                    name: "ProgramInfo.pg_database_url",
                                                     type: "input-text",
-                                                    label: "amazon_s3_api",
+                                                    label: "数据库信息",
                                                     disabled: true,  // 设置为只读
-                                                    desc: "amazon_s3_api分布式文件系统接口信息，如需更改请于服务器文件中修改。(重启程序生效)"
+                                                    desc: "可使用远程pgsql数据库，如需更改请于服务器文件中修改。(重启程序生效)"
                                                 },
                                                 // {
                                                 //     name: "ProgramInfo.safeline_token",
@@ -156,12 +156,38 @@
                                             title: "建站设置",
                                             body: [
                                                 {
-                                                    name: "WebsiteSettings.auto_site_building",
-                                                    type: "switch",
-                                                    onText: "开启",
-                                                    offText: "关闭",
-                                                    label: "自动建站"
+                                                    "type": "group",
+                                                    "body": [
+                                                        {
+                                                            name: "WebsiteSettings.auto_site_building",
+                                                            type: "switch",
+                                                            onText: "开启",
+                                                            offText: "关闭",
+                                                            label: "自动建站"
+                                                        }, {
+                                                            name: "WebsiteSettings.pan_site_auto_site_building",
+                                                            type: "switch",
+                                                            onText: "开启",
+                                                            offText: "关闭",
+                                                            label: "泛站自动建站"
+                                                        },
+                                                        {
+                                                            name: "WebsiteSettings.pan_site_crawler_target",
+                                                            type: "switch",
+                                                            onText: "开启",
+                                                            offText: "关闭",
+                                                            label: "泛站爬取目标"
+                                                        },
+                                                        {
+                                                            name: "WebsiteSettings.link_mapping",
+                                                            type: "switch",
+                                                            onText: "开启",
+                                                            offText: "关闭",
+                                                            label: "链接映射"
+                                                        },
+                                                    ]
                                                 },
+
                                                 {
                                                     name: "WebsiteSettings.language",
                                                     type: "radios",
@@ -181,32 +207,37 @@
                                                 //     label: "自动https"
                                                 // },
                                                 {
-                                                    name: "WebsiteSettings.pan_site_auto_site_building",
-                                                    type: "switch",
-                                                    onText: "开启",
-                                                    offText: "关闭",
-                                                    label: "泛站自动建站"
-                                                },
-                                                {
-                                                    name: "WebsiteSettings.pan_site_crawler_target",
-                                                    type: "switch",
-                                                    onText: "开启",
-                                                    offText: "关闭",
-                                                    label: "泛站爬取目标"
-                                                },
-                                                {
-                                                    name: "WebsiteSettings.link_mapping",
-                                                    type: "switch",
-                                                    onText: "开启",
-                                                    offText: "关闭",
-                                                    label: "链接映射"
-                                                },
-                                                {
-                                                    name: "WebsiteSettings.homepage_update_time",
-                                                    type: "input-number",
-                                                    label: "首页更新时间",
-                                                    required: true,
-                                                    desc: "单位：天 填0关闭"
+                                                    "type": "group",
+                                                    "body": [
+                                                        {
+                                                            name: "WebsiteSettings.website_cache_index_over_time",
+                                                            type: "input-number",
+                                                            label: "网站缓存·首页·过期时间",
+                                                            required: true,
+                                                            desc: "单位：天 填0则永不过期"
+                                                        },
+                                                        {
+                                                            name: "WebsiteSettings.website_cache_page_over_time",
+                                                            type: "input-number",
+                                                            label: "网站缓存·内页·过期时间",
+                                                            required: true,
+                                                            desc: "单位：天 填0则永不过期"
+                                                        },
+                                                        {
+                                                            name: "WebsiteSettings.target_cache_index_over_time",
+                                                            type: "input-number",
+                                                            label: "目标缓存·首页·过期时间",
+                                                            required: true,
+                                                            desc: "单位：天 填0则永不过期"
+                                                        },
+                                                        {
+                                                            name: "WebsiteSettings.target_cache_page_over_time",
+                                                            type: "input-number",
+                                                            label: "目标缓存·内页·过期时间",
+                                                            required: true,
+                                                            desc: "单位：天 填0则永不过期"
+                                                        },
+                                                    ]
                                                 },
                                                 {
                                                     name: "WebsiteSettings.target_static_save",
@@ -352,7 +383,47 @@
                                                 //     offText: "关闭",
                                                 //     label: "插入H1标签"
                                                 // },
+                                                {
+                                                    "type": "group",
+                                                    "body": [
+                                                        {
+                                                            name: "SEOFunctions.seo_404_page",
+                                                            type: "switch",
+                                                            onText: "开启",
+                                                            offText: "关闭",
+                                                            label: "404页面SEO"
+                                                        },
+                                                        {
+                                                            name: "SEOFunctions.random_div_attributes",
+                                                            type: "switch",
+                                                            onText: "开启",
+                                                            offText: "关闭",
+                                                            label: "Div随机属性"
+                                                        },
+                                                        {
+                                                            name: "SEOFunctions.random_class_name",
+                                                            type: "switch",
+                                                            onText: "开启",
+                                                            offText: "关闭",
+                                                            label: "Class随机类名"
+                                                        },
+                                                        {
+                                                            name: "SEOFunctions.meta_information",
+                                                            type: "switch",
+                                                            onText: "开启",
+                                                            offText: "关闭",
+                                                            label: "OG协议"
+                                                        },
+                                                        {
+                                                            name: "SEOFunctions.html_entities",
+                                                            type: "switch",
+                                                            onText: "开启",
+                                                            offText: "关闭",
+                                                            label: "TDK转码",
+                                                        },
 
+                                                    ]
+                                                },
                                                 {
                                                     "type": "group",
                                                     "body": [
@@ -443,41 +514,6 @@
                                                             type: "textarea",
                                                             label: "全局动态 &lt;/body&gt;前"
                                                         }]
-                                                },
-                                                {
-                                                    name: "SEOFunctions.seo_404_page",
-                                                    type: "switch",
-                                                    onText: "开启",
-                                                    offText: "关闭",
-                                                    label: "404页面SEO"
-                                                },
-                                                {
-                                                    name: "SEOFunctions.random_div_attributes",
-                                                    type: "switch",
-                                                    onText: "开启",
-                                                    offText: "关闭",
-                                                    label: "Div随机属性"
-                                                },
-                                                {
-                                                    name: "SEOFunctions.random_class_name",
-                                                    type: "switch",
-                                                    onText: "开启",
-                                                    offText: "关闭",
-                                                    label: "Class随机类名"
-                                                },
-                                                {
-                                                    name: "SEOFunctions.meta_information",
-                                                    type: "switch",
-                                                    onText: "开启",
-                                                    offText: "关闭",
-                                                    label: "OG协议"
-                                                },
-                                                {
-                                                    name: "SEOFunctions.html_entities",
-                                                    type: "switch",
-                                                    onText: "开启",
-                                                    offText: "关闭",
-                                                    label: "TDK转码",
                                                 },
                                                 {
                                                     name: "SEOFunctions.friend_link_count",

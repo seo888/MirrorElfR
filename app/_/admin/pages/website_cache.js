@@ -628,7 +628,7 @@
 									// 	"label": "目标路径",
 									// },
 									{
-										// "type": "datetime",  // 显示为日期时间类型
+										"type": "datetime",  // 显示为日期时间类型
 										"name": "ttl",
 										"label": "过期时间",
 										// "fixed": "right",

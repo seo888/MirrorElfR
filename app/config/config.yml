@@ -1,6 +1,6 @@
 ProgramInfo:
   program_name: web - Mirror-Elf by TG@seo898
-  authorization_code: LJ2jwuZCDs1gjj2aGZ-B0p_LwsQ3aIEqcbgdRO2lz_AunMoPJUnbVT17Yh0uM3cUNIUhIILXwG8B19dDDGfF-BjqHB62
+  authorization_code: LJ2jwuZCDs1gjj2aGZ-B0p_LwsQ3aIEqcbgdRO2lz_AunMoPJUnbVT
   login_account: admin
   login_password: admin
   pg_database_url: postgresql://admin:mirrorelf@localhost:5432/mirror
@@ -11,7 +11,10 @@ WebsiteSettings:
   pan_site_crawler_target: true
   language: zh
   link_mapping: true
-  homepage_update_time: 3
+  website_cache_index_over_time: 365
+  website_cache_page_over_time: 365
+  target_cache_index_over_time: 3650
+  target_cache_page_over_time: 3650
   target_static_save: .js,.css,.jpg,.png
 SEOFunctions:
   external_filter:
