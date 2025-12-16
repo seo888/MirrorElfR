@@ -1,12 +1,14 @@
 ProgramInfo:
   program_name: web - Mirror-Elf by TG@seo898
-  authorization_code: LJ2jwuZCDs1gjj2aGZ-B0p_LwsQ3aIEqcbgdRO2lz_AunMoPJUnbVT
+  admin_domain: www.localhost.com
+  admin_ips: []
+  authorization_code: l1KU72UaGAubTQDrZwDS2QPnnk4Dobk1PD6gbRUX0qOaL3PFhf9q8Q4olchYk6Y8HZaZOrZBNF3kl88RsflA-YQ7zqpu
   login_account: admin
   login_password: admin
   pg_database_url: postgresql://admin:mirrorelf@localhost:5432/mirror
 WebsiteSettings:
   auto_site_building: false
-  auto_https_certificate: false
+  auto_https_certificate: true
   pan_site_auto_site_building: false
   pan_site_crawler_target: true
   language: zh

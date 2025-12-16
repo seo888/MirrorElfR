@@ -2,7 +2,7 @@
     const response = {
         data: {
             type: "page",
-            // title: "设置",
+            title: "设置",
             body: [
                 {
                     type: "form",
@@ -40,6 +40,14 @@
                             "type": "service",
                             "api": "/_api/version?mode=0",  // 动态加载
                             "body": [
+                                {
+                                    "label": "当前IP：${user_ip}",
+                                    "type": "button",
+                                    "actionType": "copy",
+                                    "content": "${user_ip}",
+                                    "tooltip": "点击复制",
+                                    "tooltipPlacement": "top"
+                                },
                                 {
                                     "label": "设备机器码：${machine_id}",
                                     "type": "button",
@@ -100,6 +108,33 @@
                                                 },
                                                 {
                                                     "type": "group",
+                                                    "body": [{
+                                                        name: "ProgramInfo.admin_domain",
+                                                        type: "input-text",
+                                                        label: "后台域名",
+                                                        desc: "可绑定解析一个后台域名，访问后台时请使用该域名访问，填写后请确保域名已解析至当前服务器IP。(如不填写则不限域名登陆后台)"
+                                                    },
+                                                    {
+                                                        "type": "input-array",
+                                                        "name": "ProgramInfo.admin_ips",
+                                                        "label": "白名单IP",
+                                                        "items": {
+                                                            "type": "input-text",
+                                                            "name": "ip",
+                                                            "label": "ip",
+                                                            "maxLength": 15,
+                                                        }
+                                                        ,
+                                                        "addButtonText": "IP",
+                                                        "minItems": 0,
+                                                        "unique": true,
+                                                        "validationErrors": {
+                                                            "unique": "IP 地址不能重复"
+                                                        }
+                                                    }]
+                                                },
+                                                {
+                                                    "type": "group",
                                                     "body": [
                                                         {
                                                             name: "ProgramInfo.login_account",
@@ -126,7 +161,7 @@
                                                             label: "授权码${WebsiteSettings.auto_https_certificate ? '✅' : '⛔'}",
                                                             required: true,
                                                             "status": "pending",
-                                                            desc: "${authorization_info} 新服务器赠送1天时间的授权码，发送“右下角-设备机器码”至 https://t.me/MirrorElf 领取免费授权码"
+                                                            desc: "<span style=\"color: ${WebsiteSettings.auto_https_certificate ? 'green' : 'red'}; font-weight: bold;\">${authorization_info}</span> 新服务器赠送1天时间的授权码，发送“右下角-设备机器码”至 https://t.me/MirrorElf 领取免费授权码"
                                                         },
                                                     ]
                                                 },
@@ -214,28 +249,28 @@
                                                             type: "input-number",
                                                             label: "网站缓存·首页·过期时间",
                                                             required: true,
-                                                            desc: "单位：天 填0则永不过期"
+                                                            desc: "单位：天 填0永不过期"
                                                         },
                                                         {
                                                             name: "WebsiteSettings.website_cache_page_over_time",
                                                             type: "input-number",
                                                             label: "网站缓存·内页·过期时间",
                                                             required: true,
-                                                            desc: "单位：天 填0则永不过期"
+                                                            desc: "单位：天 填0永不过期"
                                                         },
                                                         {
                                                             name: "WebsiteSettings.target_cache_index_over_time",
                                                             type: "input-number",
                                                             label: "目标缓存·首页·过期时间",
                                                             required: true,
-                                                            desc: "单位：天 填0则永不过期"
+                                                            desc: "单位：天 填0永不过期"
                                                         },
                                                         {
                                                             name: "WebsiteSettings.target_cache_page_over_time",
                                                             type: "input-number",
                                                             label: "目标缓存·内页·过期时间",
                                                             required: true,
-                                                            desc: "单位：天 填0则永不过期"
+                                                            desc: "单位：天 填0永不过期"
                                                         },
                                                     ]
                                                 },

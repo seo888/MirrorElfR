@@ -736,6 +736,7 @@
 						"tpl": "<a href='http://${domain}' target='_blank' class='link-style'>${domain}</a>",
 						"name": "domain",
 						"label": "域名",
+						"sortable": true,
 						"fixed": "left",
 						"copyable": true,
 						"searchable": {
@@ -744,13 +745,37 @@
 							"maxLength": 1000
 						}
 					},
+					// {
+					// 	"name": "show_status",
+					// 	"label": "状态",
+					// 	"type": "text",
+					// 	// "deferApi": "/_api_/rest/v1/website/get_status?domain=${domain}",
+					// 	"initApi": "/_api/user_ip",
+					// },
+					// {
+					// 	"label": "状态",
+					// 	"type": "service",
+					// 	// 在 service 容器上配置 initApi，它一定会自动加载
+					// 	"api": "/_api/user_ip_json",
+					// 	"body": [
+					// 		{
+					// 		// 这里可以是 text 或 static
+					// 		"name": "show_status",
+					// 		"type": "static"
+					// 		// 这里不需要 api 了，它会自动使用 service 请求回来的数据
+					// 		// 假设 /_api/user_ip 返回 { "data": { "show_status": "在线" } }，这里就会自动显示“在线”
+					// 		}
+					// 	]
+					// },
 					{
 						"name": "to_lang",
-						"label": "语言"
+						"label": "语言",
+						"sortable": true,
 					},
 					{
 						"name": "root_domain",
 						"label": "根域名",
+						"sortable": true,
 						"copyable": true,
 						"popOver": {
 							"trigger": "hover",
@@ -773,6 +798,7 @@
 						"tpl": "${target_domain ? '<a href=\"javascript:void(0);\" class=\"link-icon\">' + target_domain + '</a>' : '无'}",
 						"name": "target_domain",
 						"label": "目标站",
+						"sortable": true,
 						"copyable": true,
 						"searchable": {
 							"name": "target",
