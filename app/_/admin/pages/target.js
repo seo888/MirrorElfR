@@ -520,10 +520,12 @@
 														"label": "目标域名"
 													},
 													{
-														"type": "static",
+														"type": "input-text",
 														"name": "lang",
 														"label": "语言",
-													}
+														"placeholder": "zh|en|ja|de... ",
+														"required": true
+													},
 												]
 											},
 											{
@@ -576,8 +578,8 @@
 								"actionType": "ajax",
 								"tooltipPlacement": "top",
 								"tooltip": "清空缓存",
-								"confirmText": "确认清空【${domain}】所有缓存数据？",
-								"api": "delete:/_api_/rest/v1/website_cache/delete?domain=${domain}",
+								"confirmText": "确认清空 目标站【${target_domain}】所有缓存数据？",
+								"api": "delete:/_api_/rest/v1/target_cache/delete?domain=${target_domain}",
 								"reload": "none"
 							},
 							{
