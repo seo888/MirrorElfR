@@ -577,7 +577,7 @@
 								"icon": "fa fa-eraser text-danger",
 								"actionType": "ajax",
 								"tooltipPlacement": "top",
-								"tooltip": "清空缓存",
+								"tooltip": "清空目标站缓存",
 								"confirmText": "确认清空 目标站【${target_domain}】所有缓存数据？",
 								"api": "delete:/_api_/rest/v1/target_cache/delete?domain=${target_domain}",
 								"reload": "none"

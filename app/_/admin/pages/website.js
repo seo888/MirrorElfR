@@ -794,27 +794,57 @@
 						}
 					},
 					{
-						"type": "tpl",
-						"tpl": "${target_domain ? '<a href=\"javascript:void(0);\" class=\"link-icon\">' + target_domain + '</a>' : '无'}",
-						"name": "target_domain",
 						"label": "目标站",
+						"name": "target_domain",
+						"type": "container",
+						// "inline": true,
 						"sortable": true,
-						"copyable": true,
+						// "copyable": true,
 						"searchable": {
 							"name": "target",
 							"clearable": true,
 							"maxLength": 1000
 						},
-						"onEvent": {
-							"click": {
-								"actions": [
-									{
-										"actionType": "custom",
-										"script": "if (event.data.target_domain) { window.open('http://' + event.data.target_domain, '_blank'); }"
+						"body": [
+							{
+								"type": "tpl",
+								"inline": true,
+								"tpl": "${target_domain ? '<a href=\"javascript:void(0);\" class=\"link-icon\">' + target_domain + '</a>' : '无'}",
+								"onEvent": {
+									"click": {
+										"actions": [
+											{
+												"actionType": "custom",
+												"script": "if (event.data.target_domain) { window.open('http://' + event.data.target_domain, '_blank'); }"
+											}
+										]
 									}
-								]
+								}
+							},
+							{
+								"type": "button",
+								"level": "link",
+								"icon": "fa fa-files-o text-muted",
+								"tooltip": "复制",
+								"tooltipPlacement": "right",
+								// "className": "m-l-xs p-0 min-w-0",
+								"actionType": "copy",
+								"content": "${target_domain}",
+								"visibleOn": "this.target_domain"
+							},
+							{
+								"type": "button",
+								"level": "link",
+								"icon": "fa fa-eraser text-danger",
+								"actionType": "ajax",
+								"tooltipPlacement": "top",
+								"tooltip": "清空目标站缓存",
+								"confirmText": "确认清空目标站【${target_domain}】所有缓存数据？",
+								"api": "delete:/_api_/rest/v1/target_cache/delete?domain=${target_domain}",
+								"className": "p-0 min-w-0",
+								"reload": "none"
 							}
-						}
+						]
 					},
 					{
 						"name": "conf.website_info.title",
@@ -824,7 +854,7 @@
 							"trigger": "hover",
 							"body": {
 								"type": "tpl",
-								"tpl": "${domain} 查标题排名：<a href='https://www.google.com/search?q=${conf.website_info.title}' target='_blank' class='link-style' title='${conf.website_info.title}'>谷歌</a> | <a href='https://www.bing.com/search?q=${conf.website_info.title}' target='_blank' class='link-style' title='${conf.website_info.title}'>必应</a> | <a href='https://www.baidu.com/s?wd=${conf.website_info.title}' target='_blank' class='link-style' title='${conf.website_info.title}'>百度</a> | <a href='https://www.sogou.com/web?query=${conf.website_info.title}' target='_blank' class='link-style' title='${conf.website_info.title}'>搜狗</a>"
+								"tpl": "${domain} 查标题排名：<br /><a href='https://www.google.com/search?q=${conf.website_info.title}' target='_blank' class='link-style' title='${conf.website_info.title}'>谷歌</a> | <a href='https://www.bing.com/search?q=${conf.website_info.title}' target='_blank' class='link-style' title='${conf.website_info.title}'>必应</a> | <a href='https://www.baidu.com/s?wd=${conf.website_info.title}' target='_blank' class='link-style' title='${conf.website_info.title}'>百度</a> | <a href='https://www.sogou.com/web?query=${conf.website_info.title}' target='_blank' class='link-style' title='${conf.website_info.title}'>搜狗</a>"
 							}
 						}
 					},
