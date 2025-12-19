@@ -797,6 +797,7 @@
 						"label": "目标站",
 						"name": "target_domain",
 						"type": "container",
+						"width": 210,
 						// "inline": true,
 						"sortable": true,
 						// "copyable": true,
@@ -827,7 +828,7 @@
 								"icon": "fa fa-files-o text-muted",
 								"tooltip": "复制",
 								"tooltipPlacement": "right",
-								// "className": "m-l-xs p-0 min-w-0",
+								"className": "p-1 min-w-1",
 								"actionType": "copy",
 								"content": "${target_domain}",
 								"visibleOn": "this.target_domain"

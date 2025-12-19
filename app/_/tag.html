@@ -365,21 +365,21 @@
             </div>
 
             <div id="id-grouping">
-                <h3><code>&#123;标签#99&#125;</code></h3>
+                <h3><code>&#123;标签 #99&#125;</code></h3>
                 <div class="tag-subsection">
                     <h4>功能后缀<code>#</code>加数字，id分组功能（全标签通用）</h4>
                     <div class="tag-example">
                         <div class="tag-description">id相同则表示同一个对象</div>
-                        <pre><code>&#123;^1234567890&#125;</code> ➡ {^1234567890}<br><code>&#123;^1234567890#99&#125;</code> ➡ {^1234567890#99} | <code>&#123;^1234567890#99&#125;</code> ➡ {^1234567890#99}</pre>
-                        <pre><code>&#123;^abcdefg&#125;</code> ➡ {^abcdefg}<br><code>&#123;^abcdefg#88&#125;</code> ➡ {^abcdefg#88} | <code>&#123;^abcdefg#88&#125;</code> ➡ {^abcdefg#88}</pre>
-                        <pre><code>&#123;apple|orange|banana&#125;</code> ➡ {apple|orange|banana}<br><code>&#123;apple|orange|banana#66&#125;</code> ➡ {apple|orange|banana#66} | <code>&#123;apple|orange|banana#66&#125;</code> ➡ {apple|orange|banana#66}</pre>
+                        <pre><code>&#123;^1234567890&#125;</code> ➡ {^1234567890}<br><code>&#123;^1234567890 #99&#125;</code> ➡ {^1234567890 #99} | <code>&#123;^1234567890 #99&#125;</code> ➡ {^1234567890 #99}</pre>
+                        <pre><code>&#123;^abcdefg&#125;</code> ➡ {^abcdefg}<br><code>&#123;^abcdefg #88&#125;</code> ➡ {^abcdefg #88} | <code>&#123;^abcdefg #88&#125;</code> ➡ {^abcdefg #88}</pre>
+                        <pre><code>&#123;apple|orange|banana&#125;</code> ➡ {apple|orange|banana}<br><code>&#123;apple|orange|banana #66&#125;</code> ➡ {apple|orange|banana #66} | <code>&#123;apple|orange|banana #66&#125;</code> ➡ {apple|orange|banana #66}</pre>
 
                     </div>
                     <div class="tag-example">
                         <div class="tag-description">同id可以获取一个站点的信息</div>
-                        <pre><code>&#123;*域名#18&#125;</code> ➡ {*域名#18}</pre>
-                        <pre><code>&#123;*标题#18&#125;</code> ➡ {*标题#18}</pre>
-                        <pre><code>&#123;*描述#18&#125;</code> ➡ {*描述#18}</pre>
+                        <pre><code>&#123;*域名 #18&#125;</code> ➡ {*域名 #18}</pre>
+                        <pre><code>&#123;*标题 #18&#125;</code> ➡ {*标题 #18}</pre>
+                        <pre><code>&#123;*描述 #18&#125;</code> ➡ {*描述 #18}</pre>
                     </div>
                 </div>
             </div>
@@ -640,7 +640,7 @@
                 <h4>获取当前网址路径以“/”分隔的最后一截的中文</h4>
                 <div class="tag-example">
                     <div class="tag-description"><code>&#123;路径关键词&#125;</code>，例如：http://www.example.com/tag/镜像站群软件<br>获取中文：镜像站群软件</div>
-                    <div class="tag-description"><code>&#123;path_keyword&#125;</code>，例如：http://www.example.com/tag/abcd<br>最后一段不是中文，则标签变为：&#123;@keyword#911&#125;，获取文档中的关键词，当前演示就是这种。</div>
+                    <div class="tag-description"><code>&#123;path_keyword&#125;</code>，例如：http://www.example.com/tag/abcd<br>最后一段不是中文，则标签变为：&#123;@keyword #911&#125;，获取文档中的关键词，当前演示就是这种。</div>
                     <pre><code>&#123;路径关键词&#125;</code> ➡ {路径关键词}<br><code>&#123;path_keyword&#125;</code> ➡ {path_keyword}</pre>
                 </div>
             </div>
@@ -649,31 +649,56 @@
         <div id="function-tags" class="tag-section">
             <h2>【函数标签】</h2>
             <div class="tag-description">
-                <code>&#123;!函数标签(参数1,参数2...)&#125;</code>，符号"!"为前缀，后面写函数名称与参数。
+                <code>&#123;%函数标签(参数1,参数2...)&#125;</code>，符号"%"为前缀，后面写函数名称与参数。
             </div>
 
             <div id="get-related">
-                <h3><code>&#123;!抽相关词(参数1,参数2,参数3)&#125; | &#123;!get_related(参数1,参数2,参数3)&#125;</code></h3>
+                <h3><code>&#123;%抽相关词(参数1,参数2,参数3)&#125; | &#123;%get_related(参数1,参数2,参数3)&#125;</code></h3>
                 <div class="tag-subsection">
                     <h4></h4>
                     <h4>参数1: <code>文档名称</code> 参数2: <code>关键词</code> 参数3[可选]: <code>限制至少存在相关词数量（默认1，大于此数才从中抽取相关词，否则直接返回文档中的随机数据）</code>传入一个关键词，随机抽取文档中与此匹配的相关词</h4>
                     
                     <div class="tag-example">
                         <div class="tag-description">
-                            <code>&#123;!抽相关词(keyword.txt,官方)&#125;</code>随机抽取<code>doc/keyword.txt</code>文档中与“官方”相关的关键词
+                            <code>&#123;%抽相关词(keyword.txt,官方)&#125;</code>随机抽取<code>doc/keyword.txt</code>文档中与“官方”相关的关键词
                         </div>
-                        <pre><code>&#123;!抽相关词(keyword.txt,官方)&#125;</code> ➡ {!抽相关词(keyword.txt,官方)}</pre>
+                        <pre><code>&#123;%抽相关词(keyword.txt,官方)&#125;</code> ➡ {%抽相关词(keyword.txt,官方)}</pre>
                     </div>
 
                     <div class="tag-example">
                         <div class="tag-description">
-                            <code>&#123;!get_related(keyword.txt,app下载,50)&#125;</code>随机抽取<code>doc/keyword.txt</code>文档中与“app下载”相关的关键词，且至少存在相关词数量50个才从中抽取相关词，否则直接返回文档中的随机数据
+                            <code>&#123;%get_related(keyword.txt,app下载,50)&#125;</code>随机抽取<code>doc/keyword.txt</code>文档中与“app下载”相关的关键词，且至少存在相关词数量50个才从中抽取相关词，否则直接返回文档中的随机数据
                         </div>
-                        <pre><code>&#123;!get_related(keyword.txt,app下载,50)&#125;</code> ➡ {!get_related(keyword.txt,app下载,50)}</pre>
+                        <pre><code>&#123;%get_related(keyword.txt,app下载,50)&#125;</code> ➡ {%get_related(keyword.txt,app下载,50)}</pre>
                     </div>
 
                 </div>
             </div>
+
+            <div id="html-encode">
+                <h3><code>&#123;%实体转码(参数)&#125; | &#123;%HtmlEncode(参数)&#125;</code></h3>
+                <div class="tag-subsection">
+                    <h4></h4>
+                    <h4>参数: <code>待转码的字符串</code> 传入字符串，转码为html实体编码。(实际只在html源码中可见)</h4>
+                    
+                    <div class="tag-example">
+                        <div class="tag-description">
+                            <code>&#123;%实体转码(这是一段中文)&#125;</code>html实体转码：<code>这是一段中文</code>
+                        </div>
+                        <pre><code>&#123;%实体转码(这是一段中文)&#125;</code> ➡ <xmp>{%实体转码(这是一段中文)}</xmp></pre>
+                    </div>
+
+                    <div class="tag-example">
+                        <div class="tag-description">
+                            <code>&#123;%HtmlEncode(这是一段中文)&#125;</code>HtmlEncode：<code>这是一段中文</code>
+                        </div>
+                        <pre><code>&#123;%HtmlEncode(这是一段中文)&#125;</code> ➡ <xmp>{%HtmlEncode(这是一段中文)}</xmp></pre>
+                    </div>
+
+                </div>
+            </div>
+
+
         </div>
 
         <div id="sample-tags" class="tag-section">
@@ -749,9 +774,9 @@
 
                     <div class="tag-example">
                         <div class="tag-description">
-                            <code>&#123;^@大小写字母(5_8)&#125;</code>随机抽取<code>doc/大小写字母.txt</code>文档中的<code>5到8</code>个字符
+                            <code>&#123;^@Abc(5_8)&#125;</code>随机抽取<code>doc/Abc.txt</code>文档中的<code>5到8</code>个字符
                         </div>
-                        <pre><code>&#123;^@大小写字母(5_8)&#125;</code> ➡ {^@大小写字母(5_8)}</pre>
+                        <pre><code>&#123;^@Abc(5_8)&#125;</code> ➡ {^@Abc(5_8)}</pre>
                     </div>
                 </div>
             </div>
