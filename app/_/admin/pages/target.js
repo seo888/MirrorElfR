@@ -28,7 +28,7 @@
 				"api": {
 					"url": "/_api_/rest/v1/target/query",
 					"method": "get",
-					"adaptor": "return {\n  \"status\": 0,\n  \"msg\": \"\",\n  \"data\": {\n    \"items\": payload.data,\n    \"count\": payload.total\n  }\n}"
+					"adaptor": "return {\n  \"status\": 0,\n  \"msg\": \"\",\n  \"data\": {\n    \"items\": payload.data,\n   \"total\": payload.total,\n  \"count\": payload.count,\n  \"items_count\": payload.data.length\  }\n}"
 				},
 				"perPageAvailable": [10, 20, 100, 500],
 				"perPage": 10,
@@ -343,11 +343,11 @@
 							}
 						}
 					},
-					{
-						"type": "tpl",
-						"tpl": "主站: ${www_count} | 泛站: ${web_count} | 共: ${total}",
-						"className": "v-middle"
-					},
+					// {
+					// 	"type": "tpl",
+					// 	"tpl": "主站: ${www_count} | 泛站: ${web_count} | 共: ${total}",
+					// 	"className": "v-middle"
+					// },
 					"reload",
 					{
 						"type": "columns-toggler",
@@ -415,7 +415,29 @@
 					// },
 					{
 						"name": "lang",
-						"label": "语言"
+						"label": "语言",
+						"sortable": true,
+						"searchable": {
+							"type": "select",
+							"name": "lang",
+							"label": "目标站语言",
+							"options": [
+								{
+									"label": "中文",
+									"value": "zh"
+								},
+								{
+									"label": "英文",
+									"value": "en"
+								},
+								{
+									"label": "所有",
+									"value": ""
+								}
+							],
+							"value": "",
+							"placeholder": "选择目标站语言"
+						}
 					},
 					{
 						"type": "tpl",
@@ -439,18 +461,18 @@
 							}
 						}
 					},
-					{
-						"name": "conf.target_info.title",
-						"label": "标题",
-						"copyable": true,
-						"popOver": {
-							"trigger": "hover",
-							"body": {
-								"type": "tpl",
-								"tpl": "${domain} 查标题排名：<a href='https://www.google.com/search?q=${conf.target_info.title}' target='_blank' class='link-style' title='${conf.target_info.title}'>谷歌</a> | <a href='https://www.bing.com/search?q=${conf.target_info.title}' target='_blank' class='link-style' title='${conf.target_info.title}'>必应</a> | <a href='https://www.baidu.com/s?wd=${conf.target_info.title}' target='_blank' class='link-style' title='${conf.target_info.title}'>百度</a> | <a href='https://www.sogou.com/web?query=${conf.target_info.title}' target='_blank' class='link-style' title='${conf.target_info.title}'>搜狗</a>"
-							}
-						}
-					},
+					// {
+					// 	"name": "conf.target_info.title",
+					// 	"label": "标题",
+					// 	"copyable": true,
+					// 	"popOver": {
+					// 		"trigger": "hover",
+					// 		"body": {
+					// 			"type": "tpl",
+					// 			"tpl": "${domain} 查标题排名：<a href='https://www.google.com/search?q=${conf.target_info.title}' target='_blank' class='link-style' title='${conf.target_info.title}'>谷歌</a> | <a href='https://www.bing.com/search?q=${conf.target_info.title}' target='_blank' class='link-style' title='${conf.target_info.title}'>必应</a> | <a href='https://www.baidu.com/s?wd=${conf.target_info.title}' target='_blank' class='link-style' title='${conf.target_info.title}'>百度</a> | <a href='https://www.sogou.com/web?query=${conf.target_info.title}' target='_blank' class='link-style' title='${conf.target_info.title}'>搜狗</a>"
+					// 		}
+					// 	}
+					// },
 					{
 						"type": "datetime",
 						"name": "updated_at",

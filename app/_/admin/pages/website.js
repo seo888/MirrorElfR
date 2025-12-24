@@ -27,7 +27,7 @@
 				"api": {
 					"url": "/_api_/rest/v1/website/query",
 					"method": "get",
-					"adaptor": "return {\n  \"status\": 0,\n  \"msg\": \"\",\n  \"data\": {\n    \"items\": payload.data,\n    \"count\": payload.total\n  }\n}"
+					"adaptor": "return {\n  \"status\": 0,\n  \"msg\": \"\",\n  \"data\": {\n    \"items\": payload.data,\n    \"total\": payload.total,\n  \"www_total\": payload.www_total,\n  \"count\": payload.count,\n  \"items_count\": payload.data.length\  }\n}"
 				},
 				"perPageAvailable": [10, 20, 100, 500],
 				"perPage": 10,
@@ -663,7 +663,7 @@
 					},
 					{
 						"type": "tpl",
-						"tpl": "主站: ${www_count} | 泛站: ${web_count} | 共: ${total}",
+						"tpl": "主站: ${www_total} | 泛站: ${total-www_total} | 共: ${total}",
 						"className": "v-middle"
 					},
 					"reload",
@@ -807,6 +807,26 @@
 							"maxLength": 1000
 						},
 						"body": [
+							// {
+							// "type": "icon",
+							// "icon": "fa fa-globe text-primary",   // 或: "fa fa-link", "iconfont icon-website" 等
+							// "className": "pr-1"
+							// },
+							{
+							"type": "tpl",
+							"className": "pr-2 text-2xl text-primary",
+							"tpl":"<span style=\"font-size: 0.5em;\">${target_lang} |</span>",
+
+							// "icon": "${target_lang === 'zh' ? 'fi fi-cn' : target_lang === 'en' ? 'fi fi-us' : 'fa fa-globe'}",
+							// "icon": "${target_lang}",
+							// "visible": "this.target_lang"
+							},
+							// {
+							// "type": "icon",
+							// "className": "pr-1",
+							// "icon": "${target_lang === 'zh' ? 'fa fa-globe-asia' : target_lang === 'en' ? 'fa fa-globe-americas' : 'fa fa-globe'}",
+							// "visible": "this.target_lang"
+							// },
 							{
 								"type": "tpl",
 								"inline": true,
