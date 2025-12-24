@@ -172,12 +172,6 @@
                                                     disabled: true,  // 设置为只读
                                                     desc: "可使用远程pgsql数据库，如需更改请于服务器文件中修改。(重启程序生效)"
                                                 },
-                                                // {
-                                                //     name: "ProgramInfo.safeline_token",
-                                                //     type: "input-text",
-                                                //     label: "雷池Token",
-                                                //     desc: "与防火墙通信，展示网站数据、自动https证书，请务必正确填写"
-                                                // }
                                             ]
                                         }
                                     ]
@@ -191,6 +185,11 @@
                                             title: "建站设置",
                                             body: [
                                                 {
+                                                    "type": "divider",
+                                                    "title": "【主站·自动建站设置】",
+                                                    "titlePosition": "center"
+                                                },
+                                                {
                                                     "type": "group",
                                                     "body": [
                                                         {
@@ -198,20 +197,123 @@
                                                             type: "switch",
                                                             onText: "开启",
                                                             offText: "关闭",
-                                                            label: "自动建站"
-                                                        }, {
+                                                            label: "主站·自动建站"
+                                                        },
+                                                        {
+                                                            name: "WebsiteSettings.target_get_method",
+                                                            type: "radios",
+                                                            label: "主站·自动建站·目标站策略",
+                                                            value: "tem",
+                                                            options: [
+                                                                { label: "文档中随机获取", value: "doc_random" },
+                                                                { label: "文档抽取并移除", value: "doc_pop" },
+                                                                { label: "引用现有目标站", value: "tem" }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "type": "group",
+                                                    "body": [
+                                                        {
+                                                            name: "WebsiteSettings.target_doc_name",
+                                                            type: "input-text",
+                                                            placeholder: "target.txt",
+                                                            label: "主站·目标站文档"
+                                                        },
+
+                                                        {
+                                                            name: "WebsiteSettings.target_use_limit",
+                                                            type: "select",
+                                                            label: "主站·目标站筛选（引用数量）",
+                                                            value: "eq0",
+                                                            options: [
+                                                                { label: "等于0", value: "eq0" },
+                                                                { label: "大于0", value: "gt0" },
+                                                                { label: "等于1", value: "eq1" },
+                                                                { label: "大于1", value: "gt1" },
+                                                                { label: "小于2", value: "lt2" },
+                                                                { label: "小于5", value: "lt5" },
+                                                                { label: "小于10", value: "lt10" },
+                                                                { label: "小于100", value: "lt100" },
+                                                            ]
+                                                        },
+                                                    ]
+                                                },
+                                                {
+                                                    "type": "divider",
+                                                    "title": "【泛站·自动建站设置】",
+                                                    "titlePosition": "center"
+                                                },
+                                                {
+                                                    "type": "group",
+                                                    "body": [
+                                                        {
                                                             name: "WebsiteSettings.pan_site_auto_site_building",
                                                             type: "switch",
                                                             onText: "开启",
                                                             offText: "关闭",
-                                                            label: "泛站自动建站"
+                                                            label: "泛站·自动建站"
                                                         },
                                                         {
-                                                            name: "WebsiteSettings.pan_site_crawler_target",
-                                                            type: "switch",
-                                                            onText: "开启",
-                                                            offText: "关闭",
-                                                            label: "泛站爬取目标"
+                                                            name: "WebsiteSettings.pan_site_target_get_method",
+                                                            type: "radios",
+                                                            label: "泛站·自动建站·目标站策略",
+                                                            value: "tem",
+                                                            options: [
+                                                                { label: "文档中随机获取", value: "doc_random" },
+                                                                { label: "文档抽取并移除", value: "doc_pop" },
+                                                                { label: "引用现有目标站", value: "tem" }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "type": "group",
+                                                    "body": [
+                                                        {
+                                                            name: "WebsiteSettings.pan_site_target_doc_name",
+                                                            type: "input-text",
+                                                            placeholder: "pan_target.txt",
+                                                            label: "泛站·目标站文档"
+                                                        },
+                                                        {
+                                                            name: "WebsiteSettings.pan_site_target_use_limit",
+                                                            type: "select",
+                                                            label: "泛站·目标站筛选（引用数量）",
+                                                            value: "lt10",
+                                                            options: [
+                                                                { label: "等于0", value: "eq0" },
+                                                                { label: "大于0", value: "gt0" },
+                                                                { label: "等于1", value: "eq1" },
+                                                                { label: "大于1", value: "gt1" },
+                                                                { label: "小于2", value: "lt2" },
+                                                                { label: "小于5", value: "lt5" },
+                                                                { label: "小于10", value: "lt10" },
+                                                                { label: "小于100", value: "lt100" },
+                                                            ]
+                                                        },
+
+                                                    ]
+                                                },
+                                                {
+                                                    "type": "divider",
+                                                    "title": "【通用设置】",
+                                                    "titlePosition": "center"
+                                                },
+                                                {
+                                                    "type": "group",
+                                                    "body": [
+                                                        {
+                                                            name: "WebsiteSettings.language",
+                                                            type: "select",
+                                                            label: "自动建站语言",
+                                                            value: "zh",
+                                                            options: [
+                                                                { label: "中文", value: "zh" },
+                                                                { label: "英文", value: "en" },
+                                                                { label: "葡萄牙文", value: "pt" }
+                                                            ]
                                                         },
                                                         {
                                                             name: "WebsiteSettings.link_mapping",
@@ -220,27 +322,21 @@
                                                             offText: "关闭",
                                                             label: "链接映射"
                                                         },
-                                                    ]
+                                                        {
+                                                            name: "WebsiteSettings.crawler_target",
+                                                            type: "switch",
+                                                            onText: "开启",
+                                                            offText: "关闭",
+                                                            label: "爬取目标"
+                                                        },
+                                                        {
+                                                            name: "WebsiteSettings.pan_site_crawler_target",
+                                                            type: "switch",
+                                                            onText: "开启",
+                                                            offText: "关闭",
+                                                            label: "泛站爬取目标"
+                                                        }]
                                                 },
-
-                                                {
-                                                    name: "WebsiteSettings.language",
-                                                    type: "radios",
-                                                    label: "自动建站语言",
-                                                    value: "zh",
-                                                    options: [
-                                                        { label: "中文", value: "zh" },
-                                                        { label: "英文", value: "en" },
-                                                        { label: "葡萄牙文", value: "pt" }
-                                                    ]
-                                                },
-                                                // {
-                                                //     name: "WebsiteSettings.auto_https_certificate",
-                                                //     type: "switch",
-                                                //     onText: "开启",
-                                                //     offText: "关闭",
-                                                //     label: "自动https"
-                                                // },
                                                 {
                                                     "type": "group",
                                                     "body": [
@@ -345,46 +441,46 @@
                                         }
                                     ]
                                 },
-                                // {
-                                //     title: "目录功能",
-                                //     body: [
-                                //         {
-                                //             type: "fieldSet",
-                                //             collapsable: true,
-                                //             title: "目录功能",
-                                //             body: [
-                                //                 {
-                                //                     name: "DirectoryFunctions.template_mode",
-                                //                     type: "radios",
-                                //                     label: "模板模式",
-                                //                     value: "关闭",
-                                //                     options: [
-                                //                         { label: "关闭: 不调用模板", value: "关闭" },
-                                //                         { label: "404: 目标站404时返回模板", value: "404" },
-                                //                         { label: "泛目录: 所有内页调用模板，缓存页面", value: "泛目录" },
-                                //                         { label: "蜘蛛池: 所有内页调用模板，不缓存页面", value: "蜘蛛池" }
-                                //                     ]
-                                //                 },
-                                //                 {
-                                //                     name: "DirectoryFunctions.tdk_format",
-                                //                     type: "input-text",
-                                //                     label: "TDK格式"
-                                //                 },
-                                //                 {
-                                //                     name: "DirectoryFunctions.map_link_format",
-                                //                     type: "input-text",
-                                //                     label: "地图链接格式"
-                                //                 },
-                                //                 {
-                                //                     name: "DirectoryFunctions.map_link_count",
-                                //                     type: "input-number",
-                                //                     label: "地图链接数量",
-                                //                     required: true
-                                //                 }
-                                //             ]
-                                //         }
-                                //     ]
-                                // },
+                                {
+                                    title: "目录功能",
+                                    body: [
+                                        {
+                                            type: "fieldSet",
+                                            collapsable: true,
+                                            title: "目录功能",
+                                            body: [
+                                                {
+                                                    name: "DirectoryFunctions.template_mode",
+                                                    type: "radios",
+                                                    label: "模板模式",
+                                                    value: "关闭",
+                                                    options: [
+                                                        { label: "关闭: 不调用模板", value: "关闭" },
+                                                        { label: "404: 目标站404时返回模板", value: "404" },
+                                                        { label: "泛目录: 所有内页调用模板，缓存页面", value: "泛目录" },
+                                                        { label: "蜘蛛池: 所有内页调用模板，不缓存页面", value: "蜘蛛池" }
+                                                    ]
+                                                },
+                                                {
+                                                    name: "DirectoryFunctions.tdk_format",
+                                                    type: "input-text",
+                                                    label: "TDK格式"
+                                                },
+                                                {
+                                                    name: "DirectoryFunctions.map_link_format",
+                                                    type: "input-text",
+                                                    label: "地图链接格式"
+                                                },
+                                                {
+                                                    name: "DirectoryFunctions.map_link_count",
+                                                    type: "input-number",
+                                                    label: "地图链接数量",
+                                                    // required: true
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
                                 {
                                     title: "SEO功能",
                                     body: [
@@ -393,31 +489,6 @@
                                             collapsable: true,
                                             title: "SEO功能",
                                             body: [
-                                                // {
-                                                //     name: "SEOFunctions.external_link_strategy",
-                                                //     type: "checkboxes",
-                                                //     label: "外链替换策略",
-                                                //     checkAll: true,
-                                                //     optionType: "button",
-                                                //     options: [
-                                                //         { label: "当前域名·内链", value: "1" },
-                                                //         { label: "主站·内链", value: "2" },
-                                                //         { label: "泛站·首页", value: "3" },
-                                                //         { label: "泛站·内链", value: "4" },
-                                                //         { label: "【全服】主站·首页", value: "5" },
-                                                //         { label: "【全服】主站·内链", value: "6" },
-                                                //         { label: "【全服】泛站·首页", value: "7" },
-                                                //         { label: "【全服】泛站·内链", value: "8" },
-                                                //     ]
-                                                // },
-
-                                                // {
-                                                //     name: "SEOFunctions.h1_seo",
-                                                //     type: "switch",
-                                                //     onText: "开启",
-                                                //     offText: "关闭",
-                                                //     label: "插入H1标签"
-                                                // },
                                                 {
                                                     "type": "group",
                                                     "body": [
@@ -496,29 +567,6 @@
                                                             }
                                                         },]
                                                 },
-                                                // {
-                                                //     name: "SEOFunctions.h1_seo",
-                                                //     type: "textarea",
-                                                //     label: "插入全局代码（H1标签seo）",
-                                                //     placeholder: '<h1><a target="_blank" title="{标题}" href="{首页}">{核心词}</a></h1>',
-                                                //     desc: 'body起始处插入html代码，一般用于插入H1标签。&lt;h1&gt;&lt;a target="_blank" title="{标题}" href="{首页}">{核心词}&lt;/a&gt;&lt;/h1&gt;，更多标签详情请查看《标签文档》（搜索引擎蜘蛛正常加载）',
-                                                // },
-                                                //                                 {
-                                                //   "type": "children",
-                                                //   "title": "插入全局代码",
-                                                //   "body": [
-                                                //     {
-                                                //       "name": "SEOFunctions.head_header",
-                                                //       "type": "textarea",
-                                                //       "label": "head头部"
-                                                //     },
-                                                //     {
-                                                //       "name": "SEOFunctions.head_footer",
-                                                //       "type": "textarea",
-                                                //       "label": "head尾部"
-                                                //     }
-                                                //   ]
-                                                // },
                                                 {
                                                     "type": "group",
                                                     "body": [
@@ -557,19 +605,6 @@
                                                     required: true,
                                                     desc: "填0关闭"
                                                 },
-                                                // {
-                                                //     name: "SEOFunctions.friend_link_mode",
-                                                //     type: "radios",
-                                                //     label: "友链样式",
-                                                //     // checkAll: true,
-                                                //     // optionType: "button",
-                                                //     options: [
-                                                //         { label: '<a target="_blank" title="{标题}" href="{网址}">{标题}</a>', value: "1" },
-                                                //         { label: '<a target="_blank" title="{核心词}" href="{网址}">{核心词}</a>', value: "2" },
-                                                //         { label: '<a target="_blank" href="{网址}">{标题}</a>', value: "3" },
-                                                //         { label: '<a target="_blank" href="{网址}">{核心词}</a>', value: "4" },
-                                                //     ]
-                                                // },
                                                 {
                                                     "type": "input-array",
                                                     "name": "SEOFunctions.friend_links",
@@ -624,12 +659,6 @@
                                                     offText: "关闭",
                                                     label: "IP与非域名来路"
                                                 },
-
-                                                // {
-                                                //     name: "AccessPolicy.ua_banlist",
-                                                //     type: "textarea",
-                                                //     label: "UA黑名单"
-                                                // },
                                                 {
                                                     "type": "group",
                                                     "body": [

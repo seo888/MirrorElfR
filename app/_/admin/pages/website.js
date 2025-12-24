@@ -797,7 +797,7 @@
 						"label": "目标站",
 						"name": "target_domain",
 						"type": "container",
-						"width": 210,
+						"width": 225,
 						// "inline": true,
 						"sortable": true,
 						// "copyable": true,
@@ -814,7 +814,7 @@
 							// },
 							{
 							"type": "tpl",
-							"className": "pr-2 text-2xl text-primary",
+							"className": "pr-1 text-2xl text-primary",
 							"tpl":"<span style=\"font-size: 0.5em;\">${target_lang} |</span>",
 
 							// "icon": "${target_lang === 'zh' ? 'fi fi-cn' : target_lang === 'en' ? 'fi fi-us' : 'fa fa-globe'}",

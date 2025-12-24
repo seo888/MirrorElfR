@@ -5,12 +5,12 @@
 			"title": "目标管理",
 			"body": {
 				"type": "crud",
-				"itemBadge": {
-					"text": "${subdomain == 'www' ? '主站' : '泛站'}",
-					"mode": "ribbon",
-					"position": "top-left",
-					"level": "${subdomain == 'www' ? 'info' : 'danger'}"
-				},
+				// "itemBadge": {
+				// 	"text": "${subdomain == 'www' ? '主站' : '泛站'}",
+				// 	"mode": "ribbon",
+				// 	"position": "top-left",
+				// 	"level": "${subdomain == 'www' ? 'info' : 'danger'}"
+				// },
 				"onEvent": {
 					"selectedChange": {
 						"actions": [
@@ -413,6 +413,32 @@
 					// 		"placeholder": "选择站点类型"
 					// 	}
 					// },
+					// {
+					// 	"name": "lang",
+					// 	"label": "语言",
+					// 	"sortable": true,
+					// 	"searchable": {
+					// 		"type": "select",
+					// 		"name": "lang",
+					// 		"label": "目标站语言",
+					// 		"options": [
+					// 			{
+					// 				"label": "中文",
+					// 				"value": "zh"
+					// 			},
+					// 			{
+					// 				"label": "英文",
+					// 				"value": "en"
+					// 			},
+					// 			{
+					// 				"label": "所有",
+					// 				"value": ""
+					// 			}
+					// 		],
+					// 		"value": "",
+					// 		"placeholder": "选择目标站语言"
+					// 	}
+					// },
 					{
 						"name": "lang",
 						"label": "语言",
@@ -422,45 +448,94 @@
 							"name": "lang",
 							"label": "目标站语言",
 							"options": [
-								{
-									"label": "中文",
-									"value": "zh"
-								},
-								{
-									"label": "英文",
-									"value": "en"
-								},
-								{
-									"label": "所有",
-									"value": ""
-								}
+								{ "label": "中文", "value": "zh" },
+								{ "label": "英文", "value": "en" },
+								{ "label": "所有", "value": "" }
 							],
 							"value": "",
 							"placeholder": "选择目标站语言"
-						}
+						},
+						"tpl": "${lang === 'zh' ? '中文' : lang === 'en' ? '英文' : lang || '其它'}"
 					},
 					{
-						"type": "tpl",
-						"tpl": "${target_domain ? '<a href=\"javascript:void(0);\" class=\"link-icon\">' + target_domain + '</a>' : '无'}",
-						"name": "target_domain",
 						"label": "目标站",
-						"copyable": true,
+						"name": "target_domain",
+						"type": "container",
+						// "width": 220,
+						"inline": true,
+						"sortable": true,
+						// "copyable": true,
 						"searchable": {
 							"name": "target",
 							"clearable": true,
 							"maxLength": 1000
 						},
-						"onEvent": {
-							"click": {
-								"actions": [
-									{
-										"actionType": "custom",
-										"script": "if (event.data.target_domain) { window.open('http://' + event.data.target_domain, '_blank'); }"
+						"body": [
+							{
+								"type": "tpl",
+								"className": "pr-1 text-2xl text-primary",
+								"tpl": "<span style=\"font-size: 0.5em;\">${lang} |</span>",
+							},
+							{
+								"type": "tpl",
+								"inline": true,
+								"tpl": "${target_domain ? '<a href=\"javascript:void(0);\" class=\"link-icon\">' + target_domain + '</a>' : '无'}",
+								"onEvent": {
+									"click": {
+										"actions": [
+											{
+												"actionType": "custom",
+												"script": "if (event.data.target_domain) { window.open('http://' + event.data.target_domain, '_blank'); }"
+											}
+										]
 									}
-								]
-							}
-						}
+								}
+							},
+							{
+								"type": "button",
+								"level": "link",
+								"icon": "fa fa-files-o text-muted",
+								"tooltip": "复制",
+								"tooltipPlacement": "right",
+								"className": "p-1 min-w-1",
+								"actionType": "copy",
+								"content": "${target_domain}",
+								"visibleOn": "this.target_domain"
+							},
+						]
 					},
+					// {
+					// 	// "type": "tpl",
+					// 	"type": "container",
+					// 	"tpl": "${target_domain ? '<a href=\"javascript:void(0);\" class=\"link-icon\">' + target_domain + '</a>' : '无'}",
+					// 	"name": "target_domain",
+					// 	"label": "目标站",
+					// 	"copyable": true,
+					// 	"searchable": {
+					// 		"name": "target",
+					// 		"clearable": true,
+					// 		"maxLength": 1000
+					// 	},
+					// 	"body": [{
+					// 		"type": "tpl",
+					// 		"className": "pr-1 text-2xl text-primary",
+					// 		"tpl": "<span style=\"font-size: 0.5em;\">${lang} |</span>",
+
+					// 		// "icon": "${target_lang === 'zh' ? 'fi fi-cn' : target_lang === 'en' ? 'fi fi-us' : 'fa fa-globe'}",
+					// 		// "icon": "${target_lang}",
+					// 		// "visible": "this.target_lang"
+					// 	},],
+					// 	"onEvent": {
+					// 		"click": {
+					// 			"actions": [
+					// 				{
+					// 					"actionType": "custom",
+					// 					"script": "if (event.data.target_domain) { window.open('http://' + event.data.target_domain, '_blank'); }"
+					// 				}
+					// 			]
+					// 		}
+					// 	}
+					// },
 					// {
 					// 	"name": "conf.target_info.title",
 					// 	"label": "标题",
@@ -473,6 +548,30 @@
 					// 		}
 					// 	}
 					// },
+					// {
+					// 	"name": "website_used_count",
+					// 	"label": "引用网站数量",
+					// 	"copyable": true,
+					// 	"popOver": {
+					// 		"trigger": "hover",
+					// 		"body": {
+					// 			"type": "tpl",
+					// 			"tpl": "引用网站详情：${website_used_domains}"
+					// 		}
+					// 	}
+					// },
+					{
+						"name": "website_used_count",
+						"label": "引用数量",
+						"copyable": true,
+						"popOver": {
+							"trigger": "hover",
+							"body": {
+								"type": "tpl",
+								"tpl": "${website_used_domains | join: ' , '}"
+							}
+						}
+					},
 					{
 						"type": "datetime",
 						"name": "updated_at",

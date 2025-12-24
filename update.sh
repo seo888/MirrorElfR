@@ -151,6 +151,43 @@ if [ ! -d "$POSTGRES_DATA_DIR" ]; then
   chmod 700 "$POSTGRES_DATA_DIR"
 fi
 
+
+# 检查并config.yml
+app="/www/MirrorElfR/app"
+
+# 定义配置文件路径
+config_file="/www/MirrorElfR/app/config/config.yml"
+
+# 定义替换文本
+replacement_text=$'  target_get_method: doc_random\n  target_doc_name: target.txt\n  target_use_limit: eq0\n  pan_site_target_get_method: doc_pop\n  pan_site_target_doc_name: pan_target.txt\n  pan_site_target_use_limit: lt2\n  crawler_target: true'
+
+# 写入临时文件
+printf "%s\n" "$replacement_text" > /tmp/temp_replacement.txt
+
+# 检查临时文件内容（调试用）
+echo "临时文件内容："
+cat /tmp/temp_replacement.txt
+
+# 检查配置文件是否包含必要标记
+if ! grep -q "target_get_method" "$config_file"; then
+  # 替换内容
+  sed -i.bak '
+    /^WebsiteSettings:/,/^auto_site_building:/ {
+      /^WebsiteSettings:/ {
+        p
+        r /tmp/temp_replacement.txt
+        d
+      }
+      /^auto_site_building:/ {
+        p
+        d
+      }
+      d
+    }
+  ' "$config_file"
+  echo "替换完成"
+fi
+
 # 清理临时文件
 rm -f /tmp/temp_replacement.txt
 
