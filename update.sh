@@ -158,38 +158,25 @@ app="/www/MirrorElfR/app"
 # 定义配置文件路径
 config_file="/www/MirrorElfR/app/config/config.yml"
 
-# 定义替换文本
-replacement_text=$'  target_get_method: doc_random\n  target_doc_name: target.txt\n  target_use_limit: eq0\n  pan_site_target_get_method: doc_pop\n  pan_site_target_doc_name: pan_target.txt\n  pan_site_target_use_limit: lt2\n  crawler_target: true'
-
-# 写入临时文件
-printf "%s\n" "$replacement_text" > /tmp/temp_replacement.txt
-
-# 检查临时文件内容（调试用）
-echo "临时文件内容："
-cat /tmp/temp_replacement.txt
-
-# 检查配置文件是否包含必要标记
+# 如果文件不存在target_get_method配置，则在WebsiteSettings后面插入
 if ! grep -q "target_get_method" "$config_file"; then
-  # 替换内容
-  sed -i.bak '
-    /^WebsiteSettings:/,/^auto_site_building:/ {
-      /^WebsiteSettings:/ {
-        p
-        r /tmp/temp_replacement.txt
-        d
-      }
-      /^auto_site_building:/ {
-        p
-        d
-      }
-      d
-    }
-  ' "$config_file"
-  echo "替换完成"
+  # 备份原文件
+  cp "$config_file" "$config_file.bak"
+  
+  # 在WebsiteSettings:后面插入配置
+  sed -i '/^WebsiteSettings:/a\
+  target_get_method: doc_random\
+  target_doc_name: target.txt\
+  target_use_limit: eq0\
+  pan_site_target_get_method: doc_pop\
+  pan_site_target_doc_name: pan_target.txt\
+  pan_site_target_use_limit: lt2\
+  crawler_target: true' "$config_file"
+  
+  echo "配置已添加"
+else
+  echo "配置已存在，无需添加"
 fi
-
-# 清理临时文件
-rm -f /tmp/temp_replacement.txt
 
 # 重启容器
 docker compose down && docker compose up -d || exit 1
