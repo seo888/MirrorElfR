@@ -461,7 +461,7 @@
 						"label": "目标站",
 						"name": "target_domain",
 						"type": "container",
-						// "width": 220,
+						"width": 225,
 						"inline": true,
 						"sortable": true,
 						// "copyable": true,
@@ -536,18 +536,11 @@
 					// 		}
 					// 	}
 					// },
-					// {
-					// 	"name": "conf.target_info.title",
-					// 	"label": "标题",
-					// 	"copyable": true,
-					// 	"popOver": {
-					// 		"trigger": "hover",
-					// 		"body": {
-					// 			"type": "tpl",
-					// 			"tpl": "${domain} 查标题排名：<a href='https://www.google.com/search?q=${conf.target_info.title}' target='_blank' class='link-style' title='${conf.target_info.title}'>谷歌</a> | <a href='https://www.bing.com/search?q=${conf.target_info.title}' target='_blank' class='link-style' title='${conf.target_info.title}'>必应</a> | <a href='https://www.baidu.com/s?wd=${conf.target_info.title}' target='_blank' class='link-style' title='${conf.target_info.title}'>百度</a> | <a href='https://www.sogou.com/web?query=${conf.target_info.title}' target='_blank' class='link-style' title='${conf.target_info.title}'>搜狗</a>"
-					// 		}
-					// 	}
-					// },
+					{
+						"name": "conf.target_title",
+						"label": "标题",
+						"copyable": true,
+					},
 					// {
 					// 	"name": "website_used_count",
 					// 	"label": "引用网站数量",
@@ -651,7 +644,7 @@
 											},
 											{
 												"type": "static",
-												"name": "conf.website_info.title",
+												"name": "conf.target_title",
 												"label": "目标站标题",
 											},
 											{

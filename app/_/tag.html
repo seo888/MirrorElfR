@@ -653,23 +653,25 @@
             </div>
 
             <div id="get-related">
-                <h3><code>&#123;%抽相关词(参数1,参数2,参数3)&#125; | &#123;%get_related(参数1,参数2,参数3)&#125;</code></h3>
+                <h3><code>&#123;%抽相关词(参数1,参数2,参数3)&#125; | &#123;%Related(参数1,参数2,参数3)&#125;</code></h3>
                 <div class="tag-subsection">
                     <h4></h4>
-                    <h4>参数1: <code>文档名称</code> 参数2: <code>关键词</code> 参数3[可选]: <code>限制至少存在相关词数量（默认1，大于此数才从中抽取相关词，否则直接返回文档中的随机数据）</code>传入一个关键词，随机抽取文档中与此匹配的相关词</h4>
+                    <h4>参数1: <code>@文档名</code> 参数2: <code>关键词</code> 参数3[可选]: <code>限制至少存在相关词数量（默认1，大于此数才从中抽取相关词，否则直接返回文档中的随机数据）</code>传入一个关键词，随机抽取文档中与此匹配的相关词</h4>
                     
                     <div class="tag-example">
                         <div class="tag-description">
-                            <code>&#123;%抽相关词(keyword.txt,官方)&#125;</code>随机抽取<code>doc/keyword.txt</code>文档中与“官方”相关的关键词
+                            <code>&#123;%抽相关词(@keyword,官方)&#125;</code>随机抽取<code>doc/keyword.txt</code>文档中与“官方”相关的关键词
                         </div>
-                        <pre><code>&#123;%抽相关词(keyword.txt,官方)&#125;</code> ➡ {%抽相关词(keyword.txt,官方)}</pre>
+                        <pre><code>&#123;%抽相关词(@keyword,官方)&#125;</code> ➡ {%抽相关词(@keyword,官方) #99}</pre>
                     </div>
 
                     <div class="tag-example">
                         <div class="tag-description">
-                            <code>&#123;%get_related(keyword.txt,app下载,50)&#125;</code>随机抽取<code>doc/keyword.txt</code>文档中与“app下载”相关的关键词，且至少存在相关词数量50个才从中抽取相关词，否则直接返回文档中的随机数据
+                            <code>&#123;%Related(@keyword,app下载,50)&#125;</code>随机抽取<code>doc/keyword.txt</code>文档中与“app下载”相关的关键词，且至少存在相关词数量50个才从中抽取相关词，否则直接返回文档中的随机数据
                         </div>
-                        <pre><code>&#123;%get_related(keyword.txt,app下载,50)&#125;</code> ➡ {%get_related(keyword.txt,app下载,50)}</pre>
+                        <pre><code>&#123;%Related(@keyword,app下载,50)&#125;</code> ➡ {%Related(@keyword,app下载,50)#99}</pre>
+                        <pre>标签嵌套使用(生成网站title)：<br /><code>&#123;@keyword #98&#125; - &#123;%Related(@keyword,&#123;@keyword #98&#125;,2) #99&#125; | &#123;%Related(@keyword,&#123;@keyword #98&#125;,2) #999&#125;</code> ➡ {@keyword #98} - {%Related(@keyword,{@keyword #98},2) #99} | {%Related(@keyword,{@keyword #98},2) #999}</pre>
+                        <pre>标签嵌套使用(生成网站keywords)：<br /><code>&#123;@keyword #98&#125;,&#123;%Related(@keyword,&#123;@keyword #98&#125;,2) #99&#125;,&#123;%Related(@keyword,&#123;@keyword #98&#125;,2) #999&#125;</code> ➡ {@keyword #98},{%Related(@keyword,{@keyword #98},2) #99},{%Related(@keyword,{@keyword #98},2) #999}</pre>
                     </div>
 
                 </div>

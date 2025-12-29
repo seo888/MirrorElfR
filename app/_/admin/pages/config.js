@@ -202,7 +202,7 @@
                                                         {
                                                             name: "WebsiteSettings.target_get_method",
                                                             type: "radios",
-                                                            label: "主站·自动建站·目标站策略",
+                                                            label: "目标站来源",
                                                             value: "tem",
                                                             options: [
                                                                 { label: "文档中随机获取", value: "doc_random" },
@@ -216,16 +216,9 @@
                                                     "type": "group",
                                                     "body": [
                                                         {
-                                                            name: "WebsiteSettings.target_doc_name",
-                                                            type: "input-text",
-                                                            placeholder: "target.txt",
-                                                            label: "主站·目标站文档"
-                                                        },
-
-                                                        {
                                                             name: "WebsiteSettings.target_use_limit",
                                                             type: "select",
-                                                            label: "主站·目标站筛选（引用数量）",
+                                                            label: "目标站筛选（引用数量）",
                                                             value: "eq0",
                                                             options: [
                                                                 { label: "等于0", value: "eq0" },
@@ -238,8 +231,92 @@
                                                                 { label: "小于100", value: "lt100" },
                                                             ]
                                                         },
+                                                        {
+                                                            name: "WebsiteSettings.target_doc_name",
+                                                            type: "input-text",
+                                                            placeholder: "target.txt",
+                                                            label: "目标站文档"
+                                                        }
                                                     ]
                                                 },
+                                                {
+                                                    "type": "group",
+                                                    "body": [{
+                                                        name: "WebsiteSettings.tdk_mode",
+                                                        type: "select",
+                                                        label: "TDK生成方式",
+                                                        value: "tem",
+                                                        options: [
+                                                            { label: "按模板生成", value: "tem" },
+                                                            { label: "文档中随机获取", value: "doc_random" },
+                                                            { label: "文档抽取并移除", value: "doc_pop" },
+                                                        ]
+                                                    },
+                                                    {
+                                                        name: "WebsiteSettings.tdk_doc_name",
+                                                        type: "input-text",
+                                                        placeholder: "tdk.txt",
+                                                        label: "建站文档"
+                                                    }]
+                                                },
+                                                // {
+                                                //     "type": "group",
+                                                //     "body": [
+
+                                                {
+                                                    "type": "input-array",
+                                                    "name": "WebsiteSettings.titles",
+                                                    "label": "标题·模板",
+                                                    "desc": "添加多个《标题模板》随机使用。标签：{@keyword} 随机获取关键词，更多标签详情请查看《标签文档》",
+                                                    "items": {
+                                                        "type": "input-text",
+                                                        // "maxLength": 100,
+                                                    },
+                                                    "addButtonText": "模板",
+                                                    "scaffold": '{@keyword #98} - {%Related(@keyword,{@keyword #98},2) #99} | {%Related(@keyword,{@keyword #98},2) #999}',
+                                                    "minItems": 0,
+                                                    "unique": true,
+                                                    "validationErrors": {
+                                                        "unique": "不能重复"
+                                                    }
+                                                },
+                                                {
+                                                    "type": "input-array",
+                                                    "name": "WebsiteSettings.keywords",
+                                                    "label": "关键词·模板",
+                                                    "desc": "添加多个《关键词模板》随机使用。标签：{@keyword} 随机获取关键词，更多标签详情请查看《标签文档》",
+                                                    "items": {
+                                                        "type": "input-text",
+                                                        // "maxLength": 100,
+                                                    },
+                                                    "addButtonText": "模板",
+                                                    "scaffold": '{@keyword #98},{%Related(@keyword,{@keyword #98},2) #99},{%Related(@keyword,{@keyword #98},2) #999}',
+                                                    "minItems": 0,
+                                                    "unique": true,
+                                                    "validationErrors": {
+                                                        "unique": "不能重复"
+                                                    }
+                                                },
+                                                {
+                                                    "type": "input-array",
+                                                    "name": "WebsiteSettings.descriptions",
+                                                    "label": "描述·模板",
+                                                    "desc": "添加多个《描述模板》随机使用。标签：{@description} 随机获取描述，可在描述文档中写{@keyword #98}标签，调用同一个关键词，更多标签详情请查看《标签文档》",
+                                                    "items": {
+                                                        "type": "input-text",
+                                                        // "minLength": 300,
+                                                    },
+                                                    "addButtonText": "模板",
+                                                    "scaffold": '{@description}',
+                                                    "minItems": 0,
+                                                    "unique": true,
+                                                    "validationErrors": {
+                                                        "unique": "不能重复"
+                                                    }
+                                                },
+                                                //     ]
+                                                // },
+
                                                 {
                                                     "type": "divider",
                                                     "title": "【泛站·自动建站设置】",
@@ -258,7 +335,7 @@
                                                         {
                                                             name: "WebsiteSettings.pan_site_target_get_method",
                                                             type: "radios",
-                                                            label: "泛站·自动建站·目标站策略",
+                                                            label: "目标站来源",
                                                             value: "tem",
                                                             options: [
                                                                 { label: "文档中随机获取", value: "doc_random" },
@@ -272,15 +349,9 @@
                                                     "type": "group",
                                                     "body": [
                                                         {
-                                                            name: "WebsiteSettings.pan_site_target_doc_name",
-                                                            type: "input-text",
-                                                            placeholder: "pan_target.txt",
-                                                            label: "泛站·目标站文档"
-                                                        },
-                                                        {
                                                             name: "WebsiteSettings.pan_site_target_use_limit",
                                                             type: "select",
-                                                            label: "泛站·目标站筛选（引用数量）",
+                                                            label: "目标站筛选（引用数量）",
                                                             value: "lt10",
                                                             options: [
                                                                 { label: "等于0", value: "eq0" },
@@ -293,9 +364,91 @@
                                                                 { label: "小于100", value: "lt100" },
                                                             ]
                                                         },
-
+                                                        {
+                                                            name: "WebsiteSettings.pan_site_target_doc_name",
+                                                            type: "input-text",
+                                                            placeholder: "pan_target.txt",
+                                                            label: "目标站文档"
+                                                        },
                                                     ]
                                                 },
+                                                {
+                                                    "type": "group",
+                                                    "body": [{
+                                                        name: "WebsiteSettings.pan_site_tdk_mode",
+                                                        type: "select",
+                                                        label: "TDK生成方式",
+                                                        value: "tem",
+                                                        options: [
+                                                            { label: "按模板生成", value: "tem" },
+                                                            { label: "文档中随机获取", value: "doc_random" },
+                                                            { label: "文档抽取并移除", value: "doc_pop" },
+                                                        ]
+                                                    },
+                                                    {
+                                                        name: "WebsiteSettings.pan_site_tdk_doc_name",
+                                                        type: "input-text",
+                                                        placeholder: "tdk.txt",
+                                                        label: "建站文档"
+                                                    }]
+                                                },
+                                                // {
+                                                //     "type": "group",
+                                                //     "body": [
+
+                                                {
+                                                    "type": "input-array",
+                                                    "name": "WebsiteSettings.pan_site_titles",
+                                                    "label": "标题·模板",
+                                                    "desc": "添加多个《标题模板》随机使用。标签：{@keyword} 随机获取关键词，更多标签详情请查看《标签文档》",
+                                                    "items": {
+                                                        "type": "input-text",
+                                                        "maxLength": 100,
+                                                    },
+                                                    "addButtonText": "模板",
+                                                    "scaffold": '{@keyword #98},{%Related(@keyword,{@keyword #98},2) #99},{%Related(@keyword,{@keyword #98},2) #999}',
+                                                    "minItems": 0,
+                                                    "unique": true,
+                                                    "validationErrors": {
+                                                        "unique": "不能重复"
+                                                    }
+                                                },
+                                                {
+                                                    "type": "input-array",
+                                                    "name": "WebsiteSettings.pan_site_keywords",
+                                                    "label": "关键词·模板",
+                                                    "desc": "添加多个《关键词模板》随机使用。标签：{@keyword} 随机获取关键词，更多标签详情请查看《标签文档》",
+                                                    "items": {
+                                                        "type": "input-text",
+                                                        "maxLength": 100,
+                                                    },
+                                                    "addButtonText": "模板",
+                                                    "scaffold": '{@keyword #98},{%Related(@keyword,{@keyword #98},2) #99},{%Related(@keyword,{@keyword #98},2) #999}',
+                                                    "minItems": 0,
+                                                    "unique": true,
+                                                    "validationErrors": {
+                                                        "unique": "不能重复"
+                                                    }
+                                                },
+                                                {
+                                                    "type": "input-array",
+                                                    "name": "WebsiteSettings.pan_site_descriptions",
+                                                    "label": "描述·模板",
+                                                    "desc": "添加多个《描述模板》随机使用。标签：{@description} 随机获取描述，可在描述文档中写{@keyword #98}标签，调用同一个关键词，更多标签详情请查看《标签文档》",
+                                                    "items": {
+                                                        "type": "input-text",
+                                                        "maxLength": 100,
+                                                    },
+                                                    "addButtonText": "模板",
+                                                    "scaffold": '{@description}',
+                                                    "minItems": 0,
+                                                    "unique": true,
+                                                    "validationErrors": {
+                                                        "unique": "不能重复"
+                                                    }
+                                                },
+                                                //     ]
+                                                // },
                                                 {
                                                     "type": "divider",
                                                     "title": "【通用设置】",

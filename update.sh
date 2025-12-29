@@ -171,7 +171,23 @@ if ! grep -q "target_get_method" "$config_file"; then
   pan_site_target_get_method: doc_pop\
   pan_site_target_doc_name: pan_target.txt\
   pan_site_target_use_limit: lt2\
-  crawler_target: true' "$config_file"
+  crawler_target: true\
+  tdk_mode: tem\
+  tdk_doc_name: tdk.txt\
+  titles:\
+  - "{@keyword #98} - {%Related(@keyword,{@keyword #98},2) #99} | {%Related(@keyword,{@keyword #98},2) #999}"\
+  keywords:\
+  - "{@keyword #98},{%Related(@keyword,{@keyword #98},2) #99},{%Related(@keyword,{@keyword #98},2) #999}"\
+  descriptions:\
+  - "{@description}"\
+  pan_site_tdk_mode: tem\
+  pan_site_tdk_doc_name: tdk.txt\
+  pan_site_titles:\
+  - "{@keyword #98} - {%Related(@keyword,{@keyword #98},2) #99} | {%Related(@keyword,{@keyword #98},2) #999}"\
+  pan_site_keywords:\
+  - "{@keyword #98},{%Related(@keyword,{@keyword #98},2) #99},{%Related(@keyword,{@keyword #98},2) #999}"\
+  pan_site_descriptions:\
+  - "{@description}"' "$config_file"
   
   echo "配置已添加"
 else
