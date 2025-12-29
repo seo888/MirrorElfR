@@ -403,7 +403,7 @@
                                                     "desc": "添加多个《标题模板》随机使用。标签：{@keyword} 随机获取关键词，更多标签详情请查看《标签文档》",
                                                     "items": {
                                                         "type": "input-text",
-                                                        "maxLength": 100,
+                                                        // "maxLength": 100,
                                                     },
                                                     "addButtonText": "模板",
                                                     "scaffold": '{@keyword #98},{%Related(@keyword,{@keyword #98},2) #99},{%Related(@keyword,{@keyword #98},2) #999}',
@@ -420,7 +420,7 @@
                                                     "desc": "添加多个《关键词模板》随机使用。标签：{@keyword} 随机获取关键词，更多标签详情请查看《标签文档》",
                                                     "items": {
                                                         "type": "input-text",
-                                                        "maxLength": 100,
+                                                        // "maxLength": 100,
                                                     },
                                                     "addButtonText": "模板",
                                                     "scaffold": '{@keyword #98},{%Related(@keyword,{@keyword #98},2) #99},{%Related(@keyword,{@keyword #98},2) #999}',
@@ -437,7 +437,7 @@
                                                     "desc": "添加多个《描述模板》随机使用。标签：{@description} 随机获取描述，可在描述文档中写{@keyword #98}标签，调用同一个关键词，更多标签详情请查看《标签文档》",
                                                     "items": {
                                                         "type": "input-text",
-                                                        "maxLength": 100,
+                                                        // "maxLength": 100,
                                                     },
                                                     "addButtonText": "模板",
                                                     "scaffold": '{@description}',
@@ -693,7 +693,7 @@
                                                             "desc": "添加多个样式随机使用。标签：{随机网址} {*首页} {*网址}，更多标签详情请查看《标签文档》",
                                                             "items": {
                                                                 "type": "input-text",
-                                                                "maxLength": 100,
+                                                                // "maxLength": 100,
                                                             },
                                                             "addButtonText": "样式",
                                                             "scaffold": '{随机网址}',
@@ -709,7 +709,7 @@
                                                             "desc": "填写如 .gov.cn .edu.cn .org.cn 等后缀，这些后缀的链接将不会被替换。",
                                                             "items": {
                                                                 "type": "input-text",
-                                                                "maxLength": 100,
+                                                                // "maxLength": 100,
                                                             },
                                                             "addButtonText": "样式",
                                                             "scaffold": '.gov.cn',
@@ -765,7 +765,7 @@
                                                     "desc": "添加多个样式随机使用。标签：{*主站.标题#1001} {*主站.首页#1001} {*主站.核心词#1001}，更多标签详情请查看《标签文档》",
                                                     "items": {
                                                         "type": "input-text",
-                                                        "maxLength": 100,
+                                                        // "maxLength": 100,
                                                     },
                                                     "addButtonText": "样式",
                                                     "scaffold": '<a target="_blank" title="{*主站.标题#1001}" href="{*主站.首页#1001}">{*主站.核心词#1001}</a>',
