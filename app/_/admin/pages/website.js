@@ -731,19 +731,103 @@
 							"placeholder": "选择站点类型"
 						}
 					},
+					// {
+					// 	"type": "tpl",
+					// 	"tpl": "<a href='http://${domain}' target='_blank' class='link-style'>${domain}</a>",
+					// 	"name": "domain",
+					// 	"label": "域名",
+					// 	"sortable": true,
+					// 	"fixed": "left",
+					// 	"copyable": true,
+					// 	"searchable": {
+					// 		"name": "domain",
+					// 		"clearable": true,
+					// 		"maxLength": 1000
+					// 	}
+					// },
+					// {
+					// 	"name": "show_status",
+					// 	"label": "状态",
+					// 	"type": "text",
+					// 	"deferApi": "/_api/user_ip",
+					// 	// "deferApi": "/_api_/rest/v1/website/get_status?domain=${domain}",
+					// 	"initApi": "/_api/user_ip",
+					// },
+					// {
+					// 	"type": "service",
+					// 	"api": "/_api/user_ip",  // 这里用 api，等同于 initApi，会页面初始化时自动请求
+					// 	"body": [
+					// 		{
+					// 			"type": "text",
+					// 			"name": "show_status",  // 假设接口返回 { status: 0, data: { show_status: "在线" } }
+					// 			"label": "状态",
+					// 			"tpl": "${show_status}"  // 或直接用静态文本显示
+					// 		}
+					// 	]
+					// },
 					{
-						"type": "tpl",
-						"tpl": "<a href='http://${domain}' target='_blank' class='link-style'>${domain}</a>",
-						"name": "domain",
+						"label": "站点状态",
+						"type": "service",
+						"api": "/_api/site_status?domain=${domain}",
+						"loadingConfig": {
+							"show": false   // 关闭 loading 遮罩和图标
+						},
+						"body": [
+							{
+								"type": "tpl",   // 推荐改用 tpl，更适合纯显示场景
+								"tpl": "${message|default:...}",  // 可加默认占位文本
+								"wrapperComponent": "",  // 去掉多余包裹
+								"className": "font-bold"  // 可自定义样式，如字体大小
+							}
+						]
+					},
+					{
 						"label": "域名",
+						"name": "domain",
+						"type": "container",
 						"sortable": true,
-						"fixed": "left",
-						"copyable": true,
+						// "copyable": true,
 						"searchable": {
 							"name": "domain",
 							"clearable": true,
 							"maxLength": 1000
-						}
+						},
+						"body": [
+							{
+								"type": "icon",
+								"className": "pr-1",
+								"icon": "${to_lang === 'zh' ? '/_/admin/zh.svg' : to_lang === 'en' ? '/_/admin/en.svg' : 'fa fa-globe'}",
+								"visible": "this.to_lang"
+							},
+							{
+								"type": "tpl",
+								"inline": true,
+								"tpl": "<a href='http://${domain}' target='_blank' class='link-style'>${domain}</a>",
+							},
+							{
+								"type": "button",
+								"level": "link",
+								"icon": "fa fa-files-o text-muted",
+								"tooltip": "复制",
+								"tooltipPlacement": "right",
+								"className": "p-1 min-w-1",
+								"actionType": "copy",
+								"content": "${domain}",
+								"visibleOn": "this.domain"
+							},
+							{
+								"type": "button",
+								"level": "link",
+								"icon": "fa fa-eraser text-danger",
+								"actionType": "ajax",
+								"tooltipPlacement": "top",
+								"tooltip": "清空缓存",
+								"confirmText": "确认清空【${domain}】所有缓存数据？",
+								"api": "delete:/_api_/rest/v1/website_cache/delete?domain=${domain}",
+								"className": "p-0 min-w-0",
+								"reload": "none"
+							}
+						]
 					},
 					// {
 					// 	"name": "show_status",
@@ -770,28 +854,8 @@
 					{
 						"name": "to_lang",
 						"label": "语言",
+						"visible": false,
 						"sortable": true,
-					},
-					{
-						"name": "root_domain",
-						"label": "根域名",
-						"sortable": true,
-						"copyable": true,
-						"popOver": {
-							"trigger": "hover",
-							"body": {
-								"type": "tpl",
-								"tpl": "${root_domain} 查收录：<a href='https://www.google.com/search?q=site%3A${root_domain}' target='_blank' class='link-style' title='site:${root_domain}'>谷歌</a> | <a href='https://www.bing.com/search?q=site%3A${root_domain}' target='_blank' class='link-style' title='site:${root_domain}'>必应</a> | <a href='https://www.baidu.com/s?wd=site%3A${root_domain}' target='_blank' class='link-style' title='site:${root_domain}'>百度</a> | <a href='https://www.sogou.com/web?query=site%3A${root_domain}' target='_blank' class='link-style' title='site:${root_domain}'>搜狗</a>"
-							}
-						},
-						"sortable": {
-							"orderBy": "root_domain"
-						},
-						"searchable": {
-							"name": "root_domain",
-							"clearable": true,
-							"maxLength": 1000
-						}
 					},
 					{
 						"label": "目标站",
@@ -813,35 +877,40 @@
 							// "className": "pr-1"
 							// },
 							{
-							"type": "tpl",
-							"className": "pr-1 text-2xl text-primary",
-							"tpl":"<span style=\"font-size: 0.5em;\">${target_lang} |</span>",
+								"type": "tpl",
+								"className": "pr-1 text-2xl text-primary",
+								"tpl": "<span style=\"font-size: 0.5em;\">${target_lang} |</span>",
 
-							// "icon": "${target_lang === 'zh' ? 'fi fi-cn' : target_lang === 'en' ? 'fi fi-us' : 'fa fa-globe'}",
-							// "icon": "${target_lang}",
-							// "visible": "this.target_lang"
+								// "icon": "${target_lang === 'zh' ? 'fi fi-cn' : target_lang === 'en' ? 'fi fi-us' : 'fa fa-globe'}",
+								// "icon": "${target_lang}",
+								// "visible": "this.target_lang"
 							},
 							// {
 							// "type": "icon",
 							// "className": "pr-1",
-							// "icon": "${target_lang === 'zh' ? 'fa fa-globe-asia' : target_lang === 'en' ? 'fa fa-globe-americas' : 'fa fa-globe'}",
+							// "icon": "${target_lang === 'zh' ? '/_/admin/zh.svg' : target_lang === 'en' ? '/_/admin/en.svg' : 'fa fa-globe'}",
 							// "visible": "this.target_lang"
 							// },
 							{
 								"type": "tpl",
 								"inline": true,
-								"tpl": "${target_domain ? '<a href=\"javascript:void(0);\" class=\"link-icon\">' + target_domain + '</a>' : '无'}",
-								"onEvent": {
-									"click": {
-										"actions": [
-											{
-												"actionType": "custom",
-												"script": "if (event.data.target_domain) { window.open('http://' + event.data.target_domain, '_blank'); }"
-											}
-										]
-									}
-								}
+								"tpl": "<a href='http://${target_domain}' target='_blank' class='link-style'>${target_domain}</a>",
 							},
+							// {
+							// 	"type": "tpl",
+							// 	"inline": true,
+							// 	"tpl": "${target_domain ? '<a href=\"javascript:void(0);\" class=\"link-icon\">' + target_domain + '</a>' : '无'}",
+							// 	"onEvent": {
+							// 		"click": {
+							// 			"actions": [
+							// 				{
+							// 					"actionType": "custom",
+							// 					"script": "if (event.data.target_domain) { window.open('http://' + event.data.target_domain, '_blank'); }"
+							// 				}
+							// 			]
+							// 		}
+							// 	}
+							// },
 							{
 								"type": "button",
 								"level": "link",
@@ -875,26 +944,48 @@
 							"trigger": "hover",
 							"body": {
 								"type": "tpl",
-								"tpl": "${domain} 查标题排名：<br /><a href='https://www.google.com/search?q=${conf.website_info.title}' target='_blank' class='link-style' title='${conf.website_info.title}'>谷歌</a> | <a href='https://www.bing.com/search?q=${conf.website_info.title}' target='_blank' class='link-style' title='${conf.website_info.title}'>必应</a> | <a href='https://www.baidu.com/s?wd=${conf.website_info.title}' target='_blank' class='link-style' title='${conf.website_info.title}'>百度</a> | <a href='https://www.sogou.com/web?query=${conf.website_info.title}' target='_blank' class='link-style' title='${conf.website_info.title}'>搜狗</a>"
+								"tpl": "${domain}<br />标题：${conf.website_info.title}<br />关键词：${conf.website_info.keywords}<br />描述：${conf.website_info.description}<br /><br />查标题排名：<br /><a href='https://www.google.com/search?q=${conf.website_info.title}' target='_blank' class='link-style' title='${conf.website_info.title}'>谷歌</a> | <a href='https://www.bing.com/search?q=${conf.website_info.title}' target='_blank' class='link-style' title='${conf.website_info.title}'>必应</a> | <a href='https://www.baidu.com/s?wd=${conf.website_info.title}' target='_blank' class='link-style' title='${conf.website_info.title}'>百度</a> | <a href='https://www.sogou.com/web?query=${conf.website_info.title}' target='_blank' class='link-style' title='${conf.website_info.title}'>搜狗</a>"
 							}
 						}
 					},
+					// {
+					// 	"name": "conf.website_info.keywords",
+					// 	"label": "关键词",
+					// 	"copyable": true,
+					// 	"popOver": {
+					// 		"trigger": "hover",
+					// 		"body": {
+					// 			"type": "tpl",
+					// 			"tpl": "${domain} 查关键词排名：<a href='https://www.google.com/search?q=${conf.website_info.keywords | split:',' | first}' target='_blank' class='link-style' title='${conf.website_info.keywords | split:',' | first}'>谷歌</a> | <a href='https://www.bing.com/search?q=${conf.website_info.keywords | split:',' | first}' target='_blank' class='link-style' title='${conf.website_info.keywords | split:',' | first}'>必应</a> | <a href='https://www.baidu.com/s?wd=${conf.website_info.keywords | split:',' | first}' target='_blank' class='link-style' title='${conf.website_info.keywords | split:',' | first}'>百度</a> | <a href='https://www.sogou.com/web?query=${conf.website_info.keywords | split:',' | first}' target='_blank' class='link-style' title='${conf.website_info.keywords | split:',' | first}'>搜狗</a>"
+					// 		}
+					// 	}
+					// },
+					// {
+					// 	"name": "conf.website_info.description",
+					// 	"label": "描述",
+					// 	"copyable": true
+					// },
+
 					{
-						"name": "conf.website_info.keywords",
-						"label": "关键词",
+						"name": "root_domain",
+						"label": "根域名",
+						"sortable": true,
 						"copyable": true,
 						"popOver": {
 							"trigger": "hover",
 							"body": {
 								"type": "tpl",
-								"tpl": "${domain} 查关键词排名：<a href='https://www.google.com/search?q=${conf.website_info.keywords | split:',' | first}' target='_blank' class='link-style' title='${conf.website_info.keywords | split:',' | first}'>谷歌</a> | <a href='https://www.bing.com/search?q=${conf.website_info.keywords | split:',' | first}' target='_blank' class='link-style' title='${conf.website_info.keywords | split:',' | first}'>必应</a> | <a href='https://www.baidu.com/s?wd=${conf.website_info.keywords | split:',' | first}' target='_blank' class='link-style' title='${conf.website_info.keywords | split:',' | first}'>百度</a> | <a href='https://www.sogou.com/web?query=${conf.website_info.keywords | split:',' | first}' target='_blank' class='link-style' title='${conf.website_info.keywords | split:',' | first}'>搜狗</a>"
+								"tpl": "${root_domain} 查收录：<a href='https://www.google.com/search?q=site%3A${root_domain}' target='_blank' class='link-style' title='site:${root_domain}'>谷歌</a> | <a href='https://www.bing.com/search?q=site%3A${root_domain}' target='_blank' class='link-style' title='site:${root_domain}'>必应</a> | <a href='https://www.baidu.com/s?wd=site%3A${root_domain}' target='_blank' class='link-style' title='site:${root_domain}'>百度</a> | <a href='https://www.sogou.com/web?query=site%3A${root_domain}' target='_blank' class='link-style' title='site:${root_domain}'>搜狗</a>"
 							}
+						},
+						"sortable": {
+							"orderBy": "root_domain"
+						},
+						"searchable": {
+							"name": "root_domain",
+							"clearable": true,
+							"maxLength": 1000
 						}
-					},
-					{
-						"name": "conf.website_info.description",
-						"label": "描述",
-						"copyable": true
 					},
 					{
 						"type": "datetime",
@@ -1227,16 +1318,16 @@
 									}
 								}
 							},
-							{
-								"type": "button",
-								"icon": "fa fa-eraser text-danger",
-								"actionType": "ajax",
-								"tooltipPlacement": "top",
-								"tooltip": "清空缓存",
-								"confirmText": "确认清空【${domain}】所有缓存数据？",
-								"api": "delete:/_api_/rest/v1/website_cache/delete?domain=${domain}",
-								"reload": "none"
-							},
+							// {
+							// 	"type": "button",
+							// 	"icon": "fa fa-eraser text-danger",
+							// 	"actionType": "ajax",
+							// 	"tooltipPlacement": "top",
+							// 	"tooltip": "清空缓存",
+							// 	"confirmText": "确认清空【${domain}】所有缓存数据？",
+							// 	"api": "delete:/_api_/rest/v1/website_cache/delete?domain=${domain}",
+							// 	"reload": "none"
+							// },
 							{
 								"type": "button",
 								"icon": "fa fa-trash text-danger",
