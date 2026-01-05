@@ -475,21 +475,20 @@
 								"type": "tpl",
 								"className": "pr-1 text-2xl text-primary",
 								"tpl": "<span style=\"font-size: 0.5em;\">${lang} |</span>",
+								"badge": {
+									"mode": "text",
+									"position": "top-left",
+									"visibleOn": "this.website_used_count > 0",
+									"style": {
+										"background": "#46C93A"
+									},
+									"text": "${website_used_count}"
+								},
 							},
 							{
 								"type": "tpl",
 								"inline": true,
-								"tpl": "${target_domain ? '<a href=\"javascript:void(0);\" class=\"link-icon\">' + target_domain + '</a>' : '无'}",
-								"onEvent": {
-									"click": {
-										"actions": [
-											{
-												"actionType": "custom",
-												"script": "if (event.data.target_domain) { window.open('http://' + event.data.target_domain, '_blank'); }"
-											}
-										]
-									}
-								}
+								"tpl": "<a href='http://${target_domain}' target='_blank' class='link-style'>${target_domain}</a>",
 							},
 							{
 								"type": "button",
@@ -502,7 +501,9 @@
 								"content": "${target_domain}",
 								"visibleOn": "this.target_domain"
 							},
-						]
+						],
+
+
 					},
 					// {
 					// 	// "type": "tpl",
@@ -536,11 +537,58 @@
 					// 		}
 					// 	}
 					// },
+					// {
+					// 	"name": "conf.target_title",
+					// 	"label": "标题",
+					// 	"copyable": true,
+					// },
+
 					{
-						"name": "conf.target_title",
-						"label": "标题",
-						"copyable": true,
+						"label": "目标站标题",
+						"type": "service",
+						"api": "/_api/site_status?domain=${target_domain}",
+						"loadingConfig": {
+							"show": false
+						},
+						"body": [
+							{
+							"type": "tpl",
+							"tpl": "${title || message || ${message}}",
+							"visibleOn": "!used_time"
+							},
+							{
+							"type": "tpl",
+							"tpl": "${title || message || ${message}} 🟢${used_time} ms",
+							"visibleOn": "used_time && used_time < 1500"
+							},
+							{
+							"type": "tpl",
+							"tpl": "${title || message || ${message}} 🟡${used_time} ms",
+							"visibleOn": "used_time && used_time >= 1500 && used_time < 2500"
+							},
+							{
+							"type": "tpl",
+							"tpl": "${title || message || ${message}} 🔴${used_time} ms",
+							"visibleOn": "used_time && used_time >= 2500"
+							}
+						]
 					},
+					// {
+					// 	"label": "目标站标题",
+					// 	"type": "service",
+					// 	"api": "/_api/site_status?domain=${target_domain}",
+					// 	"loadingConfig": {
+					// 		"show": false   // 关闭 loading 遮罩和图标
+					// 	},
+					// 	"body": [
+					// 		{
+					// 			"type": "tpl",
+					// 			"tpl": "${title | default:-} ⚡${used_time} ms",
+					// 			"wrapperComponent": "",
+					// 		}
+					// 	]
+					// },
+
 					// {
 					// 	"name": "website_used_count",
 					// 	"label": "引用网站数量",
@@ -553,18 +601,33 @@
 					// 		}
 					// 	}
 					// },
+
+					// {
+					// 	"name": "website_used_count",
+					// 	"label": "引用网站",
+					// 	"copyable": true,
+					// 	"popOver": {
+					// 		"trigger": "hover",
+					// 		"body": {
+					// 			"type": "tpl",
+					// 			"tpl": "${website_used_domains | join: ' , '}"
+					// 		}
+					// 	}
+					// },
 					{
-						"name": "website_used_count",
-						"label": "引用数量",
-						"copyable": true,
-						"popOver": {
-							"trigger": "hover",
-							"body": {
-								"type": "tpl",
-								"tpl": "${website_used_domains | join: ' , '}"
-							}
-						}
+						"label": "引用网站",
+						"type": "tpl",
+						"tpl": "${website_used_domains | join: '\n'}",
+						"width": 150,
 					},
+					// {
+					// 	"type": "avatar",
+					// 	"badge": {
+					// 		"mode": "text",
+					// 		"visibleOn": "this.website_used_count > 0",
+					// 		"text": "${website_used_count}"
+					// 	}
+					// },
 					{
 						"type": "datetime",
 						"name": "updated_at",
