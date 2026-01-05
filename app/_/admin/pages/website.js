@@ -765,19 +765,58 @@
 					// 		}
 					// 	]
 					// },
+
+					// {
+					// 	"label": "站点状态",
+					// 	"type": "service",
+					// 	"api": "/_api/site_status?domain=${domain}",
+					// 	"loadingConfig": {
+					// 		"show": false
+					// 	},
+					// 	"body": [
+					// 		{
+					// 			"type": "tpl",
+					// 			"tpl": "${success === true ? (title === conf.website_info.title ? '✅ 正常' : '❌ 标题错误') : (message | default: '无法获取站点状态...')}",
+					// 			"wrapperComponent": "",
+					// 			"className": "font-bold"
+					// 		}
+					// 	]
+					// },
+
+					// {
+					// 	"label": "站点状态",
+					// 	"type": "service",
+					// 	"api": "/_api/site_status?domain=${domain}",
+					// 	"loadingConfig": {
+					// 		"show": false
+					// 	},
+					// 	"body": [
+					// 		{
+					// 			"type": "tpl",
+					// 			"tpl": "${success && title !== conf.website_info.title ? '⚠️ 标题不匹配 期望标题：${conf.website_info.title | raw} 实际标题：${title | raw || \"无标题\"}' : ''}",
+					// 			"className": "text-warning font-bold"
+					// 		},
+					// 		{
+					// 			"type": "tpl",
+					// 			"tpl": "${success ? (title === conf.website_info.title ? '✅ 正常' : '') : (message | default: '无法获取站点状态...')}",
+					// 			"className": "font-bold"
+					// 		}
+					// 	]
+					// },
+
 					{
 						"label": "站点状态",
 						"type": "service",
-						"api": "/_api/site_status?domain=${domain}",
+						"api": "/_api/site_status?domain=${domain}&title=${conf.website_info.title}",
 						"loadingConfig": {
 							"show": false   // 关闭 loading 遮罩和图标
 						},
 						"body": [
 							{
-								"type": "tpl",   // 推荐改用 tpl，更适合纯显示场景
-								"tpl": "${message|default:...}",  // 可加默认占位文本
-								"wrapperComponent": "",  // 去掉多余包裹
-								"className": "font-bold"  // 可自定义样式，如字体大小
+								"type": "tpl",
+								"tpl": "${message |default:⌛️加载中...}",
+								"wrapperComponent": "",
+								"className": "font-bold"
 							}
 						]
 					},
