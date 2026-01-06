@@ -4,6 +4,17 @@
 			"type": "page",
 			"body": {
 				"type": "crud",
+				"onEvent": {
+					"filter": {
+						"actions": [
+							{
+								"actionType": "reload",
+								"componentId": "siteStatusService",
+								"description": "当CRUD过滤条件变化时刷新站点状态"
+							}
+						]
+					}
+				},
 				"itemBadge": {
 					"text": "${subdomain == 'www' ? '主站' : '泛站'}",
 					"mode": "ribbon",
@@ -522,12 +533,6 @@
 											},
 										]
 									},
-
-
-									// {
-									// 	"type": "alert",
-									// 	"body": "格式：<域名>__<目标站>__<链接映射(true/false)>__<标题>__<关键词>__<描述>__<替换模式(0/1/2/3)>__<目标站替换词(可留空)>__<本站替换词(可留空)>"
-									// },
 									{
 										"type": "alert",
 										"body": "例子：www.domain.com___en|www.target.com___网站标题___网站关键词___网站描述___关于我们----------{keyword}##########公司名称----------【关键词】___关于我们 -> {keyword} ; 公司名称 -> 【关键词】"
@@ -731,98 +736,28 @@
 							"placeholder": "选择站点类型"
 						}
 					},
-					// {
-					// 	"type": "tpl",
-					// 	"tpl": "<a href='http://${domain}' target='_blank' class='link-style'>${domain}</a>",
-					// 	"name": "domain",
-					// 	"label": "域名",
-					// 	"sortable": true,
-					// 	"fixed": "left",
-					// 	"copyable": true,
-					// 	"searchable": {
-					// 		"name": "domain",
-					// 		"clearable": true,
-					// 		"maxLength": 1000
-					// 	}
-					// },
-					// {
-					// 	"name": "show_status",
-					// 	"label": "状态",
-					// 	"type": "text",
-					// 	"deferApi": "/_api/user_ip",
-					// 	// "deferApi": "/_api_/rest/v1/website/get_status?domain=${domain}",
-					// 	"initApi": "/_api/user_ip",
-					// },
-					// {
-					// 	"type": "service",
-					// 	"api": "/_api/user_ip",  // 这里用 api，等同于 initApi，会页面初始化时自动请求
-					// 	"body": [
-					// 		{
-					// 			"type": "text",
-					// 			"name": "show_status",  // 假设接口返回 { status: 0, data: { show_status: "在线" } }
-					// 			"label": "状态",
-					// 			"tpl": "${show_status}"  // 或直接用静态文本显示
-					// 		}
-					// 	]
-					// },
-
-					// {
-					// 	"label": "站点状态",
-					// 	"type": "service",
-					// 	"api": "/_api/site_status?domain=${domain}",
-					// 	"loadingConfig": {
-					// 		"show": false
-					// 	},
-					// 	"body": [
-					// 		{
-					// 			"type": "tpl",
-					// 			"tpl": "${success === true ? (title === conf.website_info.title ? '✅ 正常' : '❌ 标题错误') : (message | default: '无法获取站点状态...')}",
-					// 			"wrapperComponent": "",
-					// 			"className": "font-bold"
-					// 		}
-					// 	]
-					// },
-
-					// {
-					// 	"label": "站点状态",
-					// 	"type": "service",
-					// 	"api": "/_api/site_status?domain=${domain}",
-					// 	"loadingConfig": {
-					// 		"show": false
-					// 	},
-					// 	"body": [
-					// 		{
-					// 			"type": "tpl",
-					// 			"tpl": "${success && title !== conf.website_info.title ? '⚠️ 标题不匹配 期望标题：${conf.website_info.title | raw} 实际标题：${title | raw || \"无标题\"}' : ''}",
-					// 			"className": "text-warning font-bold"
-					// 		},
-					// 		{
-					// 			"type": "tpl",
-					// 			"tpl": "${success ? (title === conf.website_info.title ? '✅ 正常' : '') : (message | default: '无法获取站点状态...')}",
-					// 			"className": "font-bold"
-					// 		}
-					// 	]
-					// },
-
 					{
+						"name": "siteStatusService",
+						"interval": 15000, // 每5秒自动刷新一次
+						"silentPolling": true, // 静默刷新，不显示loading
 						"label": "站点状态",
+						"width": 115,
 						"type": "service",
 						"api": "/_api/site_status?domain=${domain}&title=${conf.website_info.title}",
-						"loadingConfig": {
-							"show": false   // 关闭 loading 遮罩和图标
-						},
 						"body": [
 							{
 								"type": "tpl",
-								"tpl": "${message |default:⌛️加载中...}",
+								"tpl": "${message |default:...加载中}",
 								"wrapperComponent": "",
-								"className": "font-bold"
+								"className": "${ message ? 'font-bold' : 'font-bold text-gray-500' }",
 							}
 						]
 					},
+
 					{
 						"label": "域名",
 						"name": "domain",
+						"width": 225,
 						"type": "container",
 						"sortable": true,
 						// "copyable": true,
@@ -1009,31 +944,19 @@
 					{
 						"label": "目标站标题",
 						"type": "service",
+						"key": "${id}-target-status",
 						"api": "/_api/site_status?domain=${target_domain}",
-						"loadingConfig": {
-							"show": false
-						},
+						"initFetch": true,
+
+						// "loadingConfig": {
+						// 	"show": false
+						// },
 						"body": [
 							{
-							"type": "tpl",
-							"tpl": "${title || message || ${message}}",
-							"visibleOn": "!used_time"
+								"type": "tpl",
+								"className": "${ used_time ? '' : 'text-gray-500' }",
+								"tpl": "${ used_time ? (used_time < 1500 ? (title || message) + ' 🟢 ' + used_time + ' ms' : used_time < 2500 ? (title || message) + ' 🟡 ' + used_time + ' ms' : (title || message) + ' 🔴 ' + used_time + ' ms') : (title || message || '...加载中 ') }",
 							},
-							{
-							"type": "tpl",
-							"tpl": "${title || message || ${message}} 🟢${used_time} ms",
-							"visibleOn": "used_time && used_time < 1500"
-							},
-							{
-							"type": "tpl",
-							"tpl": "${title || message || ${message}} 🟡${used_time} ms",
-							"visibleOn": "used_time && used_time >= 1500 && used_time < 2500"
-							},
-							{
-							"type": "tpl",
-							"tpl": "${title || message || ${message}} 🔴${used_time} ms",
-							"visibleOn": "used_time && used_time >= 2500"
-							}
 						]
 					},
 					// {
@@ -1288,26 +1211,101 @@
 											{
 												"type": "group",
 												"body": [
+													// {
+													// 	"type": "input-text",
+													// 	"name": "target_domain",
+													// 	"label": "目标域名",
+													// 	"addOn": {
+													// 		"type": "button",
+													// 		"icon": "fa fa-refresh",
+													// 		"label": "更换"
+													// 	},
+													// 	"placeholder": "例如: www.example.com"
+													// },
+
 													{
 														"type": "input-text",
 														"name": "target_domain",
+														"id": "domainInput",
 														"label": "目标域名",
-														"placeholder": "例如: www.example.com"
+														"placeholder": "例如: www.example.com",
+														"addOn": {
+															"type": "button",
+															"icon": "fa fa-refresh",
+															"label": "更换",
+															"onEvent": {
+																"click": {
+																	"actions": [
+																		{
+																			"actionType": "ajax",
+																			"api": {
+																				"method": "get",
+																				"url": "/_api/random_target_domain"
+																			},
+																			"outputVar": "domainResult"
+																		},
+																		{
+																			"actionType": "setValue",
+																			"componentId": "domainInput",
+																			"args": {
+																				"value": "${domainResult.target_domain}"
+																			}
+																		}
+																	]
+																}
+															}
+														}
 													},
+
+													// {
+													// 	"type": "input-text",
+													// 	"name": "target_domain",
+													// 	"id": "domainInput",
+													// 	"label": "目标域名",
+													// 	"placeholder": "例如: www.example.com",
+													// 	"addOn": {
+													// 		"type": "button",
+													// 		"icon": "fa fa-refresh",
+													// 		"label": "更换",
+													// 		"onEvent": {
+													// 		"click": {
+													// 			"actions": [
+													// 			{
+													// 				"actionType": "setValue",
+													// 				"componentId": "domainInput",
+													// 				"args": {
+													// 				"value": "test-${DATETIMESTAMP}.com"
+													// 				}
+													// 			}
+													// 			]
+													// 		}
+													// 		}
+													// 	}
+													// },
 													{
 														"type": "service",
 														"api": "/_api/site_status?domain=${target_domain}",
-														"loadingConfig": {
-															"show": false   // 关闭 loading 遮罩和图标
-														},
 														"body": [
 															{
 																"type": "static",
 																"name": "title",
 																"label": "目标站标题",
+																"popOver": {
+																	"trigger": "hover",
+																	"position": "bottom",   // 让气泡出现在下方
+  																	"offset": {"top": 0, "left": -10},
+																	"body": {
+																		"type": "tpl",
+																		// "tpl": "<a href='http://${target_domain | split:'\\u007C':last}' target='_blank' class='link-style' title='${target_domain | split:'\\u007C':last}'>${target_domain | split:'\\u007C':last}</a><br/>响应时间：${used_time} ms<br/>状态消息：${message || '无'}"
+																		"tpl": "<a href='http://${target_domain | split:'|' | last}' target='_blank' class='link-style' title='${target_domain | split:'|' | last}'>${target_domain | split:'|' | last}</a><br/>响应时间：${used_time} ms<br/>状态消息：${message || '无'}"
+																		
+																		// "tpl": "<a href='http://${target_domain}' target='_blank' class='link-style' title='${target_domain}'>${target_domain}</a><br/>响应时间：${used_time} ms<br/>状态消息：${message || '无'}"
+																	}
+																}
 															},
 														]
-													},]
+													},
+												]
 											},
 
 											{
@@ -1441,16 +1439,6 @@
 									}
 								}
 							},
-							// {
-							// 	"type": "button",
-							// 	"icon": "fa fa-eraser text-danger",
-							// 	"actionType": "ajax",
-							// 	"tooltipPlacement": "top",
-							// 	"tooltip": "清空缓存",
-							// 	"confirmText": "确认清空【${domain}】所有缓存数据？",
-							// 	"api": "delete:/_api_/rest/v1/website_cache/delete?domain=${domain}",
-							// 	"reload": "none"
-							// },
 							{
 								"type": "button",
 								"icon": "fa fa-trash text-danger",

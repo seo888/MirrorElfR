@@ -542,49 +542,52 @@
 					// 	"label": "标题",
 					// 	"copyable": true,
 					// },
-
 					{
 						"label": "目标站标题",
 						"type": "service",
+						"key": "${id}-target-status",
 						"api": "/_api/site_status?domain=${target_domain}",
-						"loadingConfig": {
-							"show": false
-						},
+						"initFetch": true,
+						// "loadingConfig": {
+						// 	"show": false
+						// },
 						"body": [
 							{
-							"type": "tpl",
-							"tpl": "${title || message || ${message}}",
-							"visibleOn": "!used_time"
+								"type": "tpl",
+								"className": "${ used_time ? '' : 'text-gray-500' }",
+								
+								"tpl": "${ used_time ? (used_time < 1500 ? (title || message) + ' 🟢 ' + used_time + ' ms' : used_time < 2500 ? (title || message) + ' 🟡 ' + used_time + ' ms' : (title || message) + ' 🔴 ' + used_time + ' ms') : (title || message || '...加载中 ') }",
 							},
-							{
-							"type": "tpl",
-							"tpl": "${title || message || ${message}} 🟢${used_time} ms",
-							"visibleOn": "used_time && used_time < 1500"
-							},
-							{
-							"type": "tpl",
-							"tpl": "${title || message || ${message}} 🟡${used_time} ms",
-							"visibleOn": "used_time && used_time >= 1500 && used_time < 2500"
-							},
-							{
-							"type": "tpl",
-							"tpl": "${title || message || ${message}} 🔴${used_time} ms",
-							"visibleOn": "used_time && used_time >= 2500"
-							}
 						]
 					},
+
 					// {
 					// 	"label": "目标站标题",
 					// 	"type": "service",
 					// 	"api": "/_api/site_status?domain=${target_domain}",
 					// 	"loadingConfig": {
-					// 		"show": false   // 关闭 loading 遮罩和图标
+					// 		"show": false
 					// 	},
 					// 	"body": [
 					// 		{
-					// 			"type": "tpl",
-					// 			"tpl": "${title | default:-} ⚡${used_time} ms",
-					// 			"wrapperComponent": "",
+					// 		"type": "tpl",
+					// 		"tpl": "${title || message || ${message}}",
+					// 		"visibleOn": "!used_time"
+					// 		},
+					// 		{
+					// 		"type": "tpl",
+					// 		"tpl": "${title || message || ${message}} 🟢${used_time} ms",
+					// 		"visibleOn": "used_time && used_time < 1500"
+					// 		},
+					// 		{
+					// 		"type": "tpl",
+					// 		"tpl": "${title || message || ${message}} 🟡${used_time} ms",
+					// 		"visibleOn": "used_time && used_time >= 1500 && used_time < 2500"
+					// 		},
+					// 		{
+					// 		"type": "tpl",
+					// 		"tpl": "${title || message || ${message}} 🔴${used_time} ms",
+					// 		"visibleOn": "used_time && used_time >= 2500"
 					// 		}
 					// 	]
 					// },

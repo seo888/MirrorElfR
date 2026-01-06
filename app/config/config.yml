@@ -35,7 +35,7 @@ WebsiteSettings:
   pan_site_auto_site_building: true
   pan_site_crawler_target: true
   language: zh
-  link_mapping: true
+  link_mapping: false
   website_cache_index_over_time: 365
   website_cache_page_over_time: 365
   target_cache_index_over_time: 3650
