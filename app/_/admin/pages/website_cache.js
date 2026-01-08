@@ -96,7 +96,7 @@
 										"actionType": "ajax",
 
 										// "api": "delete:/_api_/target/delete?bucket=$target_lib&files=${ids|raw}",
-										"api": "delete:/_api_/rest/v1/website_cache/delete?domain=${ids|raw}",
+										"api": "delete:/_api_/website_cache/delete?domain=${ids|raw}",
 
 										"confirmText": "确认批量删除缓存${ids|raw}（注意：操作不可逆，请谨慎操作）",
 										"onEvent": {
@@ -131,11 +131,11 @@
 										"tooltip": "清空",
 										"actionType": "ajax",
 										"confirmText": "确认清空【${domain}】所有缓存数据？",
-										"api": "delete:/_api_/rest/v1/website_cache/delete?domain=$domain",
+										"api": "delete:/_api_/website_cache/delete?domain=$domain",
 									},
 								],
 								"api": {
-									"url": "/_api_/rest/v1/website_cache/domains",
+									"url": "/_api_/website_cache/domains",
 								},
 								"itemAction": {
 									"actionType": "reload",
@@ -208,8 +208,8 @@
 								},
 								"id": "crud-table",
 								"syncLocation": false,
-								"api": "/_api_/rest/v1/website_cache/query",
-								"deferApi": "/_api_/rest/v1/website_cache/query?domain=${domain}",
+								"api": "/_api_/website_cache/query",
+								"deferApi": "/_api_/website_cache/query?domain=${domain}",
 								"perPageAvailable": [
 									10,
 									20,
@@ -328,10 +328,10 @@
 										"level": "danger",
 										"actionType": "ajax",
 										// "api": "delete:/_api_/target/delete?bucket=$target_lib&files=${ids|raw}",
-										"api": "delete:/_api_/rest/v1/website_cache/delete?domain=$domain&paths=${ids|raw}",
+										"api": "delete:/_api_/website_cache/delete?domain=$domain&paths=${ids|raw}",
 										// "api": {
 										// 	"method": "delete",
-										// 	"url": "/_api_/rest/v1/website_cache/delete",
+										// 	"url": "/_api_/website_cache/delete",
 										// 	"data": {
 										// 		"domain": "${domain}",
 										// 		"paths": "${ARRAYMAP(items, item => item.path).join(',')}",
@@ -339,7 +339,7 @@
 										// },
 										// "api": {
 										// 	"method": "delete",
-										// 	"url": "/_api_/rest/v1/website_cache/delete",
+										// 	"url": "/_api_/website_cache/delete",
 										// 	"data": {
 										// 		"domain": "${domain}",
 										// 		"paths": "${items|pick:path|join:,}",
@@ -379,7 +379,7 @@
 											"body": {
 												"type": "form",
 												"name": "sample-edit-form",
-												"api": "/_api_/rest/v1/website_cache/create",
+												"api": "/_api_/website_cache/create",
 												"reload": "crud-table",
 												"body": [
 													{
@@ -663,7 +663,7 @@
 													"body": {
 														"type": "form",
 														"name": "sample-edit-form",
-														"api": "put:/_api_/rest/v1/website_cache/update?domain=$domain&id=$id",
+														"api": "put:/_api_/website_cache/update?domain=$domain&id=$id",
 														"reload": "crud-table", // 在提交后重新加载特定的组件
 														"body": [
 															{
@@ -680,7 +680,7 @@
 															},
 															{
 																"type": "service",
-																"api": "/_api_/rest/v1/website_cache/meta?domain=$domain&id=$id",  // 动态加载 target_replace 数据的 API
+																"api": "/_api_/website_cache/meta?domain=$domain&id=$id",  // 动态加载 target_replace 数据的 API
 																"body": [
 																	{
 																		"type": "editor",
@@ -710,7 +710,7 @@
 												// "tooltipPlacement": "right",
 												// "tooltip": "删除",
 												"confirmText": "确认删除 【第${index}条】 缓存数据？",
-												"api": "delete:/_api_/rest/v1/website_cache/delete?domain=$domain&path=$path",
+												"api": "delete:/_api_/website_cache/delete?domain=$domain&path=$path",
 											}
 										]
 									}

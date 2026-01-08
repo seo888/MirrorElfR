@@ -36,7 +36,7 @@
 				"id": "crud-table",
 				"syncLocation": false,
 				"api": {
-					"url": "/_api_/rest/v1/website/query",
+					"url": "/_api_/website/query",
 					"method": "get",
 					"adaptor": "return {\n  \"status\": 0,\n  \"msg\": \"\",\n  \"data\": {\n    \"items\": payload.data,\n    \"total\": payload.total,\n  \"www_total\": payload.www_total,\n  \"count\": payload.count,\n  \"items_count\": payload.data.length\  }\n}"
 				},
@@ -54,7 +54,7 @@
 						"label": "批量删除",
 						"level": "danger",
 						"actionType": "ajax",
-						"api": "delete:/_api_/rest/v1/website/delete?ids=${ids|raw}",
+						"api": "delete:/_api_/website/delete?ids=${ids|raw}",
 						"confirmText": "确认批量删除网站【${ids|raw}】（注意：操作不可逆，请谨慎操作）"
 					},
 					{
@@ -74,7 +74,7 @@
 						"actionType": "ajax", // 使用 ajax 类型动作发送请求
 						"api": {
 							"method": "get", // 定义请求方法为 POST
-							"url": "/_api_/rest/v1/data/download", // 替换成您实际的 API 地址
+							"url": "/_api_/data/download", // 替换成您实际的 API 地址
 						},
 					},
 					{
@@ -93,11 +93,17 @@
 								"name": "sample-edit-form",
 								"api": {
 									"method": "post",
-									"url": "/_api_/rest/v1/website/create",
+									"url": "/_api_/website/create",
 									"data": {
 										"data": {
 											"to_lang": "${to_lang}",
 											"conf": {
+												"friend_links": {
+													"location": "${conf.friend_links.location}",
+													"all": "${conf.friend_links.all}",
+													"index": "${conf.friend_links.index}",
+													"page": "${conf.friend_links.page}"
+												},
 												"replace_rules": {
 													"replace_mode": "${conf.replace_rules.replace_mode}",
 													"all": "${conf.replace_rules.all}",
@@ -274,7 +280,7 @@
 									// 插入新的 service，用于加载 target_replace 数据
 									{
 										"type": "service",
-										"api": "/_api_/rest/v1/target/query_details?domain=$target_domain",  // 动态加载 target_replace 数据的 API
+										"api": "/_api_/target/query_details?domain=$target_domain",  // 动态加载 target_replace 数据的 API
 										"body": [
 											{
 												"type": "editor",
@@ -410,7 +416,7 @@
 							"body": {
 								"type": "form",
 								"name": "sample-edit-form",
-								"api": "/_api_/rest/v1/website/create",
+								"api": "/_api_/website/create",
 								"reload": "crud-table",
 								"body": [
 									{
@@ -797,7 +803,7 @@
 								"tooltipPlacement": "top",
 								"tooltip": "清空缓存",
 								"confirmText": "确认清空【${domain}】所有缓存数据？",
-								"api": "delete:/_api_/rest/v1/website_cache/delete?domain=${domain}",
+								"api": "delete:/_api_/website_cache/delete?domain=${domain}",
 								"className": "p-0 min-w-0",
 								"reload": "none"
 							}
@@ -819,7 +825,7 @@
 					// 	"name": "show_status",
 					// 	"label": "状态",
 					// 	"type": "text",
-					// 	// "deferApi": "/_api_/rest/v1/website/get_status?domain=${domain}",
+					// 	// "deferApi": "/_api_/website/get_status?domain=${domain}",
 					// 	"initApi": "/_api/user_ip",
 					// },
 					// {
@@ -915,7 +921,7 @@
 								"tooltipPlacement": "top",
 								"tooltip": "清空目标站缓存",
 								"confirmText": "确认清空目标站【${target_domain}】所有缓存数据？",
-								"api": "delete:/_api_/rest/v1/target_cache/delete?domain=${target_domain}",
+								"api": "delete:/_api_/target_cache/delete?domain=${target_domain}",
 								"className": "p-0 min-w-0",
 								"reload": "none"
 							}
@@ -1053,15 +1059,21 @@
 									"body": {
 										"type": "form",
 										"name": "sample-edit-form",
-										// "api": "post:/_api_/rest/v1/website/create?id=${id}",
+										// "api": "post:/_api_/website/create?id=${id}",
 										"api": {
 											"method": "post",
-											"url": "/_api_/rest/v1/website/create",
+											"url": "/_api_/website/create",
 											"data": {
 												"data": {
 													"to_lang": "${to_lang}",
 													"subdomain": "${subdomain}",
 													"conf": {
+														"friend_links": {
+															"location": "${conf.friend_links.location}",
+															"all": "${conf.friend_links.all}",
+															"index": "${conf.friend_links.index}",
+															"page": "${conf.friend_links.page}"
+														},
 														"replace_rules": {
 															"replace_mode": "${conf.replace_rules.replace_mode}",
 															"all": "${conf.replace_rules.all}",
@@ -1223,6 +1235,57 @@
 													// 	"placeholder": "例如: www.example.com"
 													// },
 
+													// 这里是可以的 用表格加载目标库域名 然后选用
+													// 													{
+													//   "type": "input-text",
+													//   "name": "target_domain",
+													//   "id": "domainInput",
+													//   "label": "目标域名",
+													//   "placeholder": "例如: www.example.com",
+													//   "addOn": {
+													//     "type": "button",
+													//     "icon": "fa fa-refresh",
+													//     "label": "更换",
+													//     "onEvent": {
+													//       "click": {
+													//         "actions": [
+													//           {
+													//             "actionType": "drawer",     // 也可以换成 dialog
+													//             "drawer": {
+													//               "title": "请选择域名",
+													//               "size": "md",
+													//               "body": [
+													//                 {
+													//                   "type": "crud",       // 表格
+													//                   "syncLocation": false,
+													//                   "api": "/_api/random_target_domain",   // 返回 {data: {items: [...]}}
+													//                   "columns": [
+													//                     {
+													//                       "name": "domain",
+													//                       "label": "域名"
+													//                     },
+													//                     {
+													//                       "type": "button",
+													//                       "label": "选用",
+													//                       "actionType": "setValue",
+													//                       "componentId": "domainInput",
+													//                       "args": {
+													//                         "value": "${domain}"
+													//                       },
+													//                       "close": true      // 点完后自动关抽屉
+													//                     }
+													//                   ]
+													//                 }
+													//               ]
+													//             }
+													//           }
+													//         ]
+													//       }
+													//     }
+													//   }
+													// },
+
+
 													{
 														"type": "input-text",
 														"name": "target_domain",
@@ -1293,13 +1356,10 @@
 																"popOver": {
 																	"trigger": "hover",
 																	"position": "bottom",   // 让气泡出现在下方
-  																	"offset": {"top": 0, "left": -10},
+																	"offset": { "top": 0, "left": -10 },
 																	"body": {
 																		"type": "tpl",
-																		// "tpl": "<a href='http://${target_domain | split:'\\u007C':last}' target='_blank' class='link-style' title='${target_domain | split:'\\u007C':last}'>${target_domain | split:'\\u007C':last}</a><br/>响应时间：${used_time} ms<br/>状态消息：${message || '无'}"
 																		"tpl": "<a href='http://${target_domain | split:'|' | last}' target='_blank' class='link-style' title='${target_domain | split:'|' | last}'>${target_domain | split:'|' | last}</a><br/>响应时间：${used_time} ms<br/>状态消息：${message || '无'}"
-																		
-																		// "tpl": "<a href='http://${target_domain}' target='_blank' class='link-style' title='${target_domain}'>${target_domain}</a><br/>响应时间：${used_time} ms<br/>状态消息：${message || '无'}"
 																	}
 																}
 															},
@@ -1317,7 +1377,7 @@
 											// 插入新的 service，用于加载 target_replace 数据
 											{
 												"type": "service",
-												"api": "/_api_/rest/v1/target/query_details?domain=$target_domain",  // 动态加载 target_replace 数据的 API
+												"api": "/_api_/target/query_details?domain=$target_domain",  // 动态加载 target_replace 数据的 API
 												"body": [
 													{
 														"type": "editor",
@@ -1376,64 +1436,114 @@
 											},
 											{
 												"type": "divider",
-												"title": "【泛目录配置】",
+												"title": "【友链设置】",
 												"titlePosition": "center"
 											},
 											{
-												"name": "conf.mulu_config.mulu_tem_max",
-												"type": "input-number",
-												"label": "生成模板数量",
-												"desc": "填写0则不会自动生成模板"
-											},
-											{
-												"type": "select",
-												"name": "conf.mulu_config.mulu_static",
-												"label": "泛目录模式",
-												"options": [
-													{
-														"label": "静态",
-														"value": true
+												"type": "input-array",
+												"name": "conf.friend_links.all",
+												"label": "全局友链",
+												"desc": "注意：标签在保存后会自动解析。更多标签详情请查看《标签文档》",
+												"items": {
+													"type": "input-text",
+													"validations": {
+														"matchRegexp": "<a\\s+[^>]*href\\s*=\\s*[\"'][^\"']*[\"'][^>]*>.*</a>"
 													},
-													{
-														"label": "动态（蜘蛛池）",
-														"value": false
+													"validationErrors": {
+														"matchRegexp": "请输入有效的HTML链接格式（必须包含完整a标签）",
+														"unique": "友链样式 不能重复"
 													}
-												]
-											},
-											{
-												"type": "checkboxes",
-												"name": "conf.mulu_config.mulu_mode",
-												"label": "泛目录路由",
-												"checkAll": true,
-												"optionType": "button",
-												"options": [
-													{ "label": "404页面", "value": "404" },
-													{ "label": "非首页（所有页面）", "value": "all_page" },
-													{ "label": "自定义路径", "value": "custom_header" }
-												]
+												},
+												"addButtonText": "友链",
+												"scaffold": '<a target="_blank" title="{*主站.标题 #88}" href="{*主站.首页 #88}">{*主站.核心词 #88}</a>',
+												"minItems": 0,
+												"unique": true
 											},
 											{
 												"type": "input-array",
-												"name": "conf.mulu_config.mulu_custom_header",
-												"label": "自定义路径",
+												"name": "conf.friend_links.index",
+												"label": "首页友链",
+												"desc": "注意：标签在保存后会自动解析。更多标签详情请查看《标签文档》",
 												"items": {
 													"type": "input-text",
-													"name": "/",
-													"label": "/",
-													"unique": true
+													"validations": {
+														"matchRegexp": "<a\\s+[^>]*href\\s*=\\s*[\"'][^\"']*[\"'][^>]*>.*</a>"
+													},
+													"validationErrors": {
+														"matchRegexp": "请输入有效的HTML链接格式（必须包含完整a标签）",
+														"unique": "友链样式 不能重复"
+													}
 												},
-												"addButtonText": "泛目录路径",
-												"minItems": 0
+												"addButtonText": "友链",
+												"scaffold": '<a target="_blank" title="{*主站.标题 #88}" href="{*主站.首页 #88}">{*主站.核心词 #88}</a>',
+												"minItems": 0,
+												"unique": true
 											},
 											{
-												"type": "static-datetime",
-												"name": "updated_at",
-												"label": "更新于"
+												"type": "input-array",
+												"name": "conf.friend_links.page",
+												"label": "内页友链",
+												"desc": "注意：标签在保存后会自动解析。更多标签详情请查看《标签文档》",
+												"items": {
+													"type": "input-text",
+													"validations": {
+														"matchRegexp": "<a\\s+[^>]*href\\s*=\\s*[\"'][^\"']*[\"'][^>]*>.*</a>"
+													},
+													"validationErrors": {
+														"matchRegexp": "请输入有效的HTML链接格式（必须包含完整a标签）",
+														"unique": "友链样式 不能重复"
+													}
+												},
+												"addButtonText": "友链",
+												"scaffold": '<a target="_blank" title="{*主站.标题 #88}" href="{*主站.首页 #88}">{*主站.核心词 #88}</a>',
+												"minItems": 0,
+												"unique": true
 											},
 											{
-												"type": "static-datetime",
-												"name": "created_at",
-												"label": "创建于"
+												"type": "input-text",
+												"name": "conf.friend_links.location",
+												"label": "友链位置",
+												"placeholder": "{}</body> (默认为空，表示页面底部)"
+											},
+											
+											// {
+											// 	"type": "checkboxes",
+											// 	"name": "conf.mulu_config.mulu_mode",
+											// 	"label": "友链模式",
+											// 	"checkAll": true,
+											// 	"optionType": "button",
+											// 	"options": [
+											// 		{ "label": "全站模式", "value": "404" },
+											// 		{ "label": "经首页", "value": "all_page" },
+											// 		{ "label": "自定义路径", "value": "custom_header" }
+											// 	]
+											// },
+											// {
+											// 	"type": "input-array",
+											// 	"name": "conf.mulu_config.mulu_custom_header",
+											// 	"label": "自定义路径",
+											// 	"items": {
+											// 		"type": "input-text",
+											// 		"name": "/",
+											// 		"label": "/",
+											// 		"unique": true
+											// 	},
+											// 	"addButtonText": "泛目录路径",
+											// 	"minItems": 0
+											// },
+											{
+												"type": "group",
+												"body": [
+													{
+														"type": "static-datetime",
+														"name": "created_at",
+														"label": "创建于"
+													},
+													{
+														"type": "static-datetime",
+														"name": "updated_at",
+														"label": "更新于"
+													}]
 											}
 										]
 									}
@@ -1445,7 +1555,7 @@
 								"actionType": "ajax",
 								"tooltipPlacement": "top",
 								"confirmText": "确认删除【${id}】${domain}",
-								"api": "delete:/_api_/rest/v1/website/delete?ids=${id}"
+								"api": "delete:/_api_/website/delete?ids=${id}"
 							}
 						],
 						"toggled": true

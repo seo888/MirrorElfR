@@ -340,7 +340,7 @@
     <div id="content">
         <div id="intro" class="tag-description">
             📌导航 安装文档 → <a href="https://dynalist.io/d/q6lSdWqvIBsuK56HNq4d1nxN#theme=light">Mirror-Elf®安装文档</a>
-            <p>所有标签支持<code>多级嵌套</code>，支持在<code>文档中的写标签</code>然后用【抽样标签】获取的文档内容。</p>
+            <p>所有标签支持<code>多级嵌套</code>，支持在<code>doc/*.txt</code>文档中的写标签然后用【抽样标签】获取的文档内容。</p>
         </div>
 
         <div id="special-functions" class="tag-section">
@@ -357,6 +357,10 @@
                         <div class="tag-description"><code>&#123;^字符串..&#125;</code>功能前缀<code>^</code>显式随机抽样，随机抽取单个字符
                         </div>
                         <pre><code>&#123;^1234567890&#125;</code> ➡ {^1234567890}<br><code>&#123;^abcdefg&#125;</code> ➡ {^abcdefg}</pre>
+                        <div class="tag-description"><code>&#123;3_6^字符串..&#125;</code>功能前缀<code>3_6^</code>显式随机抽样，随机抽取3到6个字符
+                        </div>
+                        <pre><code>&#123;3_6^1234567890&#125;</code> ➡ {3_6^1234567890}<br><code>&#123;3_6^abcdefg&#125;</code> ➡ {3_6^abcdefg}</pre>
+                        <pre><code>&#123;5^1234567890&#125;</code> ➡ {5^1234567890}<br><code>&#123;5^abcdefg&#125;</code> ➡ {5^abcdefg}</pre>
                         <div class="tag-description">
                             <code>&#123;字符串|字符串|..&#125;</code>功能符号<code>|</code>显式随机抽样，随机抽取以<code>|</code>分隔的字符串</div>
                         <pre><code>&#123;apple|orange|banana&#125;</code> ➡ {apple|orange|banana}</pre>
@@ -367,19 +371,28 @@
             <div id="id-grouping">
                 <h3><code>&#123;标签 #99&#125;</code></h3>
                 <div class="tag-subsection">
-                    <h4>功能后缀<code>#</code>加数字，id分组功能（全标签通用）</h4>
+                    <h4>功能后缀<code>#</code>加数字，<code>#id</code>分组功能（全标签通用）</h4>
                     <div class="tag-example">
-                        <div class="tag-description">id相同则表示同一个对象</div>
+                        <div class="tag-description"><code>#id</code>相同则表示同一个对象</div>
                         <pre><code>&#123;^1234567890&#125;</code> ➡ {^1234567890}<br><code>&#123;^1234567890 #99&#125;</code> ➡ {^1234567890 #99} | <code>&#123;^1234567890 #99&#125;</code> ➡ {^1234567890 #99}</pre>
                         <pre><code>&#123;^abcdefg&#125;</code> ➡ {^abcdefg}<br><code>&#123;^abcdefg #88&#125;</code> ➡ {^abcdefg #88} | <code>&#123;^abcdefg #88&#125;</code> ➡ {^abcdefg #88}</pre>
                         <pre><code>&#123;apple|orange|banana&#125;</code> ➡ {apple|orange|banana}<br><code>&#123;apple|orange|banana #66&#125;</code> ➡ {apple|orange|banana #66} | <code>&#123;apple|orange|banana #66&#125;</code> ➡ {apple|orange|banana #66}</pre>
 
                     </div>
                     <div class="tag-example">
-                        <div class="tag-description">同id可以获取一个站点的信息</div>
+                        <div class="tag-description">同<code>#id</code>可以获取一个站点的信息</div>
                         <pre><code>&#123;*域名 #18&#125;</code> ➡ {*域名 #18}</pre>
+                        <pre><code>&#123;*首页 #18&#125;</code> ➡ {*首页 #18}</pre>
                         <pre><code>&#123;*标题 #18&#125;</code> ➡ {*标题 #18}</pre>
+                        <pre><code>&#123;*关键词组 #18&#125;</code> ➡ {*关键词组 #18}</pre>
+                        <pre><code>&#123;*关键词 #18&#125;</code> ➡ {*关键词 #18}</pre>
+                        <pre><code>&#123;*核心词 #18&#125;</code> ➡ {*核心词 #18}</pre>
                         <pre><code>&#123;*描述 #18&#125;</code> ➡ {*描述 #18}</pre>
+                    </div>
+                    <div class="tag-example">
+                        <div class="tag-description">同<code>#id</code> 获取同一个站点信息，组成a链接</div>
+                        <pre><code>&lt;a target="_blank" title="&#123;*主站.标题 #101&#125;" href="&#123;*主站.首页 #101&#125;"&gt;&#123;*主站.核心词 #101&#125;&lt;/a&gt;</code> ➡ [源码效果] &lt;a target="_blank" title="{*主站.标题 #101}" href="{*主站.首页 #101}"&gt;{*主站.核心词 #101}&lt;/a&gt;</pre>
+                        <pre><code>&lt;a target="_blank" title="&#123;*主站.标题 #101&#125;" href="&#123;*主站.首页 #101&#125;"&gt;&#123;*主站.核心词 #101&#125;&lt;/a&gt;</code> ➡ [网页效果] <a target="_blank" title="{*主站.标题 #101}" href="{*主站.首页 #101}">{*主站.核心词 #101}</a></pre>
                     </div>
                 </div>
             </div>
@@ -776,9 +789,9 @@
 
                     <div class="tag-example">
                         <div class="tag-description">
-                            <code>&#123;^@Abc(5_8)&#125;</code>随机抽取<code>doc/Abc.txt</code>文档中的<code>5到8</code>个字符
+                            <code>&#123;^5_8@Abc&#125;</code>随机抽取<code>doc/Abc.txt</code>文档中的<code>5到8</code>个字符
                         </div>
-                        <pre><code>&#123;^@Abc(5_8)&#125;</code> ➡ {^@Abc(5_8)}</pre>
+                        <pre><code>&#123;5_8^@Abc&#125;</code> ➡ {5_8^@Abc}</pre>
                     </div>
                 </div>
             </div>
@@ -796,7 +809,8 @@
                         <div class="tag-description">
                             <code>&#123;:@_/static/images/头像&#125;</code>使用场景
                         </div>
-                        <pre><code>&lt;img src="/&#123;:@_/static/images/头像&#125;" /&gt;</code> ➡ &lt;img src="/{:@_/static/images/头像}" /&gt;</pre>
+                        <pre><code>&lt;img src="/&#123;:@_/static/images/头像&#125;" /&gt;</code> ➡ [源码效果] &lt;img src="/{:@_/static/images/头像}" /&gt;</pre>
+                        <pre><code>&lt;img src="/&#123;:@_/static/images/头像&#125;" /&gt;</code> ➡ [网页效果] <img src="/{:@_/static/images/头像}" /></pre>
                     </div>
                 </div>
             </div>

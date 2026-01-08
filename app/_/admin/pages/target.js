@@ -26,7 +26,7 @@
 				"id": "crud-table",
 				"syncLocation": false,
 				"api": {
-					"url": "/_api_/rest/v1/target/query",
+					"url": "/_api_/target/query",
 					"method": "get",
 					"adaptor": "return {\n  \"status\": 0,\n  \"msg\": \"\",\n  \"data\": {\n    \"items\": payload.data,\n   \"total\": payload.total,\n  \"count\": payload.count,\n  \"items_count\": payload.data.length\  }\n}"
 				},
@@ -44,7 +44,7 @@
 						"label": "批量删除",
 						"level": "danger",
 						"actionType": "ajax",
-						"api": "delete:/_api_/rest/v1/target/delete?ids=${ids|raw}",
+						"api": "delete:/_api_/target/delete?ids=${ids|raw}",
 						"confirmText": "确认批量删除网站【${ids|raw}】（注意：操作不可逆，请谨慎操作）"
 					},
 					{
@@ -64,7 +64,7 @@
 						"actionType": "ajax", // 使用 ajax 类型动作发送请求
 						"api": {
 							"method": "get", // 定义请求方法为 POST
-							"url": "/_api_/rest/v1/data/download", // 替换成您实际的 API 地址
+							"url": "/_api_/data/download", // 替换成您实际的 API 地址
 						},
 					},
 					{
@@ -81,7 +81,7 @@
 							"body": {
 								"type": "form",
 								"name": "sample-edit-form",
-								"api": "/_api_/rest/v1/website/create",
+								"api": "/_api_/website/create",
 								"reload": "crud-table",
 								"body": [
 									{
@@ -678,7 +678,7 @@
 									"body": {
 										"type": "form",
 										"name": "sample-edit-form",
-										"api": "post:/_api_/rest/v1/target/create?id=${id}",
+										"api": "post:/_api_/target/create?id=${id}",
 										"body": [
 											{
 												"type": "static",
@@ -721,7 +721,7 @@
 											// 插入新的 service，用于加载 target_replace 数据
 											{
 												"type": "service",
-												"api": "/_api_/rest/v1/target/query_details?domain=$target_domain",  // 动态加载 target_replace 数据的 API
+												"api": "/_api_/target/query_details?domain=$target_domain",  // 动态加载 target_replace 数据的 API
 												"body": [
 													{
 														"type": "editor",
@@ -759,7 +759,7 @@
 								"tooltipPlacement": "top",
 								"tooltip": "清空目标站缓存",
 								"confirmText": "确认清空 目标站【${target_domain}】所有缓存数据？",
-								"api": "delete:/_api_/rest/v1/target_cache/delete?domain=${target_domain}",
+								"api": "delete:/_api_/target_cache/delete?domain=${target_domain}",
 								"reload": "none"
 							},
 							{
@@ -768,7 +768,7 @@
 								"actionType": "ajax",
 								"tooltipPlacement": "top",
 								"confirmText": "确认删除【${id}】${domain}",
-								"api": "delete:/_api_/rest/v1/target/delete?ids=${id}"
+								"api": "delete:/_api_/target/delete?ids=${id}"
 							}
 						],
 						"toggled": true

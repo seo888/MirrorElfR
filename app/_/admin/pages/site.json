@@ -41,7 +41,7 @@
             "icon": "fa fa-cubes"
           },
           {
-            "label": "内容管理",
+            "label": "文件管理",
             "url": "/doc",
             "schemaApi": "jsonp:/_/admin/pages/doc.js?callback=jsonpCallback",
             "icon": "fa fa-file-text"

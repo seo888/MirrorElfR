@@ -18,7 +18,7 @@
                     labelWidth: 200,
                     api: {
                         "method": "put",
-                        "url": "/_api_/rest/v1/config",
+                        "url": "/_api_/config",
                         // "requestAdaptor": function (api) {
                         // 	if (api.data && typeof api.data === 'object') {
                         // 		Object.keys(api.data).forEach(function (key) {
@@ -30,7 +30,7 @@
                         // 	return api;
                         // }
                     },
-                    initApi: "/_api_/rest/v1/config", // 从后端获取初始数据
+                    initApi: "/_api_/config", // 从后端获取初始数据
                     actions: [
                         // {
                         // 	"type": "tpl",
@@ -765,19 +765,18 @@
                                                     "desc": "添加多个样式随机使用。标签：{*主站.标题#1001} {*主站.首页#1001} {*主站.核心词#1001}，更多标签详情请查看《标签文档》",
                                                     "items": {
                                                         "type": "input-text",
-                                                        // "maxLength": 100,
+                                                        "validations": {
+														"matchRegexp": "<a\\s+[^>]*href\\s*=\\s*[\"'][^\"']*[\"'][^>]*>.*</a>"
+													},
+													"validationErrors": {
+														"matchRegexp": "请输入有效的HTML链接格式（必须包含完整a标签）",
+														"unique": "友链样式 不能重复"
+													}
                                                     },
                                                     "addButtonText": "样式",
-                                                    "scaffold": '<a target="_blank" title="{*主站.标题#1001}" href="{*主站.首页#1001}">{*主站.核心词#1001}</a>',
+                                                    "scaffold": '<a target="_blank" title="{*主站.标题 #88}" href="{*主站.首页 #88}">{*主站.核心词 #88}</a>',
                                                     "minItems": 0,
-                                                    "unique": true,
-                                                    "validations": {
-                                                        "matchRegexp": "<a\\s+[^>]*href\\s*=\\s*[\"'][^\"']*[\"'][^>]*>.*</a>"
-                                                    },
-                                                    "validationErrors": {
-                                                        "matchRegexp": "请输入有效的HTML链接格式（必须包含完整a标签）",
-                                                        "unique": "友链样式 不能重复"
-                                                    }
+                                                    "unique": true
                                                 },
                                             ]
                                         }

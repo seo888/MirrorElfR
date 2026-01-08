@@ -24,7 +24,7 @@
             "body": {
                 "type": "iframe",
                 "src": targetUrl,
-                "height": 800, // 这里设置固定高度，单位默认为 px
+                "height": 900, // 这里设置固定高度，单位默认为 px
                 "className": "b-a" // 可选：加个边框方便观察
             }
         },
