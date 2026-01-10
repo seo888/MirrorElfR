@@ -643,15 +643,21 @@
                                             title: "SEO功能",
                                             body: [
                                                 {
+                                                    "type": "divider",
+                                                    "title": "【SEO功能】",
+                                                    "titlePosition": "center"
+                                                },
+                                                {
+                                                    name: "SEOFunctions.seo_404_page",
+                                                    type: "switch",
+                                                    onText: "开启",
+                                                    offText: "关闭",
+                                                    label: "404页面SEO"
+                                                },
+                                                {
                                                     "type": "group",
                                                     "body": [
-                                                        {
-                                                            name: "SEOFunctions.seo_404_page",
-                                                            type: "switch",
-                                                            onText: "开启",
-                                                            offText: "关闭",
-                                                            label: "404页面SEO"
-                                                        },
+
                                                         {
                                                             name: "SEOFunctions.random_div_attributes",
                                                             type: "switch",
@@ -682,6 +688,58 @@
                                                         },
 
                                                     ]
+                                                },
+                                                {
+                                                    "type": "divider",
+                                                    "title": "【友链功能】",
+                                                    "titlePosition": "center"
+                                                },
+                                                {
+                                                    "type": "group",
+                                                    "body": [
+
+                                                        {
+                                                            name: "SEOFunctions.friend_link_mode",
+                                                            type: "radios",
+                                                            label: "友链模式",
+                                                            value: "index",
+                                                            options: [
+                                                                { label: "全局友链", value: "all" },
+                                                                { label: "首页友链", value: "index" },
+                                                                { label: "内页友链", value: "page" }
+                                                            ]
+                                                        }, {
+                                                            name: "SEOFunctions.friend_link_count",
+                                                            type: "input-number",
+                                                            label: "自动友链数量",
+                                                            required: true,
+                                                            desc: "填0关闭"
+                                                        },]
+                                                },
+                                                {
+                                                    "type": "input-array",
+                                                    "name": "SEOFunctions.friend_links",
+                                                    "label": "友链样式",
+                                                    "desc": "添加多个样式随机使用。标签：{*主站.标题 #101} {*主站.首页 #101} {*主站.核心词 #101}，更多标签详情请查看《标签文档》",
+                                                    "items": {
+                                                        "type": "input-text",
+                                                        "validations": {
+                                                            "matchRegexp": "<a\\s+[^>]*href\\s*=\\s*[\"'][^\"']*[\"'][^>]*>.*</a>"
+                                                        },
+                                                        "validationErrors": {
+                                                            "matchRegexp": "请输入有效的HTML链接格式（必须包含完整a标签）",
+                                                            "unique": "友链样式 不能重复"
+                                                        }
+                                                    },
+                                                    "addButtonText": "样式",
+                                                    "scaffold": '<a target="_blank" title="{*主站.标题 #88}" href="{*主站.首页 #88}">{*主站.核心词 #88}</a>',
+                                                    "minItems": 0,
+                                                    "unique": true
+                                                },
+                                                {
+                                                    "type": "divider",
+                                                    "title": "【外链优化】",
+                                                    "titlePosition": "center"
                                                 },
                                                 {
                                                     "type": "group",
@@ -721,6 +779,11 @@
                                                         },]
                                                 },
                                                 {
+                                                    "type": "divider",
+                                                    "title": "【全局动态替换】",
+                                                    "titlePosition": "center"
+                                                },
+                                                {
                                                     "type": "group",
                                                     "body": [
                                                         {
@@ -750,34 +813,7 @@
                                                             type: "textarea",
                                                             label: "全局动态 &lt;/body&gt;前"
                                                         }]
-                                                },
-                                                {
-                                                    name: "SEOFunctions.friend_link_count",
-                                                    type: "input-number",
-                                                    label: "自动友链数量",
-                                                    required: true,
-                                                    desc: "填0关闭"
-                                                },
-                                                {
-                                                    "type": "input-array",
-                                                    "name": "SEOFunctions.friend_links",
-                                                    "label": "友链样式",
-                                                    "desc": "添加多个样式随机使用。标签：{*主站.标题#1001} {*主站.首页#1001} {*主站.核心词#1001}，更多标签详情请查看《标签文档》",
-                                                    "items": {
-                                                        "type": "input-text",
-                                                        "validations": {
-														"matchRegexp": "<a\\s+[^>]*href\\s*=\\s*[\"'][^\"']*[\"'][^>]*>.*</a>"
-													},
-													"validationErrors": {
-														"matchRegexp": "请输入有效的HTML链接格式（必须包含完整a标签）",
-														"unique": "友链样式 不能重复"
-													}
-                                                    },
-                                                    "addButtonText": "样式",
-                                                    "scaffold": '<a target="_blank" title="{*主站.标题 #88}" href="{*主站.首页 #88}">{*主站.核心词 #88}</a>',
-                                                    "minItems": 0,
-                                                    "unique": true
-                                                },
+                                                }
                                             ]
                                         }
                                     ]
@@ -981,7 +1017,12 @@
                                                             onText: "允许",
                                                             offText: "禁止",
                                                             label: "搜狗蜘蛛"
-                                                        },
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "type": "group",
+                                                    "body": [
                                                         {
                                                             name: "SpiderPolicy.yisou_spider",
                                                             type: "switch",
@@ -1009,7 +1050,12 @@
                                                             onText: "允许",
                                                             offText: "禁止",
                                                             label: "360蜘蛛"
-                                                        },
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "type": "group",
+                                                    "body": [
                                                         {
                                                             name: "SpiderPolicy.quark_spider",
                                                             type: "switch",

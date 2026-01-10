@@ -289,8 +289,8 @@
 												},
 												{
 													"type": "input-text",
-													"name": "uri",
-													"prefix": "真实路径 ： ",
+													"name": "path",
+													"prefix": "网址路径 ： ",
 													addOn: {
 														"type": "submit",  // 显式添加搜索按钮
 														"label": "🔍",
@@ -302,7 +302,7 @@
 															"actions": [
 																{
 																	"actionType": "reset",  // 可选：同时重置表单
-																	"componentName": "uri"
+																	"componentName": "path"
 																},
 																{
 																	"actionType": "submit",

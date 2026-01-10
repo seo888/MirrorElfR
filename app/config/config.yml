@@ -2,7 +2,7 @@ ProgramInfo:
   program_name: web - Mirror-Elf by TG@seo898
   admin_domain: ''
   admin_ips: []
-  authorization_code: l1KU72UaGAubTQDrZwDS2QPnnk4Dobk1PD6gbRUX0qOaL3PFhf9q8Q4olchYk6Y8HZaZOrZBNF3kl88RsflA-YQ7zqpu
+  authorization_code: EOXqt0eu2aphZ3ThMde3rbFKD0siGqF5CvYuXqnJhr1fwUjgxxkG5fHNZGo3VUxgNMdmtv0bizQOMjTScKp0CkHEBXyB
   login_account: admin
   login_password: admin
   pg_database_url: postgresql://admin:mirrorelf@localhost:5432/mirror
@@ -59,9 +59,10 @@ SEOFunctions:
     <a target="_blank" href="{@push_link}">{@keyword}</a>
     <a target="_blank" href="{@push_link}">{@keyword}</a>
   html_entities: true
+  friend_link_mode: all
   friend_link_count: 5
   friend_links:
-  - <a target="_blank" title="{*主站.标题#1001}" href="{*主站.首页#1001}">{*主站.核心词#1001}</a>
+  - <a target="_blank" title="{*主站.标题#1001}" href="{*主站.首页#1001}">{*主站.标题#1001}</a>
   seo_404_page: true
 AccessPolicy:
   forced_domain_binding: false

@@ -544,18 +544,16 @@
 					// },
 					{
 						"label": "目标站标题",
+						"name": "target_title",
 						"type": "service",
 						"key": "${id}-target-status",
 						"api": "/_api/site_status?domain=${target_domain}",
 						"initFetch": true,
-						// "loadingConfig": {
-						// 	"show": false
-						// },
 						"body": [
 							{
 								"type": "tpl",
 								"className": "${ used_time ? '' : 'text-gray-500' }",
-								
+
 								"tpl": "${ used_time ? (used_time < 1500 ? (title || message) + ' 🟢 ' + used_time + ' ms' : used_time < 2500 ? (title || message) + ' 🟡 ' + used_time + ' ms' : (title || message) + ' 🔴 ' + used_time + ' ms') : (title || message || '...加载中 ') }",
 							},
 						]
@@ -674,7 +672,7 @@
 									"resizable": true,
 									"size": "lg",
 									"width": "50%",
-									"title": "编辑【${target_domain}】",
+									"title": "编辑目标站【${target_domain}】",
 									"body": {
 										"type": "form",
 										"name": "sample-edit-form",
@@ -708,11 +706,34 @@
 													},
 												]
 											},
+											// {
+											// 	"type": "static",
+											// 	"name": "target_title",
+											// 	"label": "目标站标题",
+											// },
+
 											{
-												"type": "static",
-												"name": "conf.target_title",
 												"label": "目标站标题",
+												"name": "target_title",
+												"type": "service",
+												"key": "${id}-target-status",
+												"api": "/_api/site_status?domain=${target_domain}",
+												"initFetch": true,
+												"body": [
+													{
+														"type": "static",
+														"name": "title",
+														"label": "目标站标题",
+													},
+													// {
+													// 	"type": "tpl",
+													// 	"className": "${ used_time ? '' : 'text-gray-500' }",
+
+													// 	"tpl": "${ used_time ? (used_time < 1500 ? (title || message) + ' 🟢 ' + used_time + ' ms' : used_time < 2500 ? (title || message) + ' 🟡 ' + used_time + ' ms' : (title || message) + ' 🔴 ' + used_time + ' ms') : (title || message || '...加载中 ') }",
+													// },
+												]
 											},
+
 											{
 												"type": "divider",
 												"title": "【替换规则】",
@@ -739,14 +760,18 @@
 												"body": "注意：替换词格式按照“先长后短”方式，如“hello world -> {关键词}”在上，“hello -> 你好”在下",
 											},
 											{
-												"type": "static-datetime",
-												"name": "updated_at",
-												"label": "更新于"
-											},
-											{
-												"type": "static-datetime",
-												"name": "created_at",
-												"label": "创建于"
+												"type": "group",
+												"body": [
+													{
+														"type": "static-datetime",
+														"name": "created_at",
+														"label": "创建于"
+													},
+													{
+														"type": "static-datetime",
+														"name": "updated_at",
+														"label": "更新于"
+													}]
 											}
 										]
 									}

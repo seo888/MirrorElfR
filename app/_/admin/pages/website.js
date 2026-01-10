@@ -330,73 +330,6 @@
 										},
 										"addButtonText": "规则",
 										"minItems": 0
-									},
-									{
-										"type": "divider",
-										"title": "【泛目录配置】",
-										"titlePosition": "center"
-									},
-									{
-										"name": "conf.mulu_config.mulu_tem_max",
-										"type": "input-number",
-										"label": "生成模板数量",
-										"required": true,
-										"value": 0,
-										"desc": "填写0则不会自动生成模板"
-									},
-									{
-										"type": "select",
-										"name": "conf.mulu_config.mulu_static",
-										"label": "泛目录模式",
-										"options": [
-											{
-												"label": "静态",
-												"value": true
-											},
-											{
-												"label": "动态（蜘蛛池）",
-												"value": false
-											}
-										],
-										"value": true
-									},
-									{
-										"type": "checkboxes",
-										"name": "conf.mulu_config.mulu_mode",
-										"label": "泛目录路由",
-										"checkAll": true,
-										"optionType": "button",
-										"options": [
-											{ "label": "404页面", "value": "404" },
-											{ "label": "非首页（所有页面）", "value": "all_page" },
-											{ "label": "自定义路径", "value": "custom_header" }
-										]
-									},
-									{
-										"type": "input-array",
-										"name": "conf.mulu_config.mulu_custom_header",
-										"label": "自定义路径",
-										"items": {
-											"type": "input-text",
-											"name": "/",
-											"label": "/",
-											"unique": true
-										},
-										"addButtonText": "泛目录路径",
-										"minItems": 0
-									},
-									{
-										"type": "input-array",
-										"name": "conf.mulu_config.mulu_keywords_file",
-										"label": "关键词库",
-										"items": {
-											"type": "input-text",
-											"name": "词库路径",
-											"label": "词库路径",
-											"unique": true
-										},
-										"addButtonText": "关键词库",
-										"minItems": 0
 									}
 								]
 							}
@@ -563,7 +496,7 @@
 										"type": "button",
 										"icon": "fa fa-plus",
 										"level": "link",
-										"label": "加载预建站文档",
+										"label": "加载建站文档 (doc/website.txt)",
 										"actionType": "ajax",
 										"api": "get:/_api_/file/query?path=doc/website.txt",
 										"messages": {
@@ -592,82 +525,7 @@
 										"showIcon": true,
 										"body": "兼容格式： 间隔符为\"----------\"，多组分隔符为\"##########\"，如：关于我们----------{keyword}##########公司名称----------【关键词】"
 									}
-									,
-									{
-										"type": "divider",
-										"title": "【泛目录配置】",
-										"titlePosition": "center"
-									},
-									{
-										type: "checkboxes",
-										name: "mulu_mode",
-										label: "泛目录路由",
-										checkAll: true,
-										optionType: "button",
-										options: [
-											{ label: "404页面", value: "404" },
-											{ label: "非首页（所有页面）", value: "all_page" },
-											{ label: "自定义路径", value: "custom_header" },
-										]
-									},
-									{
-										"type": "group",
-										"body": [
-											{
-												name: "mulu_tem_max",
-												type: "input-number",
-												label: "生成模板数量",
-												required: true,
-												value: 0,
-												desc: "填写0则不会自动生成模板"
-											},
-											{
-												"type": "select",
-												"name": "mulu_static",
-												"label": "泛目录模式",
-												"options": [
-													{
-														"label": "静态",
-														"value": true
-													},
-													{
-														"label": "动态（蜘蛛池）",
-														"value": false
-													}
-												],
-												"value": true,
-											}]
-									},
-									{
-										"type": "group",
-										"body": [
-											{
-												"type": "input-array",
-												"name": "mulu_custom_header",
-												"label": "自定义路径",
-												"items": {
-													"type": "input-text",
-													"name": "/",
-													"label": "/",
-													"unique": true,
-												},
-												"addButtonText": "泛目录路径",
-												"minItems": 0,
-											},
-											{
-												"type": "input-array",
-												"name": "mulu_keywords_file",
-												"label": "关键词库",
-												"items": {
-													"type": "input-text",
-													"name": "词库路径",
-													"label": "词库路径",
-													"unique": true,
-												},
-												"addButtonText": "关键词库",
-												"minItems": 0,
-											},]
-									},
+
 								]
 							}
 						}
@@ -1505,7 +1363,7 @@
 												"label": "友链位置",
 												"placeholder": "{}</body> (默认为空，表示页面底部)"
 											},
-											
+
 											// {
 											// 	"type": "checkboxes",
 											// 	"name": "conf.mulu_config.mulu_mode",

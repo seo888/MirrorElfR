@@ -158,36 +158,14 @@ app="/www/MirrorElfR/app"
 # 定义配置文件路径
 config_file="/www/MirrorElfR/app/config/config.yml"
 
-# 如果文件不存在target_get_method配置，则在WebsiteSettings后面插入
-if ! grep -q "target_get_method" "$config_file"; then
+# 如果文件不存在friend_link_mode配置，则在html_entities: true后面插入
+if ! grep -q "friend_link_mode" "$config_file"; then
   # 备份原文件
   cp "$config_file" "$config_file.bak"
   
-  # 在WebsiteSettings:后面插入配置
-  sed -i '/^WebsiteSettings:/a\
-  target_get_method: doc_random\
-  target_doc_name: target.txt\
-  target_use_limit: eq0\
-  pan_site_target_get_method: doc_pop\
-  pan_site_target_doc_name: pan_target.txt\
-  pan_site_target_use_limit: lt2\
-  crawler_target: true\
-  tdk_mode: tem\
-  tdk_doc_name: tdk.txt\
-  titles:\
-  - "{@keyword #98} - {%Related(@keyword,{@keyword #98},2) #99} | {%Related(@keyword,{@keyword #98},2) #999}"\
-  keywords:\
-  - "{@keyword #98},{%Related(@keyword,{@keyword #98},2) #99},{%Related(@keyword,{@keyword #98},2) #999}"\
-  descriptions:\
-  - "{@description}"\
-  pan_site_tdk_mode: tem\
-  pan_site_tdk_doc_name: tdk.txt\
-  pan_site_titles:\
-  - "{@keyword #98} - {%Related(@keyword,{@keyword #98},2) #99} | {%Related(@keyword,{@keyword #98},2) #999}"\
-  pan_site_keywords:\
-  - "{@keyword #98},{%Related(@keyword,{@keyword #98},2) #99},{%Related(@keyword,{@keyword #98},2) #999}"\
-  pan_site_descriptions:\
-  - "{@description}"' "$config_file"
+  # 在html_entities: true后面插入配置、
+  sed -i '/^  html_entities: true/a\
+  friend_link_mode: index' "$config_file"
   
   echo "配置已添加"
 else
