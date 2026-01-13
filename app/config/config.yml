@@ -31,7 +31,7 @@ WebsiteSettings:
   pan_site_descriptions:
   - '{@description}'
   auto_site_building: true
-  auto_https_certificate: false
+  auto_https_certificate: true
   pan_site_auto_site_building: true
   pan_site_crawler_target: true
   language: zh
