@@ -6,9 +6,6 @@ services:
     container_name: mirror_elf_r
     volumes:
       - ./app:/app
-    depends_on:
-      postgres:
-        condition: service_healthy
   postgres:
     image: postgres:16
     container_name: postgres_db
@@ -21,7 +18,50 @@ services:
       - postgres_db_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    command: ["postgres", "-c", "max_connections=4096"]
+    # PostgreSQL 性能优化配置 (16GB 内存 / 8 核 CPU)
+    command:
+      - "postgres"
+      - "-c"
+      - "max_connections=4096"
+      # ===== 内存与缓存配置 =====
+      - "-c"
+      - "shared_buffers=4GB"              # 共享缓冲区 (内存的 25%)
+      - "-c"
+      - "effective_cache_size=12GB"       # 有效缓存大小 (内存的 75%)
+      - "-c"
+      - "work_mem=32MB"                   # 每个查询的工作内存
+      - "-c"
+      - "maintenance_work_mem=1GB"        # 维护操作内存
+      - "-c"
+      - "wal_buffers=64MB"                # WAL 缓冲区
+      - "-c"
+      - "huge_pages=try"                  # 尝试使用大页内存
+      # ===== 查询优化配置 =====
+      - "-c"
+      - "random_page_cost=4.0"            # HDD 存储 (默认值)
+      - "-c"
+      - "effective_io_concurrency=2"      # HDD 并发 I/O
+      - "-c"
+      - "default_statistics_target=100"   # 统计信息精度
+      # ===== 并行查询配置 (8 核 CPU) =====
+      - "-c"
+      - "max_worker_processes=8"
+      - "-c"
+      - "max_parallel_workers_per_gather=4"
+      - "-c"
+      - "max_parallel_workers=8"
+      - "-c"
+      - "max_parallel_maintenance_workers=4"
+      # ===== WAL 与检查点优化 =====
+      - "-c"
+      - "checkpoint_completion_target=0.9"
+      - "-c"
+      - "min_wal_size=1GB"
+      - "-c"
+      - "max_wal_size=4GB"
+      - "-c"
+      - "wal_compression=on"
+    shm_size: 5g
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "admin"]
       interval: 10s
@@ -34,4 +74,4 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /www/MirrorElfR/postgres_data  # 指定外部的路径
+      device: /www/MirrorElf/postgres_data  # 指定外部的路径
