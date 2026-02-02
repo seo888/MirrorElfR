@@ -855,10 +855,31 @@
 					// 	"label": "描述",
 					// 	"copyable": true
 					// },
-
+					{
+						"label": "访问趋势(7天)",
+						"type": "service",
+						"api": {
+							"url": "/_api_/spider/details?domain=${domain}&day=7",
+							"adaptor": "var days = Object.keys(payload).sort(); var values = days.map(function(d){ var obj = payload[d] || {}; return Object.values(obj).reduce(function(a,b){ return a + (b||0); }, 0); }); return { data: { sparkData: values, chartData: payload, days: days } };"
+						},
+						"body": {
+							"type": "sparkline",
+							"name": "sparkData",
+							"height": 30,
+							"clickAction": {
+								"actionType": "dialog",
+								"dialog": {
+									"title": "",
+									"size": "lg",
+									"body": { "type": "chart", "api": "/_api_/spider/chart?domain=${domain}&day=7", "interval": 60000, "height": 300 }
+								}
+							}
+						}
+					},
 					{
 						"name": "root_domain",
 						"label": "根域名",
+						"visible": false,
 						"sortable": true,
 						"copyable": true,
 						"popOver": {
