@@ -1071,12 +1071,24 @@
                                                             label: "雅虎蜘蛛"
                                                         },
                                                         {
+                                                            name: "SpiderPolicy.yandex_spider",
+                                                            type: "switch",
+                                                            onText: "允许",
+                                                            offText: "禁止",
+                                                            label: "Yandex蜘蛛"
+                                                        },
+                                                        {
                                                             name: "SpiderPolicy.other_spider",
                                                             type: "switch",
                                                             onText: "允许",
                                                             offText: "禁止",
                                                             label: "其它蜘蛛"
-                                                        },
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "type": "group",
+                                                    "body": [
                                                         {
                                                             name: "SpiderPolicy.user",
                                                             type: "switch",

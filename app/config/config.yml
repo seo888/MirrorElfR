@@ -130,5 +130,6 @@ SpiderPolicy:
   google_spider: true
   quark_spider: true
   yahoo_spider: true
+  yandex_spider: true
   other_spider: true
   user: true

@@ -158,14 +158,14 @@ app="/www/MirrorElfR/app"
 # 定义配置文件路径
 config_file="/www/MirrorElfR/app/config/config.yml"
 
-# 如果文件不存在friend_link_mode配置，则在html_entities: true后面插入
-if ! grep -q "friend_link_mode" "$config_file"; then
+# 如果文件不存在yandex_spider配置，则在yahoo_spider: true后面插入
+if ! grep -q "yandex_spider" "$config_file"; then
   # 备份原文件
   cp "$config_file" "$config_file.bak"
   
-  # 在html_entities: true后面插入配置、
-  sed -i '/^  html_entities: true/a\
-  friend_link_mode: index' "$config_file"
+  # 在yahoo_spider: true后面插入配置、
+  sed -i '/^  yahoo_spider: true/a\
+  yandex_spider: true' "$config_file"
   
   echo "配置已添加"
 else
