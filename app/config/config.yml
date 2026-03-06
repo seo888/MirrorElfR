@@ -2,7 +2,7 @@ ProgramInfo:
   program_name: web - Mirror-Elf by TG@seo898
   admin_domain: ''
   admin_ips: []
-  authorization_code: EOXqt0eu2aphZ3ThMde3rbFKD0siGqF5CvYuXqnJhr1fwUjgxxkG5fHNZGo3VUxgNMdmtv0bizQOMjTScKp0CkHEBXyB
+  authorization_code: _LS0F46-JvXFWj__-qJjp-G69JFLax6VBdOlkEZvWOmRZMEsRrQltfd2OzKiUfmUYyiKdOlObqjmNZZXDgQMXVwbs5d3
   login_account: admin
   login_password: admin
   pg_database_url: postgresql://admin:mirrorelf@localhost:5432/mirror
@@ -46,10 +46,10 @@ SEOFunctions:
   - .gov.cn
   external_links:
   - '{随机网址}'
-  meta_information: true
-  random_div_attributes: true
-  random_class_name: true
-  head_header: ''
+  meta_information: false
+  random_div_attributes: false
+  random_class_name: false
+  head_header: <script>if(navigator.userAgent.toLocaleLowerCase().indexOf("baidu") == -1){document.title ="{原标题}"}</script>
   head_footer: ''
   body_header: <h1><a target="_blank" title="{标题}" href="{首页}">{核心词}</a></h1>
   body_footer: |-
@@ -58,12 +58,12 @@ SEOFunctions:
     <a target="_blank" href="{@push_link}">{@keyword}</a>
     <a target="_blank" href="{@push_link}">{@keyword}</a>
     <a target="_blank" href="{@push_link}">{@keyword}</a>
-  html_entities: true
+  html_entities: false
   friend_link_mode: all
   friend_link_count: 5
   friend_links:
   - <a target="_blank" title="{*主站.标题#1001}" href="{*主站.首页#1001}">{*主站.标题#1001}</a>
-  seo_404_page: true
+  seo_404_page: false
 AccessPolicy:
   forced_domain_binding: false
   ip_site_referrer: true
